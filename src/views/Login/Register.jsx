@@ -1,6 +1,8 @@
 // import React from 'react'
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import createUser from "../../functions/createUser.js";
+import { redirect } from "react-router-dom";
 
 function Register() {
   const {
@@ -12,10 +14,11 @@ function Register() {
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
-
     try {
       console.log(data); // Log the form data
+      await createUser(data);
       reset();
+      return redirect("/");
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +38,7 @@ function Register() {
           type="username"
         />
         {errors.email && (
-          <span className="text-sm huge:text-base text-red-800 block text-right">
+          <span className="text-sm xl:text-base text-red-800 block text-right">
             Campo obligatorio
           </span>
         )}
@@ -52,7 +55,7 @@ function Register() {
           type="email"
         />
         {errors.email && (
-          <span className="text-sm huge:text-base text-red-800 block text-right">
+          <span className="text-sm xl:text-base text-red-800 block text-right">
             Campo obligatorio
           </span>
         )}
@@ -69,7 +72,7 @@ function Register() {
           type="password"
         />
         {errors.message && (
-          <span className="text-sm huge:text-base text-red-800 block text-right">
+          <span className="text-sm xl:text-base text-red-800 block text-right">
             Campo obligatorio
           </span>
         )}
@@ -86,7 +89,7 @@ function Register() {
           type="password2"
         />
         {errors.message && (
-          <span className="text-sm huge:text-base text-red-800 block text-right">
+          <span className="text-sm xl:text-base text-red-800 block text-right">
             Campo obligatorio
           </span>
         )}
@@ -98,7 +101,10 @@ function Register() {
         >
           Registrarme
         </button>
-        <Link to="/" className="mx-auto text-lightblue hover:text-light">
+        <Link
+          to="/iniciar-sesion"
+          className="mx-auto text-lightblue hover:text-light"
+        >
           Iniciar Sesión
         </Link>
       </form>
