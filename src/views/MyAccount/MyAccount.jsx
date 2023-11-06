@@ -31,7 +31,9 @@ function MyAccount() {
         </p>
 
         <button className="bg-pink mt-4 px-2 rounded-md">
-          <Link to={`/mis-datos/${user.id}/editar`}>Editar Mis Datos</Link>
+          <Link to={`/mis-cuenta/${user.id}/editar-dato`}>
+            Editar Mis Datos
+          </Link>
         </button>
       </div>
     </>
