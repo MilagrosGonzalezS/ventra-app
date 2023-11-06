@@ -1,7 +1,8 @@
-async function editMyEvent(data, fetchMyEvents) {
+async function editMyEvent(data, eventId /* , fetchMyEvents */) {
+  const formattedDate = data.date;
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  fetch(`https://ventra-api-e311.onrender.com/events/${data._id}`, {
+  fetch(`https://ventra-api-e311.onrender.com/events/${eventId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +12,7 @@ async function editMyEvent(data, fetchMyEvents) {
       name: data.name,
       description: data.description,
       price: data.price,
-      date: data.date,
+      date: formattedDate,
       category: data.category,
       venue: data.venue,
       state: "Publicado",
