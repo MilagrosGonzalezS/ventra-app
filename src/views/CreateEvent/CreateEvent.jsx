@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 function CreateEvent() {
+  const navigate = useNavigate();
   const [eventData, setEventData] = useState({
     name: "",
     location: "",
