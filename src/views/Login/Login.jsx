@@ -24,7 +24,8 @@ function Register() {
       console.log(data); // Log the form data
       await login(data).then((data) => {
         setToken(data.jwToken);
-        console.log(token);
+        console.log("data.token", data.jwToken);
+        console.log("data", data);
       });
       setIsLoading(false);
       reset();
