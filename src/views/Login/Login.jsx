@@ -9,6 +9,7 @@ import { PuffLoader } from "react-spinners";
 function Register() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState(null);
   const {
     register,
     handleSubmit,
@@ -22,7 +23,7 @@ function Register() {
     try {
       console.log(data); // Log the form data
       await login(data).then((data) => {
-        const token = data.jwToken;
+        setToken(data.jwToken);
         console.log(token);
       });
       setIsLoading(false);
