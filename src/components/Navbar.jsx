@@ -101,18 +101,6 @@ const Navbar = () => {
                         </Link>
                       </li>
                     )}
-                    {tokenExists && (
-                      <li>
-                        <Link
-                          to="/mis-eventos"
-                          className="group relative before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:origin-right before:scale-x-0 before:bg-green before:transition before:duration-200 hover:before:origin-left hover:before:scale-x-100"
-                        >
-                          <span className="relative text-light font-accent">
-                            Mis Eventos
-                          </span>
-                        </Link>
-                      </li>
-                    )}
                   </ul>
                   {tokenExists ? (
                     <>
