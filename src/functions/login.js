@@ -16,7 +16,6 @@ async function login(data) {
       throw new Error("Error al obtener los eventos");
     }
     const res = await response.json();
-    console.log("res function", res.user._id);
     localStorage.setItem("userId", res.user._id);
     localStorage.setItem("token", res.jwToken);
     return res;

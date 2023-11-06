@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { PuffLoader } from "react-spinners";
-import deleteMyEvent from "../../functions/deleteMyEvent.js";
-// import getEventToEdit from "../../functions/getEventToEdit.js";
-import fetchMyEvents from "../../functions/getMyEvents.js";
+import { useParams } from "react-router-dom";
 
-function MyEvents() {
+import { PuffLoader } from "react-spinners";
+import editMyEvent from "../../functions/editMyEvent.js";
+import getEventToEdit from "../../functions/getEventToEdit.js";
+
+function EditMyEvent() {
+  const { eventId } = useParams();
   const userId = localStorage.getItem("userId");
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Función para eliminar un evento
-  const handleDeleteEvent = (eventId) => {
-    deleteMyEvent(eventId, fetchEvents);
+  const handleEditEvent = (eventId) => {
+    editMyEvent(eventId, fetchEvents);
   };
-
-  //   const handleEditEvent = (eventId) => {
-  //     getEventToEdit(eventId, fetchEvents);
-  //   };
 
   const fetchEvents = () => {
     setIsLoading(true);
-    fetchMyEvents(userId)
+    getEventToEdit(eventId)
       .then((eventsData) => {
         setEvents(eventsData);
         setIsLoading(false);
@@ -39,10 +35,8 @@ function MyEvents() {
   return (
     <>
       <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl">Mis Eventos</h1>
-        <h2 className="font-accent text-xl">
-          Acá podés encontrar la lista de todos los eventos que creaste
-        </h2>
+        <h1 className="font-accent text-2xl">Editar Este Evento</h1>
+        <h2 className="font-accent text-xl">Acá podés editar tu evento</h2>
         <h2>Eventos ♫</h2>
         {isLoading && <PuffLoader color="#04b290" />}
         <div className="flex flex-col items-center gap-16 flex-wrap ">
@@ -58,17 +52,11 @@ function MyEvents() {
                 <p className="bg-orange px-2 rounded-md">{event.category}</p>
               </div>
               <div className="flex gap-4">
-                <button className="bg-pink mt-4 px-2 rounded-md">
-                  <Link to={`/mis-eventos/${event._id}/editar`}>
-                    Editar Evento
-                  </Link>
-                </button>
-
                 <button
-                  onClick={() => handleDeleteEvent(event._id)} // Llama a la función dentro del evento de clic
-                  className="bg-red-600 mt-4 px-2 rounded-md"
+                  onClick={() => handleEditEvent(event._id)} // Llama a la función dentro del evento de clic
+                  className="bg-pink mt-4 px-2 rounded-md"
                 >
-                  Eliminar Evento
+                  Editar Evento
                 </button>
               </div>
             </article>
@@ -79,4 +67,4 @@ function MyEvents() {
   );
 }
 
-export default MyEvents;
+export default EditMyEvent;

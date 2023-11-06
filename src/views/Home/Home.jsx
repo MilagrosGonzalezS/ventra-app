@@ -1,6 +1,7 @@
 // import React from "react";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
+import Search from "../../components/Search";
 
 function Home() {
   const [events, setEvents] = useState([]);
@@ -33,6 +34,7 @@ function Home() {
 
   return (
     <>
+      <Search></Search>
       <section className="flex-col items-center">
         <h1 className="font-accent text-2xl">Home ♫</h1>
 

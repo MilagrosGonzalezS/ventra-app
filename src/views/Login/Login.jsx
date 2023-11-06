@@ -30,6 +30,7 @@ function Register() {
       setIsLoading(false);
       reset();
       navigate("/");
+      window.location.reload(true);
     } catch (error) {
       console.log(error);
     }
