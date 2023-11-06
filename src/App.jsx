@@ -11,23 +11,13 @@ import MyAccount from "./views/MyAccount/MyAccount";
 import MyEvents from "./views/MyAccount/MyEvents";
 import Wishlist from "./views/Wishlist/Wishlist";
 import Navbar from "./components/Navbar";
-<<<<<<< HEAD
 import Search from "./components/Search";
-=======
->>>>>>> 109995e16ce8c7910f4de5dbca95c9ca5eb01a0f
 
 function App() {
   return (
     <>
-<<<<<<< HEAD
-    <Navbar></Navbar>
-    <Search></Search>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/crear-evento" element={<CreateEvent />} />
-=======
-      <Navbar />
+      <Navbar></Navbar>
+      <Search></Search>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="registrarse" element={<Register />} />
