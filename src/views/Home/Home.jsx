@@ -34,32 +34,45 @@ function Home() {
 
   return (
     <>
-      <Search></Search>
-      <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl">Home ♫</h1>
+      <div className="ms-16 mt-4">
+        <Search></Search>
+      </div>
 
-        <p>
-          Te brindamos un espacio donde vas a poder encontrar toda la
-          información de tus eventos favoritos
-        </p>
+      <h1 className="font-accent text-center text-6xl my-4">¡Bienvenido!</h1>
 
-        <h2>Eventos ♫</h2>
-        {isLoading && <PuffLoader color="#04b290" />}
-        <div className="flex gap-16 flex-wrap ">
-          {events.map((event) => (
-            <article
-              key={event._id}
-              className="w-1/5 bg-opacity rounded-xl border p-8"
-            >
-              <p>{event.name}</p>
-              <p>{event.description}</p>
-              <div className=" flex justify-between">
-                <p className="bg-orange rounded-md">$ {event.price}</p>
-                <p className="bg-orange rounded-md">{event.category}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+      <h2 className="font-accent text-center text-2xl my-2">
+        Te brindamos un espacio donde vas a poder encontrar toda la información
+        de tus eventos favoritos
+      </h2>
+
+      <h2 className="font-accent text-center text-2xl mt-2 mb-4">Eventos ♫</h2>
+      {isLoading && <PuffLoader color="#04b290" />}
+      <section className="flex gap-16 justify-center flex-wrap ">
+        {events.map((event) => (
+          <article
+            key={event._id}
+            className="w-1/4 bg-opacity rounded-xl border p-8"
+          >
+            <h3 className="text-xl mb-4">{event.name}</h3>
+
+            <div className="flex justify-between mb-4">
+              <p className="bg-green text-dark px-2 rounded-md">
+                {event.date ? event.date.slice(0, 10) : ""}
+              </p>
+              <p className="bg-orange px-2 rounded-md">$ {event.price}</p>
+            </div>
+
+            <p>{event.description}</p>
+            <div className="flex justify-between my-4 items-center">
+              <p className="bg-pink text-white px-2 rounded-md ">
+                {event.venue}
+              </p>
+              <p className="bg-gray-500 text-xs text-white px-2 rounded-md ">
+                {event.category}
+              </p>
+            </div>
+          </article>
+        ))}
       </section>
     </>
   );
