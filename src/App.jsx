@@ -8,6 +8,7 @@ import Register from "./views/Login/Register";
 import CreateEvent from "./views/CreateEvent/CreateEvent";
 import Help from "./views/Help/Help";
 import MyAccount from "./views/MyAccount/MyAccount";
+import EditProfile from "./views/MyAccount/EditProfile";
 import MyEvents from "./views/MyAccount/MyEvents";
 import EditMyEvent from "./views/MyAccount/EditMyEvent";
 import Wishlist from "./views/Wishlist/Wishlist";
@@ -20,13 +21,9 @@ function App() {
 
   useEffect(() => {
     const data = userData();
-    data.then((data)=>{
-      console.log(data.token);
-      if (data.token) {
+    if (data.token) {
       setTokenExists(true);
     }
-    })
-
     // const token = localStorage.getItem("token");
     // if (token) {
     //   setTokenExists(true);
@@ -51,6 +48,10 @@ function App() {
               <Navigate to="/iniciar-sesion" replace />
             )
           }
+        />
+        <Route
+          path="/mi-cuenta/:userId/editar-datos"
+          element={<EditProfile />}
         />
         <Route path="/mis-eventos" element={<MyEvents />} />
         <Route path="/mis-eventos/:eventId/editar" element={<EditMyEvent />} />
