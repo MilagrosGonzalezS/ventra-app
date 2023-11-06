@@ -1,10 +1,14 @@
 // import React from 'react'
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import createUser from "../../functions/createUser.js";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { PuffLoader } from "react-spinners";
 
 function Register() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -14,11 +18,13 @@ function Register() {
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       console.log(data); // Log the form data
       await createUser(data);
+      setIsLoading(false);
       reset();
-      return redirect("/");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -31,15 +37,15 @@ function Register() {
         </label>
         <br></br>
         <input
-          className="bg-transparent p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("username", { required: true })}
+          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
+          {...register("username", { required: "Campo obligatorio" })}
           id="username"
           name="username"
           type="username"
         />
-        {errors.email && (
-          <span className="text-sm xl:text-base text-red-800 block text-right">
-            Campo obligatorio
+        {errors.username && (
+          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+            {errors.username.message}
           </span>
         )}
         <br></br>
@@ -48,15 +54,18 @@ function Register() {
         </label>
         <br></br>
         <input
-          className="bg-transparent p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("email", { required: true })}
+          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
+          {...register("email", {
+            required: "Campo obligatorio",
+            pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+          })}
           id="email"
           name="email"
           type="email"
         />
         {errors.email && (
-          <span className="text-sm xl:text-base text-red-800 block text-right">
-            Campo obligatorio
+          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+            {errors.email.message}
           </span>
         )}
         <br></br>
@@ -65,15 +74,15 @@ function Register() {
         </label>
         <br></br>
         <input
-          className="bg-transparent p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("password", { required: true })}
+          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
+          {...register("password", { required: "Campo obligatorio" })}
           id="password"
           name="password"
           type="password"
         />
-        {errors.message && (
-          <span className="text-sm xl:text-base text-red-800 block text-right">
-            Campo obligatorio
+        {errors.password && (
+          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+            {errors.password.message}
           </span>
         )}
         <br></br>
@@ -82,25 +91,28 @@ function Register() {
         </label>
         <br></br>
         <input
-          className="bg-transparent p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("password2", { required: true })}
+          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
+          {...register("password2", { required: "Campo obligatorio" })}
           id="password2"
           name="password2"
-          type="password2"
+          type="password"
         />
-        {errors.message && (
-          <span className="text-sm xl:text-base text-red-800 block text-right">
-            Campo obligatorio
+        {errors.password2 && (
+          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+            {errors.password2.message}
           </span>
         )}
         <br></br>
+        {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
+        {!isLoading && (
+          <button
+            className="transition hover:bg-hover block mx-auto mt-4 bg-lightblue text-white py-2 px-10 text-xs xl:text-base rounded-xl cursor-pointer"
+            type="submit"
+          >
+            Registrarme
+          </button>
+        )}
 
-        <button
-          className="transition hover:bg-hover block mx-auto mt-4 bg-lightblue text-white py-2 px-10 text-xs xl:text-base rounded-xl cursor-pointer"
-          type="submit"
-        >
-          Registrarme
-        </button>
         <Link
           to="/iniciar-sesion"
           className="mx-auto text-lightblue hover:text-light"

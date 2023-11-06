@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function CreateEvent() {
+  const navigate = useNavigate();
   const [eventData, setEventData] = useState({
     name: "",
     location: "",
@@ -38,7 +39,7 @@ function CreateEvent() {
       .then((response) => {
         if (response.ok) {
           setMessage("Evento creado exitosamente");
-          return redirect("/home");
+          return navigate("/");
         } else {
           setMessage("Error al crear el evento");
         }

@@ -1,7 +1,14 @@
 // import React from 'react'
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-function Login() {
+import login from "../../functions/login.js";
+import { useNavigate } from "react-router-dom";
+import { PuffLoader } from "react-spinners";
+
+function Register() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -11,15 +18,20 @@ function Login() {
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     try {
       console.log(data); // Log the form data
+      await login(data).then((data) => {
+        const token = data.jwToken;
+        console.log(token);
+      });
+      setIsLoading(false);
       reset();
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <div className="border rounded-2xl bg-opacity p-8 w-1/3 mt-48 mx-auto">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -28,15 +40,18 @@ function Login() {
         </label>
         <br></br>
         <input
-          className="bg-transparent p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("email", { required: true })}
+          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
+          {...register("email", {
+            required: "Campo obligatorio",
+            pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+          })}
           id="email"
           name="email"
           type="email"
         />
         {errors.email && (
-          <span className="text-sm huge:text-base text-red-800 block text-right">
-            Campo obligatorio
+          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+            {errors.email.message}
           </span>
         )}
         <br></br>
@@ -45,25 +60,29 @@ function Login() {
         </label>
         <br></br>
         <input
-          className="bg-transparent p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("message", { required: true })}
+          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
+          {...register("password", { required: "Campo obligatorio" })}
           id="password"
           name="password"
           type="password"
         />
-        {errors.message && (
-          <span className="text-sm huge:text-base text-red-800 block text-right">
-            Campo obligatorio
+        {errors.password && (
+          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+            {errors.password.message}
           </span>
         )}
         <br></br>
 
-        <button
-          className="transition hover:bg-hover block mx-auto mt-4 bg-lightblue text-white py-2 px-10 text-xs xl:text-base rounded-xl cursor-pointer"
-          type="submit"
-        >
-          Ingresar
-        </button>
+        {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
+        {!isLoading && (
+          <button
+            className="transition hover:bg-hover block mx-auto mt-4 bg-lightblue text-white py-2 px-10 text-xs xl:text-base rounded-xl cursor-pointer"
+            type="submit"
+          >
+            Iniciar Sesion
+          </button>
+        )}
+
         <Link
           to="/registrarse"
           className="mx-auto text-lightblue hover:text-light"
@@ -75,4 +94,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
