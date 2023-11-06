@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function CreateEvent() {
   const [eventData, setEventData] = useState({
     name: "",
@@ -11,6 +11,8 @@ function CreateEvent() {
     description: "",
   });
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +40,7 @@ function CreateEvent() {
       .then((response) => {
         if (response.ok) {
           setMessage("Evento creado exitosamente");
-          return redirect("/home");
+          return navigate("/home");
         } else {
           setMessage("Error al crear el evento");
         }
@@ -140,7 +142,12 @@ function CreateEvent() {
               onChange={handleInputChange}
             ></textarea>
           </div>
-          <button type="submit">Crear</button>
+          <button
+            type="submit"
+            className="bg-green text-dark px-2 text-xl font-semibold rounded-md"
+          >
+            CREAR EVENTO
+          </button>
         </form>
       </div>
     </>
