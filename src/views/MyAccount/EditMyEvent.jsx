@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import editMyEvent from "../../functions/editMyEvent.js";
+import fetchMyEvents from "../../functions/getMyEvents";
 import getEventToEdit from "../../functions/getEventToEdit.js";
 
 function EditMyEvent() {
@@ -22,7 +23,7 @@ function EditMyEvent() {
     setIsCreatingEvent(true);
     try {
       // Llama a createEvent pasando la función fetchMyEvents para actualizar la lista de eventos
-      await editMyEvent(data, eventId /* , fetchMyEvents */);
+      await editMyEvent(data, eventId, fetchMyEvents);
       reset();
       setIsCreatingEvent(false);
       navigate("/mis-eventos");

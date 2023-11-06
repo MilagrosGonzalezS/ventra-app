@@ -1,4 +1,4 @@
-async function editMyEvent(data, eventId /* , fetchMyEvents */) {
+async function editMyEvent(data, eventId, fetchMyEvents) {
   const formattedDate = data.date;
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
