@@ -57,7 +57,7 @@ const Search = () => {
             Rock
           </button>
           <button
-            onClick={() => setSelectedCategory("Concierto de pop")}
+            onClick={() => setSelectedCategory("Concierto de Pop")}
             className="bg-pink text-light px-2 py-1 rounded-md mx-2"
           >
             Pop
@@ -70,28 +70,34 @@ const Search = () => {
           </button>
         </div>
       </div>
-      <ul>
+      <div className="flex gap-16 justify-center flex-wrap mt-5">
         {searchResults.map((event) => (
-          <div className="m-3 bg-[#181818] w-[50%] p-2">
-            <li
-              key={event._id}
-              className="w-1/5 bg-opacity rounded-xl border p-8"
-            >
-              <h2>{event.name}</h2>
-              <p>{event.description}</p>
+         
+         <article
+         key={event._id}
+         className="w-1/4 bg-opacity rounded-xl border p-8"
+       >
+         <h3 className="text-xl mb-4">{event.name}</h3>
 
-              <p>Fecha: {event.date}</p>
-              <p>Lugar: {event.venue}</p>
-              <div className=" flex justify-between">
-                <p className="bg-orange rounded-md">Precio: ${event.price}</p>
-                <p className="bg-orange rounded-md">
-                  Categoría: {event.category}
-                </p>
-              </div>
-            </li>
-          </div>
+         <div className="flex justify-between mb-4">
+           <p className="bg-green text-dark px-2 rounded-md">
+             {event.date ? event.date.slice(0, 10) : ""}
+           </p>
+           <p className="bg-orange px-2 rounded-md">$ {event.price}</p>
+         </div>
+
+         <p>{event.description}</p>
+         <div className="flex justify-between my-4 items-center">
+           <p className="bg-pink text-white px-2 rounded-md ">
+             {event.venue}
+           </p>
+           <p className="bg-gray-500 text-xs text-white px-2 rounded-md ">
+             {event.category}
+           </p>
+         </div>
+       </article>
         ))}
-      </ul>
+        </div>
     </div>
   );
 };

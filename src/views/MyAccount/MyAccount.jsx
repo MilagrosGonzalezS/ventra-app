@@ -4,9 +4,13 @@ import userData from "../../functions/userData";
 function MyAccount() {
   const [user, setUser] = useState({});
 
-  useEffect(async () => {
-    const data = await userData();
-    setUser(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await userData();
+      setUser(data);
+    };
+
+    fetchData();
   }, []);
 
   return (

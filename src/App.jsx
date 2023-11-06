@@ -20,9 +20,13 @@ function App() {
 
   useEffect(() => {
     const data = userData();
-    if (data.token) {
+    data.then((data)=>{
+      console.log(data.token);
+      if (data.token) {
       setTokenExists(true);
     }
+    })
+
     // const token = localStorage.getItem("token");
     // if (token) {
     //   setTokenExists(true);

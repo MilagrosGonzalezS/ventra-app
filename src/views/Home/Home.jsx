@@ -34,20 +34,20 @@ function Home() {
 
   return (
     <>
-      <div className="ms-16 mt-4">
-        <Search></Search>
-      </div>
-
+      
       <h1 className="font-accent text-center text-6xl my-4">¡Bienvenido!</h1>
-
       <h2 className="font-accent text-center text-2xl my-2">
         Te brindamos un espacio donde vas a poder encontrar toda la información
         de tus eventos favoritos
       </h2>
 
       <h2 className="font-accent text-center text-2xl mt-2 mb-4">Eventos ♫</h2>
+      <div className="m-4">
+        <Search></Search>
+      </div>
+      <hr />
       {isLoading && <PuffLoader color="#04b290" />}
-      <section className="flex gap-16 justify-center flex-wrap ">
+      <section className="flex gap-16 justify-center flex-wrap mt-4">
         {events.map((event) => (
           <article
             key={event._id}
