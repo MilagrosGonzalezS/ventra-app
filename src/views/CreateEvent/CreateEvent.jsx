@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import fetchMyEvents from "../../functions/getMyEvents";
 import createEvent from "../../functions/createEvent";
 function CreateEvent() {
   const navigate = useNavigate();
@@ -11,15 +12,21 @@ function CreateEvent() {
     formState: { errors },
   } = useForm();
 
+  const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
-    console.log("data", data);
+    setIsCreatingEvent(true);
+
     try {
-      await createEvent(data);
+      // Llama a createEvent pasando la función fetchMyEvents para actualizar la lista de eventos
+      await createEvent(data, fetchMyEvents);
       reset();
-      navigate("/");
+      setIsCreatingEvent(false);
+      navigate("/mis-eventos");
     } catch (error) {
       console.error(error);
+      setIsCreatingEvent(false);
     }
   };
 
@@ -143,6 +150,7 @@ function CreateEvent() {
             )}
           </div>
           <button
+            disabled={isCreatingEvent}
             type="submit"
             className="bg-green text-dark px-2 text-xl font-semibold rounded-md"
           >

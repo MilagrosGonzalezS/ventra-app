@@ -8,6 +8,7 @@ import Register from "./views/Login/Register";
 import CreateEvent from "./views/CreateEvent/CreateEvent";
 import Help from "./views/Help/Help";
 import MyAccount from "./views/MyAccount/MyAccount";
+import MyEvents from "./views/MyAccount/MyEvents";
 import Wishlist from "./views/Wishlist/Wishlist";
 import Navbar from "./components/Navbar";
 
@@ -20,9 +21,10 @@ function App() {
         <Route path="registrarse" element={<Register />} />
         <Route path="/iniciar-sesion" element={<Login />} />
         <Route path="crear-evento" element={<CreateEvent />} />
-        <Route path="/mi-cuenta" element={<Help />} />
-        <Route path="/favoritos" element={<MyAccount />} />
-        <Route path="/ayuda" element={<Wishlist />} />
+        <Route path="/ayuda" element={<Help />} />
+        <Route path="/mi-cuenta" element={<MyAccount />} />
+        <Route path="/mis-eventos" element={<MyEvents />} />
+        <Route path="/favoritos" element={<Wishlist />} />
       </Routes>
     </>
   );

@@ -46,7 +46,7 @@ function Home() {
         <div className="flex gap-16 flex-wrap ">
           {events.map((event) => (
             <article
-              key={event.id}
+              key={event._id}
               className="w-1/5 bg-opacity rounded-xl border p-8"
             >
               <p>{event.name}</p>
