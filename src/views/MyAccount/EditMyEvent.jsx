@@ -61,10 +61,16 @@ function EditMyEvent() {
   return (
     <>
       <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl">Editar Este Evento</h1>
-        <h2 className="font-accent text-xl">Acá podés editar tu evento</h2>
-        <h2>Eventos ♫</h2>
-        {isLoading && <PuffLoader color="#04b290" />}
+        <h1 className="font-accent text-2xl text-center">Editar Este Evento</h1>
+        <h2 className="font-accent text-xl text-center mb-4">
+          Acá podés editar tu evento
+        </h2>
+        {isLoading && (
+          <PuffLoader
+            className="absolute left-1/2 -translate-x-1/2 top-10"
+            color="#04b290"
+          />
+        )}
         <div className="flex flex-col items-center gap-16 flex-wrap ">
           {events.map((event) => (
             <form
