@@ -1,6 +1,5 @@
-//import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -103,7 +102,7 @@ const Navbar = () => {
                       </li>
                     )}
                   </ul>
-                  {tokenExists && (
+                  {tokenExists ? (
                     <>
                       <div className="py-8 px-6 md:px-12 md:py-16 lg:py-0 lg:pr-0 lg:pl-6">
                         <Link
@@ -115,14 +114,13 @@ const Navbar = () => {
                         </Link>
                       </div>
                       <button
-                        onClick={() => handleLogout()}
+                        onClick={handleLogout}
                         className="block px-6 py-2 rounded-lg bg-pink text-center text-dark ms-2"
                       >
                         <FontAwesomeIcon icon={faRightFromBracket} />
                       </button>
                     </>
-                  )}
-                  {!tokenExists && (
+                  ) : (
                     <>
                       <div className="py-8 px-6 md:px-12 md:py-16 lg:py-0 lg:pr-0 lg:pl-6">
                         <Link
