@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import deleteMyEvent from "../../functions/deleteMyEvent.js";
@@ -8,18 +8,14 @@ function MyEvents() {
   const userId = localStorage.getItem("userId");
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
 
   const handleDeleteEvent = (eventId) => {
-    deleteMyEvent(eventId, fetchEvents);
+    setEventToDelete(eventId); // Almacenar el ID del evento a eliminar
+    setIsDeleteModalOpen(true); // Abrir el modal de confirmación
   };
-
-  //   const handleEditEvent = (eventId) => {
-  //     getEventToEdit(eventId, fetchEvents);
-  //   };
 
   const fetchEvents = () => {
     setIsLoading(true);
@@ -62,7 +58,14 @@ function MyEvents() {
                   key={event._id}
                   className="w-2/5 bg-opacity rounded-xl border p-8"
                 >
-                  <strong className="text-xl mb-4">{event.name}</strong>
+                  <div className="flex justify-between items-center mb-4">
+                    <strong className="text-xl ">{event.name}</strong>
+                    <p className="bg-green text-dark px-2 rounded-md">
+                      {" "}
+                      {event.date ? event.date.slice(0, 10) : ""}
+                    </p>
+                  </div>
+
                   <p>{event.description}</p>
                   <div className=" flex justify-between">
                     <p className="bg-orange px-2 rounded-md">$ {event.price}</p>
@@ -77,35 +80,6 @@ function MyEvents() {
                       </Link>
                     </button>
 
-                <button
-                  onClick={showConfirmation} // Llama a la función dentro del evento de clic
-                  className="bg-red-600 mt-4 px-2 rounded-md"
-                >
-                  Eliminar Evento
-                </button>
-                {confirmDelete && (
-                  <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
-                    <p className="my-2">
-                      ¿Estás seguro de eliminar este evento?
-                    </p>
-                    <button
-                      className="mx-2 bg-green py-2 px-4 rounded-xl text-dark"
-                      onClick={() => handleDeleteEvent(event._id)}
-                    >
-                      Sí, eliminar
-                    </button>
-                    <button
-                      className="mx-2 bg-pink py-2 px-4 rounded-xl text-dark"
-                      onClick={handleCancelDelete}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
                     <button
                       onClick={() => handleDeleteEvent(event._id)}
                       className="bg-red-600 mt-4 px-2 rounded-md"
@@ -121,11 +95,11 @@ function MyEvents() {
       </section>
       {isDeleteModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
-          <div className="bg-dark p-4 rounded-lg text-center">
+          <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
             <p className="text-light text-lg">
               ¿Estás seguro de que deseas eliminar este evento?
             </p>
-            <div className="mt-4">
+            <div className="mt-4 flex justify-center gap-16">
               <button
                 onClick={() => {
                   deleteMyEvent(eventToDelete, fetchEvents);
@@ -139,7 +113,7 @@ function MyEvents() {
                 onClick={() => {
                   setIsDeleteModalOpen(false); // Cerrar el modal sin eliminar
                 }}
-                className="bg-green text-gray-700 px-4 py-2 rounded-md"
+                className="bg-green text-dark px-4 py-2 rounded-md"
               >
                 Cancelar
               </button>
