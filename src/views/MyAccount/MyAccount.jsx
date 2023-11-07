@@ -20,7 +20,10 @@ function MyAccount() {
     <>
       <h1 className="text-center text-4xl my-4">Mi Cuenta</h1>
       {isLoading ? (
-        <PuffLoader color="#04b290" />
+        <PuffLoader
+          className="absolute left-1/2 -translate-x-1/2 top-10"
+          color="#04b290"
+        />
       ) : (
         <div className="flex flex-col items-center text-xl">
           <p className="mb-2">

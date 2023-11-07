@@ -39,13 +39,17 @@ function MyEvents() {
   return (
     <>
       <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl">Mis Eventos</h1>
-        <h2 className="font-accent text-xl">
+        <h1 className="font-accent text-2xl text-center">Mis Eventos</h1>
+        <h2 className="font-accent text-xl text-center">
           Acá podés encontrar la lista de todos los eventos que creaste
         </h2>
-        <h2>Eventos ♫</h2>
-        {isLoading && <PuffLoader color="#04b290" />}
-        <div className="flex flex-col items-center gap-16 flex-wrap ">
+        {isLoading && (
+          <PuffLoader
+            className="absolute left-1/2 -translate-x-1/2 top-10"
+            color="#04b290"
+          />
+        )}
+        <div className="flex flex-col items-center gap-16 flex-wrap mt-16">
           {events.map((event) => (
             <article
               key={event._id}

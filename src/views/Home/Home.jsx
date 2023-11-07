@@ -9,7 +9,6 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
   console.log(searchResults);
 
-
   async function fetchEvents() {
     try {
       const response = await fetch(
@@ -39,19 +38,20 @@ function Home() {
   return (
     <>
       <div className="flex h-[90vh] justify-center items-center">
-      <div id="Header" className="flex items-start flex-col w-[50%]">
-        <h1 className="font-accent text-6xl">¡Bienvenido!</h1>
-        <p className="font-accent text-2xl my-2">
-          Te brindamos un espacio donde vas a poder encontrar toda la información de tus eventos favoritos
-        </p>
+        <div id="Header" className="flex items-start flex-col w-[50%]">
+          <h1 className="font-accent text-6xl">¡Bienvenido!</h1>
+          <p className="font-accent text-2xl my-2">
+            Te brindamos un espacio donde vas a poder encontrar toda la
+            información de tus eventos favoritos
+          </p>
+        </div>
+        <div>
+          <Search onSearchResultsUpdate={setSearchResults} />
+        </div>
       </div>
-      <div>
-      <Search onSearchResultsUpdate={setSearchResults} />
-      </div>
-    </div>
-    
-    <hr />
-    <section className="flex gap-16 justify-center flex-wrap my-4">
+
+      <hr />
+      <section className="flex gap-16 justify-center flex-wrap my-4">
         {searchResults.map((event) => (
           <article
             key={event._id}
@@ -68,7 +68,9 @@ function Home() {
 
             <p>{event.description}</p>
             <div className="flex justify-between my-4 items-center">
-              <p className="bg-pink text-white px-2 rounded-md ">{event.venue}</p>
+              <p className="bg-pink text-white px-2 rounded-md ">
+                {event.venue}
+              </p>
               <p className="bg-gray-500 text-xs text-white px-2 rounded-md ">
                 {event.category}
               </p>
@@ -77,8 +79,15 @@ function Home() {
         ))}
       </section>
 
-      <h2 className="font-accent text-center text-2xl mt-2 mb-4">Todos los Eventos ♫</h2>
-      {isLoading && <PuffLoader color="#04b290" />}
+      <h2 className="font-accent text-center text-2xl mt-2 mb-4">
+        Todos los Eventos ♫
+      </h2>
+      {isLoading && (
+        <PuffLoader
+          className="absolute left-1/2 -translate-x-1/2 top-10"
+          color="#04b290"
+        />
+      )}
       <section className="flex gap-16 justify-center flex-wrap mt-4">
         {events.map((event) => (
           <article

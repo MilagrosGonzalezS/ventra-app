@@ -13,7 +13,10 @@ async function login(data) {
       options
     );
     if (!response.ok) {
-      throw new Error("Error al obtener los eventos");
+      // En caso de error, construye un objeto JSON con el mensaje de error
+      return {
+        error: "El email y/o contraseña no coinciden con un usuario registrado",
+      };
     }
     const res = await response.json();
     localStorage.setItem("userId", res.user._id);
@@ -21,6 +24,7 @@ async function login(data) {
     return res;
   } catch (error) {
     console.error(error.message);
+    return { error: "Error al loguearse" };
   }
 }
 
