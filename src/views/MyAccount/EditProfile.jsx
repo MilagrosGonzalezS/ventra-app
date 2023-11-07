@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
-import editMyEvent from "../../functions/editMyEvent.js";
-import fetchMyEvents from "../../functions/getMyEvents";
-import getEventToEdit from "../../functions/getEventToEdit.js";
+import userData from "../../functions/userData";
+import editMyProfile from "../../functions/editMyProfile.js";
 
 function EditProfile() {
-  const { eventId } = useParams();
+  const [user, setUser] = useState({});
+  const { userId } = useParams();
   const navigate = useNavigate();
   const {
     register,
@@ -16,60 +16,52 @@ function EditProfile() {
     formState: { errors },
   } = useForm();
 
-  const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+  const [isEditingUser, setIsEditingUser] = useState(false);
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
-    setIsCreatingEvent(true);
+    setIsEditingUser(true);
     try {
-      // Llama a createEvent pasando la función fetchMyEvents para actualizar la lista de eventos
-      await editMyEvent(data, eventId, fetchMyEvents);
+      await editMyProfile(data, userId);
       reset();
-      setIsCreatingEvent(false);
-      navigate("/mis-eventos");
+      setIsEditingUser(false);
+      navigate("/mi-cuenta");
     } catch (error) {
       console.error(error);
-      setIsCreatingEvent(false);
+      setIsEditingUser(false);
     }
   };
 
-  //------------------------
-  const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  //   const handleEditEvent = (eventId) => {
-  //     editMyEvent(eventId, fetchEvents);
-  //   };
-
-  const fetchEvents = () => {
-    setIsLoading(true);
-    getEventToEdit(eventId)
-      .then((eventsData) => {
-        setEvents(eventsData);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  };
-
   useEffect(() => {
-    fetchEvents();
-  }, []); // Asegúrate de pasar un array vacío como segundo argumento para evitar múltiples llamadas
+    setIsLoading(true);
+    const fetchData = async () => {
+      const data = await userData();
+      console.log(data);
+      setUser(data);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
-      <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl">Editar Este Evento</h1>
-        <h2 className="font-accent text-xl">Acá podés editar tu evento</h2>
-        <h2>Eventos ♫</h2>
-        {isLoading && <PuffLoader color="#04b290" />}
-        <div className="flex flex-col items-center gap-16 flex-wrap ">
-          {events.map((event) => (
+      <section className="flex-col items-center mt-4">
+        <h1 className="font-accent text-2xl text-center">
+          Editar Datos Personales
+        </h1>
+        <h2 className="font-accent text-xl text-center">
+          Acá podés editar tus datos
+        </h2>
+        {isLoading ? (
+          <PuffLoader color="#04b290" />
+        ) : (
+          <div className="flex flex-col items-center gap-16 flex-wrap ">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              key={event._id}
+              key={user._id}
               className="w-2/5 bg-opacity rounded-xl border p-8"
             >
               <div className="w-1/3">
@@ -78,123 +70,49 @@ function EditProfile() {
                 <input
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
                   type="text"
-                  name="name"
-                  id="name"
-                  defaultValue={event.name}
-                  {...register("name", {
+                  name="username"
+                  id="username"
+                  defaultValue={user.username}
+                  {...register("username", {
                     required: "Campo obligatorio",
                   })}
                 />
-                {errors.name && (
+                {errors.username && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.name.message}
+                    {errors.username.message}
                   </span>
                 )}
               </div>
               <div className="w-1/3">
-                <label htmlFor="venue">Ubicación</label>
+                <label htmlFor="email">Email</label>
                 <br />
                 <input
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
-                  type="text"
-                  name="venue"
-                  id="venue"
-                  defaultValue={event.venue}
-                  {...register("venue", {
+                  type="email"
+                  name="email"
+                  id="email"
+                  defaultValue={user.email}
+                  {...register("email", {
                     required: "Campo obligatorio",
                   })}
                 />
-                {errors.venue && (
+                {errors.email && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.venue.message}
+                    {errors.email.message}
                   </span>
                 )}
               </div>
-              <div className="w-1/3">
-                <label htmlFor="category">Categoría</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
-                  type="text"
-                  name="category"
-                  id="category"
-                  defaultValue={event.category}
-                  {...register("category", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.category && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.category.message}
-                  </span>
-                )}
-              </div>
-              <div className="w-2/4">
-                <label htmlFor="price">Precio</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-                  type="number"
-                  name="price"
-                  id="price"
-                  defaultValue={event.price}
-                  {...register("price", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.price && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.price.message}
-                  </span>
-                )}
-              </div>
-              <div className="w-2/4">
-                <label htmlFor="date">Fecha del evento</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-                  type="date"
-                  name="date"
-                  id="date"
-                  defaultValue={event.date ? event.date.slice(0, 10) : ""}
-                  {...register("date", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.date && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.date.message}
-                  </span>
-                )}
-              </div>
-              <div className="w-full ">
-                <label htmlFor="description">Descripción</label>
-                <br />
-                <textarea
-                  className="bg-gray-700 border-solid h-24 border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-full"
-                  name="description"
-                  id="description"
-                  defaultValue={event.description}
-                  {...register("description", {
-                    required: "Campo obligatorio",
-                  })}
-                ></textarea>
-                {errors.description && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.description.message}
-                  </span>
-                )}
-              </div>
+
               <button
-                disabled={isCreatingEvent}
+                disabled={isEditingUser}
                 type="submit"
                 className="bg-pink text-light px-2 text-xl font-semibold rounded-md"
               >
-                EDITAR EVENTO
+                EDITAR DATOS
               </button>
             </form>
-          ))}
-        </div>
+          </div>
+        )}
       </section>
     </>
   );
