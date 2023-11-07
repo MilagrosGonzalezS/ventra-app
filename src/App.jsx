@@ -43,32 +43,14 @@ function App() {
         <Route path="/iniciar-sesion" element={<Login />} />
         <Route path="crear-evento" element={<CreateEvent />} />
         <Route path="/ayuda" element={<Help />} />
-        <Route
-          path="/mi-cuenta"
-          element={
-            tokenExists ? (
-              <MyAccount />
-            ) : (
-              <Navigate to="/iniciar-sesion" replace />
-            )
-          }
-        />
+        <Route path="/mi-cuenta" element={<MyAccount />} />
         <Route
           path="/mi-cuenta/:userId/editar-datos"
           element={<EditProfile />}
         />
         <Route path="/mis-eventos" element={<MyEvents />} />
         <Route path="/mis-eventos/:eventId/editar" element={<EditMyEvent />} />
-        <Route
-          path="/favoritos"
-          element={
-            tokenExists ? (
-              <Wishlist />
-            ) : (
-              <Navigate to="/iniciar-sesion" replace />
-            )
-          }
-        />
+        <Route path="/favoritos" element={<Wishlist />} />
       </Routes>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import deleteMyEvent from "../../functions/deleteMyEvent.js";
@@ -9,15 +9,25 @@ function MyEvents() {
   const userId = localStorage.getItem("userId");
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   // Función para eliminar un evento
   const handleDeleteEvent = (eventId) => {
     deleteMyEvent(eventId, fetchEvents);
+    setConfirmDelete(false);
   };
 
   //   const handleEditEvent = (eventId) => {
   //     getEventToEdit(eventId, fetchEvents);
   //   };
+
+  const showConfirmation = () => {
+    setConfirmDelete(true);
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDelete(false);
+  };
 
   const fetchEvents = () => {
     setIsLoading(true);
@@ -69,11 +79,30 @@ function MyEvents() {
                 </button>
 
                 <button
-                  onClick={() => handleDeleteEvent(event._id)} // Llama a la función dentro del evento de clic
+                  onClick={showConfirmation} // Llama a la función dentro del evento de clic
                   className="bg-red-600 mt-4 px-2 rounded-md"
                 >
                   Eliminar Evento
                 </button>
+                {confirmDelete && (
+                  <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
+                    <p className="my-2">
+                      ¿Estás seguro de eliminar este evento?
+                    </p>
+                    <button
+                      className="mx-2 bg-green py-2 px-4 rounded-xl text-dark"
+                      onClick={() => handleDeleteEvent(event._id)}
+                    >
+                      Sí, eliminar
+                    </button>
+                    <button
+                      className="mx-2 bg-pink py-2 px-4 rounded-xl text-dark"
+                      onClick={handleCancelDelete}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                )}
               </div>
             </article>
           ))}

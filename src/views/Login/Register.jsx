@@ -24,7 +24,7 @@ function Register() {
       await createUser(data);
       setIsLoading(false);
       reset();
-      navigate("/");
+      navigate("/iniciar-sesion");
     } catch (error) {
       console.log(error);
     }

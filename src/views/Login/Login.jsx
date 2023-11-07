@@ -9,7 +9,7 @@ import { PuffLoader } from "react-spinners";
 function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
 
   const {
@@ -32,7 +32,7 @@ function Login() {
 
         setError(response.error);
       } else {
-        setToken(response.jwToken);
+        // setToken(response.jwToken);
         console.log("data.token", response.jwToken);
         console.log("data", response);
         setIsLoading(false);
