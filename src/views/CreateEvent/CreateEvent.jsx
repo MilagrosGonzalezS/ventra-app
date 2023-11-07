@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { PuffLoader } from "react-spinners";
 import fetchMyEvents from "../../functions/getMyEvents";
 import createEvent from "../../functions/createEvent";
+import userData from "../../functions/userData";
+
 function CreateEvent() {
+  const [tokenExists, setTokenExists] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -13,13 +17,26 @@ function CreateEvent() {
   } = useForm();
 
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const data = await userData();
+      console.log(data.token);
+      if (data.token) {
+        setTokenExists(true);
+      }
+      setIsLoading(false); // Detén el loader una vez que se ha verificado el token
+    };
+
+    checkToken();
+  }, []);
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
 
     try {
-      // Llama a createEvent pasando la función fetchMyEvents para actualizar la lista de eventos
       await createEvent(data, fetchMyEvents);
       reset();
       setIsCreatingEvent(false);
@@ -30,14 +47,19 @@ function CreateEvent() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <PuffLoader
+      className="absolute left-1/2 -translate-x-1/2 top-10"
+      color="#04b290"
+    />
+  ) : tokenExists ? (
     <>
       <div className="flex justify-center my-8">
         <h1 className="text-4xl font-accent text-pink font-semibold">
           CREÁ TU EVENTO
         </h1>
       </div>
-      <div className="flex justify-center ">
+      <div className="flex justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-wrap lg:flex-row lg:items-center lg:justify-evenly bg-opacity text-light p-8 rounded-3xl w-10/12 "
@@ -159,6 +181,12 @@ function CreateEvent() {
         </form>
       </div>
     </>
+  ) : (
+    <div className="flex justify-center my-8">
+      <h1 className="text-4xl font-accent text-center text-pink font-semibold">
+        TENÉS QUE INICAR SESIÓN <br /> PARA PODER CREAR UN EVENTO
+      </h1>
+    </div>
   );
 }
 
