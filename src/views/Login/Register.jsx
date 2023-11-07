@@ -23,8 +23,8 @@ function Register() {
       console.log(data); // Log the form data
       await createUser(data);
       setIsLoading(false);
-      /*      reset();
-      navigate("/"); */
+      reset();
+      navigate("/iniciar-sesion");
     } catch (error) {
       console.log(error);
     }
