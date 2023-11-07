@@ -13,7 +13,7 @@ async function createUser(data) {
       options
     );
     if (!response.ok) {
-      throw new Error("Error al obtener los eventos");
+      throw new Error("Error al registrar al usuario");
     }
     const res = await response.json();
     console.log(res);

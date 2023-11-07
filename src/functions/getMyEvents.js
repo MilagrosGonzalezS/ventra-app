@@ -9,7 +9,7 @@ async function fetchMyEvents(userId) {
     const eventsData = await response.json();
     return eventsData;
   } catch (error) {
-    console.error(error);
+    console.error("no hay eventos", error);
     throw error; // Lanza el error para manejarlo en el componente MyEvents
   }
 }
