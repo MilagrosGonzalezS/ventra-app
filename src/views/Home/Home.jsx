@@ -37,7 +37,7 @@ function Home() {
 
   return (
     <>
-      <div className="flex h-[90vh] justify-center items-center">
+      <div className="flex h-[90vh] justify-center items-center" id="headerHome">
         <div id="Header" className="flex items-start flex-col w-[50%]">
           <h1 className="font-accent text-6xl">¡Bienvenido!</h1>
           <p className="font-accent text-2xl my-2">

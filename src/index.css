@@ -10,3 +10,8 @@
     @apply -rotate-45 -translate-y-1;
   }
 }
+
+#headerHome{
+  background: url('./assets/imgs/bg-home.jpg');
+  background-size: cover;
+}
