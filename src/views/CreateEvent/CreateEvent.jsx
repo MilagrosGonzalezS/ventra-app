@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import fetchMyEvents from "../../functions/getMyEvents";
 import createEvent from "../../functions/createEvent";
 import userData from "../../functions/userData";
 
@@ -37,7 +36,7 @@ function CreateEvent() {
     setIsCreatingEvent(true);
 
     try {
-      await createEvent(data, fetchMyEvents);
+      await createEvent(data);
       reset();
       setIsCreatingEvent(false);
       navigate("/mis-eventos");

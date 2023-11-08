@@ -1,7 +1,8 @@
-async function createEvent(data, fetchMyEvents) {
+async function createEvent(data) {
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
-  fetch("https://ventra-api-e311.onrender.com/events", {
+
+  const response = await fetch("https://ventra-api-e311.onrender.com/events", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,19 +19,16 @@ async function createEvent(data, fetchMyEvents) {
       status: true,
       userId: userId,
     }),
-  })
-    .then(async (response) => {
-      if (response.ok) {
-        console.log("Evento creado exitosamente");
-        await fetchMyEvents();
-      } else {
-        console.log("Error al crear el evento");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      console.log("Error al conectarse a la API");
-    });
+  });
+
+  if (response.ok) {
+    const newEvent = await response.json();
+    console.log("Evento creado exitosamente");
+    return newEvent;
+  } else {
+    console.log("Error al crear el evento");
+    throw new Error("Error al crear el evento");
+  }
 }
 
 export default createEvent;
