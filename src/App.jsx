@@ -1,6 +1,6 @@
 import "./App.css";
 // import ReactDOM from "react-dom/client";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 //** COMPONENTES PRINCIPALES **//
 import Home from "./views/Home/Home";
 import Login from "./views/Login/Login";
@@ -15,6 +15,8 @@ import Wishlist from "./views/Wishlist/Wishlist";
 import Navbar from "./components/Navbar";
 import { useState, useEffect } from "react";
 import userData from "./functions/userData";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Whishlist from "./views/Wishlist/Wishlist";
 
 function App() {
   const [tokenExists, setTokenExists] = useState(false);
@@ -39,18 +41,39 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="registrarse" element={<Register />} />
+        <Route path="/registrarse" element={<Register />} />
         <Route path="/iniciar-sesion" element={<Login />} />
-        <Route path="crear-evento" element={<CreateEvent />} />
+        <Route path="/crear-evento" element={<CreateEvent />} />
         <Route path="/ayuda" element={<Help />} />
         <Route path="/mi-cuenta" element={<MyAccount />} />
         <Route
           path="/mi-cuenta/:userId/editar-datos"
           element={<EditProfile />}
         />
-        <Route path="/mis-eventos" element={<MyEvents />} />
-        <Route path="/mis-eventos/:eventId/editar" element={<EditMyEvent />} />
-        <Route path="/favoritos" element={<Wishlist />} />
+        <Route
+          path="/mis-eventos"
+          element={
+            <ProtectedRoute token={tokenExists}>
+              <MyEvents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mis-eventos/:eventId/editar"
+          element={
+            <ProtectedRoute token={tokenExists}>
+              <EditMyEvent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favoritos"
+          element={
+            <ProtectedRoute token={tokenExists}>
+              <Whishlist />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );
