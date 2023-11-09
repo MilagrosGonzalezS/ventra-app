@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import deleteMyEvent from "../../functions/deleteMyEvent.js";
-import fetchMyEvents from "../../functions/getMyEvents.js";
+import getMyEvents from "../../functions/getMyEvents.js";
 
 function MyEvents() {
   const userId = localStorage.getItem("userId");
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
 
@@ -17,11 +16,11 @@ function MyEvents() {
     setIsDeleteModalOpen(true); // Abrir el modal de confirmación
   };
 
-  const fetchEvents = () => {
+  const getEvents = () => {
     setIsLoading(true);
-    fetchMyEvents(userId)
+    getMyEvents(userId)
       .then((eventsData) => {
-        setEvents(eventsData);
+        setEvents(eventsData.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -31,7 +30,7 @@ function MyEvents() {
   };
 
   useEffect(() => {
-    fetchEvents();
+    getEvents();
   }, []);
 
   return (
@@ -102,7 +101,10 @@ function MyEvents() {
             <div className="mt-4 flex justify-center gap-16">
               <button
                 onClick={() => {
-                  deleteMyEvent(eventToDelete, fetchEvents);
+                  deleteMyEvent(eventToDelete).then(() => {
+                    getEvents();
+                  });
+
                   setIsDeleteModalOpen(false); // Cerrar el modal después de eliminar
                 }}
                 className="bg-red-600 text-white px-4 py-2 rounded-md mr-4"

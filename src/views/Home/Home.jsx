@@ -1,43 +1,27 @@
 // import React from "react";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
+import { getEvents } from "../../functions/events.js";
 import Search from "../../components/Search";
 
 function Home() {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
-  console.log(searchResults);
 
-  async function fetchEvents() {
-    try {
-      const response = await fetch(
-        "https://ventra-api-e311.onrender.com/events"
-      );
-      if (!response.ok) {
-        throw new Error("Error al obtener los eventos");
-      }
-      const eventsData = await response.json();
-      setEvents(eventsData);
-      console.log(eventsData);
-    } catch (error) {
-      console.error(error);
-    }
-  }
   useEffect(() => {
-    fetchEvents()
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
+    getEvents().then((res) => {
+      setEvents(res.data);
+    });
+    setIsLoading(false);
   }, []);
 
   return (
     <>
-      <div className="flex h-[90vh] justify-center items-center" id="headerHome">
+      <div
+        className="flex h-[90vh] justify-center items-center"
+        id="headerHome"
+      >
         <div id="Header" className="flex items-start flex-col w-[50%]">
           <h1 className="font-accent text-6xl">¡Bienvenido!</h1>
           <p className="font-accent text-2xl my-2">
@@ -49,7 +33,6 @@ function Home() {
           <Search onSearchResultsUpdate={setSearchResults} />
         </div>
       </div>
-
       <hr />
       <section className="flex gap-16 justify-center flex-wrap my-4">
         {searchResults.map((event) => (

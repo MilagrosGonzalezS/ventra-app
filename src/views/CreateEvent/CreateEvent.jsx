@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import createEvent from "../../functions/createEvent";
+import { createEvent } from "../../functions/events.js";
 import userData from "../../functions/userData";
 
 function CreateEvent() {
@@ -31,15 +31,33 @@ function CreateEvent() {
     checkToken();
   }, []);
 
+  // const onSubmit = async (data, event) => {
+  //   event.preventDefault();
+  //   setIsCreatingEvent(true);
+
+  //   try {
+  //     await createEvent(data);
+  //     reset();
+  //     setIsCreatingEvent(false);
+  //     navigate("/mis-eventos");
+  //   } catch (error) {
+  //     console.error(error);
+  //     setIsCreatingEvent(false);
+  //   }
+  // };
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
 
     try {
       await createEvent(data);
-      reset();
       setIsCreatingEvent(false);
-      navigate("/mis-eventos");
+      //MENSAJE
+      setTimeout(() => {
+        reset();
+        navigate("/mis-eventos");
+      }, 1000);
     } catch (error) {
       console.error(error);
       setIsCreatingEvent(false);
