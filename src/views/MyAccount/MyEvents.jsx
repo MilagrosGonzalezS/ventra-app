@@ -34,6 +34,15 @@ function MyEvents() {
     fetchEvents();
   }, []);
 
+  
+
+  // useEffect(() => {
+  //   fetchEvents().then((res)=>{
+  //     setEvents(res.data);
+  //   })
+  //   setIsLoading(false);
+  // }, []);
+
   return (
     <>
       <section className="flex-col items-center">

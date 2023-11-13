@@ -1,38 +1,19 @@
 // import React from "react";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
+import { fetchEvents } from "../../functions/events.js";
 import Search from "../../components/Search";
 
 function Home() {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
-  console.log(searchResults);
 
-  async function fetchEvents() {
-    try {
-      const response = await fetch(
-        "https://ventra-api-e311.onrender.com/events"
-      );
-      if (!response.ok) {
-        throw new Error("Error al obtener los eventos");
-      }
-      const eventsData = await response.json();
-      setEvents(eventsData);
-      console.log(eventsData);
-    } catch (error) {
-      console.error(error);
-    }
-  }
   useEffect(() => {
-    fetchEvents()
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
+    fetchEvents().then((res)=>{
+      setEvents(res.data);
+    })
+    setIsLoading(false);
   }, []);
 
   return (
@@ -49,7 +30,6 @@ function Home() {
           <Search onSearchResultsUpdate={setSearchResults} />
         </div>
       </div>
-
       <hr />
       <section className="flex gap-16 justify-center flex-wrap my-4">
         {searchResults.map((event) => (
