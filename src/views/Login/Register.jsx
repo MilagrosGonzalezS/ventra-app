@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import createUser from "../../functions/createUser.js";
+import login from "../../functions/login.js";
 import { useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 
@@ -21,10 +22,15 @@ function Register() {
     setIsLoading(true);
     try {
       console.log(data); // Log the form data
-      await createUser(data);
+      await createUser(data).then(async () => {
+        const email = data.email;
+        const password = data.password;
+        await login({ email, password });
+      });
       setIsLoading(false);
       reset();
-      navigate("/iniciar-sesion");
+      navigate("/");
+      window.location.reload(true);
     } catch (error) {
       console.log(error);
     }

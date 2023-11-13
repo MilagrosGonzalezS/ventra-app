@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import editMyEvent from "../../functions/editMyEvent.js";
-import getEventToEdit from "../../functions/getEventToEdit.js";
+import getEventById from "../../functions/getEventToEdit.js";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -60,7 +60,7 @@ function EditMyEvent() {
 
   const fetchEvents = () => {
     setIsLoading(true);
-    getEventToEdit(eventId)
+    getEventById(eventId)
       .then((res) => {
         setEvents(res.data);
         setIsLoading(false);

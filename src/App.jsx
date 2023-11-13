@@ -11,31 +11,12 @@ import MyAccount from "./views/MyAccount/MyAccount";
 import EditProfile from "./views/MyAccount/EditProfile";
 import MyEvents from "./views/MyAccount/MyEvents";
 import EditMyEvent from "./views/MyAccount/EditMyEvent";
-import Wishlist from "./views/Wishlist/Wishlist";
 import Navbar from "./components/Navbar";
-import { useState, useEffect } from "react";
-import userData from "./functions/userData";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Whishlist from "./views/Wishlist/Wishlist";
+import Wishlist from "./views/Wishlist/Wishlist";
+import BuyTicket from "./views/BuyTicket";
 
 function App() {
-  const [tokenExists, setTokenExists] = useState(false);
-
-  useEffect(() => {
-    const data = userData();
-    data.then((data) => {
-      console.log(data.token);
-      if (data.token) {
-        setTokenExists(true);
-      }
-    });
-
-    // const token = localStorage.getItem("token");
-    // if (token) {
-    //   setTokenExists(true);
-    // }
-  }, []);
-
   return (
     <>
       <Navbar></Navbar>
@@ -45,15 +26,34 @@ function App() {
         <Route path="/iniciar-sesion" element={<Login />} />
         <Route path="/crear-evento" element={<CreateEvent />} />
         <Route path="/ayuda" element={<Help />} />
-        <Route path="/mi-cuenta" element={<MyAccount />} />
+        <Route
+          path="/favoritos"
+          element={
+            <ProtectedRoute>
+              <Wishlist />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mi-cuenta"
+          element={
+            <ProtectedRoute>
+              <MyAccount />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/mi-cuenta/:userId/editar-datos"
-          element={<EditProfile />}
+          element={
+            <ProtectedRoute>
+              <EditProfile />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/mis-eventos"
           element={
-            <ProtectedRoute token={tokenExists}>
+            <ProtectedRoute>
               <MyEvents />
             </ProtectedRoute>
           }
@@ -61,16 +61,16 @@ function App() {
         <Route
           path="/mis-eventos/:eventId/editar"
           element={
-            <ProtectedRoute token={tokenExists}>
+            <ProtectedRoute>
               <EditMyEvent />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/favoritos"
+          path="/comprar/:eventId"
           element={
-            <ProtectedRoute token={tokenExists}>
-              <Whishlist />
+            <ProtectedRoute>
+              <BuyTicket />
             </ProtectedRoute>
           }
         />

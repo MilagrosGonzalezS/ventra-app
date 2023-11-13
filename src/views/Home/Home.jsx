@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { getEvents } from "../../functions/events.js";
 import Search from "../../components/Search";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [events, setEvents] = useState([]);
@@ -95,6 +96,12 @@ function Home() {
                 {event.category}
               </p>
             </div>
+            <Link
+              to={`/comprar/${event._id}`}
+              className="transition block text-center bg-green font-bold text-dark py-2 rounded-xl w-full hover:bg-lime-600"
+            >
+              COMPRAR
+            </Link>
           </article>
         ))}
       </section>
