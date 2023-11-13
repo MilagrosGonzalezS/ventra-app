@@ -20,7 +20,7 @@ function Home() {
   return (
     <>
       <div
-        className="flex h-[90vh] justify-center items-center"
+        className="flex h-[100vh] justify-center items-center"
         id="headerHome"
       >
         <div id="Header" className="flex items-start flex-col w-[50%]">

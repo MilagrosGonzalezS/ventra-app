@@ -11,15 +11,17 @@ import MyAccount from "./views/MyAccount/MyAccount";
 import EditProfile from "./views/MyAccount/EditProfile";
 import MyEvents from "./views/MyAccount/MyEvents";
 import EditMyEvent from "./views/MyAccount/EditMyEvent";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Wishlist from "./views/Wishlist/Wishlist";
 import BuyTicket from "./views/BuyTicket";
+import NavNext from "./components/NavNext";
 
 function App() {
   return (
     <>
-      <Navbar></Navbar>
+      <NavNext></NavNext>
+      {/* <Navbar></Navbar> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registrarse" element={<Register />} />

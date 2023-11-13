@@ -1,16 +1,26 @@
+import { nextui } from "@nextui-org/react";
+import daisyui from "daisyui";
+
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+const config = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
         light: "#FCFCFC",
         dark: "#141414",
-        opacity: "rgba(48, 48, 48, 0.80)",
+        opacity: "rgba(0, 0, 0, 0.89)",
         lightblue: "#04b290",
         green: "#bbff15",
         pink: "#e206f4",
         orange: "#f9700b",
+      },
+      backdropFilter: {
+        blur: "blur(5px)",
       },
       fontFamily: {
         primary: ["Poppins", "sans-serif"],
@@ -25,5 +35,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  darkMode: "class",
+  plugins: [nextui(), daisyui],
 };
+
+export default config;
