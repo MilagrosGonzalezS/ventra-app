@@ -19,21 +19,6 @@ function EditMyEvent() {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // const onSubmit = async (data, event) => {
-  //   event.preventDefault();
-  //   setIsCreatingEvent(true);
-  //   try {
-  //     // Llama a editMyEvent pasando la función fetchMyEvents para actualizar la lista de eventos
-  //     await editMyEvent(data, eventId);
-  //     reset();
-  //     setIsCreatingEvent(false);
-  //     navigate("/mis-eventos");
-  //   } catch (error) {
-  //     console.error(error);
-  //     setIsCreatingEvent(false);
-  //   }
-  // };
-
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -51,12 +36,6 @@ function EditMyEvent() {
       setIsCreatingEvent(false);
     }
   };
-
-  //------------------------
-
-  //   const handleEditEvent = (eventId) => {
-  //     editMyEvent(eventId, fetchEvents);
-  //   };
 
   const fetchEvents = () => {
     setIsLoading(true);
@@ -115,7 +94,7 @@ function EditMyEvent() {
                 )}
               </div>
               <div className="w-1/3">
-                <label htmlFor="venue">Ubicación</label>
+                <label htmlFor="venue">Lugar del evento</label>
                 <br />
                 <input
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
@@ -134,24 +113,67 @@ function EditMyEvent() {
                 )}
               </div>
               <div className="w-1/3">
+                <label htmlFor="zone">Ubicación del evento</label>
+                <br />
+                <select
+                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                  name="zone"
+                  id="zone"
+                  defaultValue={event.zone}
+                  {...register("zone", {
+                    required: "Campo obligatorio",
+                  })}
+                >
+                  <option value="">Selecciona un lugar</option>
+                  <option value="CABA">CABA</option>
+                  <option value="Zona Norte">Zona Norte</option>
+                  <option value="Zona Oeste">Zona Oeste</option>
+                  <option value="Zona Sur">Zona Sur</option>
+                </select>
+
+                {errors.zone && (
+                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                    {errors.zone.message}
+                  </span>
+                )}
+              </div>
+              <div className="w-1/3">
                 <label htmlFor="category">Categoría</label>
                 <br />
-                <input
+                <select
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
-                  type="text"
                   name="category"
                   id="category"
                   defaultValue={event.category}
                   {...register("category", {
                     required: "Campo obligatorio",
                   })}
-                />
+                >
+                  <option value="">Selecciona una categoría</option>
+                  {[
+                    "Concierto De Rock",
+                    "Concierto De Pop",
+                    "Fiesta Electrónica",
+                    "Concierto De Rap",
+                    "Festival De Bandas",
+                    "Fiesta",
+                    "Cumpleaños",
+                    "Reunión",
+                  ]
+                    .sort()
+                    .map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                </select>
                 {errors.category && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
                     {errors.category.message}
                   </span>
                 )}
               </div>
+
               <div className="w-2/4">
                 <label htmlFor="price">Precio</label>
                 <br />
@@ -161,6 +183,7 @@ function EditMyEvent() {
                   name="price"
                   id="price"
                   defaultValue={event.price}
+                  onChange={(e) => setPrice(e.target.value)}
                   {...register("price", {
                     required: "Campo obligatorio",
                   })}
@@ -171,6 +194,7 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
+
               <div className="w-2/4">
                 <label htmlFor="date">Fecha del evento</label>
                 <br />
@@ -190,6 +214,80 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
+              <div className="w-2/4">
+                <label htmlFor="time">Horario</label>
+                <br />
+                <input
+                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                  type="time"
+                  name="time"
+                  id="time"
+                  defaultValue={event.time}
+                  {...register("time", {
+                    required: "Campo obligatorio",
+                  })}
+                />
+                {errors.time && (
+                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                    {errors.time.message}
+                  </span>
+                )}
+              </div>
+              <div className="w-2/4">
+                <label htmlFor="ticketCount">Cantidad de tickets</label>
+                <br />
+                <input
+                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                  type="number"
+                  name="ticketCount"
+                  id="ticketCount"
+                  defaultValue={event.ticketCount}
+                  {...register("ticketCount", {
+                    required: "Campo obligatorio",
+                  })}
+                />
+                {errors.ticketCount && (
+                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                    {errors.ticketCount.message}
+                  </span>
+                )}
+              </div>
+              <div className="w-2/4">
+                <label htmlFor="visibility" className="mr-2">
+                  Visibilidad del evento
+                </label>
+                <br />
+                <input
+                  type="radio"
+                  id="private"
+                  name="visibility"
+                  value="private"
+                  defaultChecked={event.visibility === "private"}
+                  {...register("visibility", {
+                    required: "Selecciona la visibilidad del evento",
+                  })}
+                />
+                <label htmlFor="private" className="mr-2">
+                  Privado
+                </label>
+                <input
+                  type="radio"
+                  id="public"
+                  name="visibility"
+                  value="public"
+                  defaultChecked={event.visibility === "public"}
+                  {...register("visibility", {
+                    required: "Selecciona la visibilidad del evento",
+                  })}
+                />
+                <label htmlFor="public">Público</label>
+                {errors.visibility && (
+                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                    {errors.visibility.message}
+                  </span>
+                )}
+              </div>
+
               <div className="w-full ">
                 <label htmlFor="description">Descripción</label>
                 <br />
@@ -205,6 +303,22 @@ function EditMyEvent() {
                 {errors.description && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
                     {errors.description.message}
+                  </span>
+                )}
+              </div>
+              <div className="w-2/4">
+                <label htmlFor="cover">Portada del evento</label>
+                <br />
+                <input
+                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                  type="file"
+                  name="cover"
+                  id="cover"
+                  {...register("cover")}
+                />
+                {errors.cover && (
+                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                    {errors.cover.message}
                   </span>
                 )}
               </div>

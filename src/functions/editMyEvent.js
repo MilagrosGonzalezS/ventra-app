@@ -6,7 +6,6 @@ const userId = localStorage.getItem("userId");
 
 //EIDTAR UN EVENTO
 export async function editMyEvent(data, eventId) {
-  const formattedDate = data.date;
   axios
     .put(
       `${config.apiEvents}/${eventId}`,
@@ -14,10 +13,15 @@ export async function editMyEvent(data, eventId) {
         name: data.name,
         description: data.description,
         price: data.price,
-        date: formattedDate,
+        zone: data.zone,
+        date: data.date,
+        time: data.time,
         category: data.category,
         venue: data.venue,
-        state: "Publicado",
+        visibility: data.visibility,
+        ticketCount: data.ticketCount,
+        /* image: data.image, */
+        /*         isFree: false, */
         status: true,
         userId: userId,
       },

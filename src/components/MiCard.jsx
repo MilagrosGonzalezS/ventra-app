@@ -1,12 +1,26 @@
 import React from "react";
-import { Card, CardHeader, CardBody, CardFooter, Image, Button } from "@nextui-org/react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Image,
+  Button,
+} from "@nextui-org/react";
 
 const MiCard = () => {
   return (
-    <Card isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-7">
+    <Card
+      isFooterBlurred
+      className="w-full h-[300px] col-span-12 sm:col-span-7"
+    >
       <CardHeader className="absolute z-10 top-1 flex-col items-start">
-        <p className="text-tiny text-white/60 uppercase font-bold">The Eras tour</p>
-        <h4 className="text-white/90 font-medium text-xl">Taylor en Argentina</h4>
+        <p className="text-tiny text-white/60 uppercase font-bold">
+          The Eras tour
+        </p>
+        <h4 className="text-white/90 font-medium text-xl">
+          Taylor en Argentina
+        </h4>
       </CardHeader>
       <Image
         removeWrapper
@@ -16,13 +30,16 @@ const MiCard = () => {
       />
       <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
         <div className="flex flex-grow gap-2 items-center">
-          
           <div className="flex flex-col">
             <p className="text-tiny text-white/100">Estadio Monumental</p>
-            <p className="text-tiny text-white/60">Disfruta de lo mejor con Taylor Swift.</p>
+            <p className="text-tiny text-white/60">
+              Disfruta de lo mejor con Taylor Swift.
+            </p>
           </div>
         </div>
-        <Button radius="full" size="sm">Ver Mas</Button>
+        <Button radius="full" size="sm">
+          Ver Mas
+        </Button>
       </CardFooter>
     </Card>
   );
