@@ -17,6 +17,8 @@ function CreateEvent() {
 
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFree, setIsFree] = useState(null);
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -104,13 +106,13 @@ function CreateEvent() {
             )}
           </div>
           <div className="w-1/3">
-            <label htmlFor="venue">Ubicación del evento</label>
+            <label htmlFor="zone">Ubicación del evento</label>
             <br />
             <select
               className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-              name="venue"
-              id="venue"
-              {...register("venue", {
+              name="zone"
+              id="zone"
+              {...register("zone", {
                 required: "Campo obligatorio",
               })}
             >
@@ -121,9 +123,9 @@ function CreateEvent() {
               <option value="Zona Sur">Zona Sur</option>
             </select>
 
-            {errors.venue && (
+            {errors.zone && (
               <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                {errors.venue.message}
+                {errors.zone.message}
               </span>
             )}
           </div>
@@ -163,23 +165,69 @@ function CreateEvent() {
             )}
           </div>
           <div className="w-2/4">
-            <label htmlFor="price">Precio</label>
+            <label htmlFor="isFree" className="mr-2">
+              ¿Es un evento gratuito o pago?
+            </label>
             <br />
             <input
-              className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-              type="number"
-              name="price"
-              id="price"
-              {...register("price", {
-                required: "Campo obligatorio",
+              type="radio"
+              id="freeEvent"
+              name="isFree"
+              value="true"
+              {...register("isFree", {
+                required: "Selecciona la visibilidad del evento",
               })}
+              onChange={(e) => {
+                setIsFree(true);
+                setPrice(0);
+              }}
             />
-            {errors.price && (
+            <label htmlFor="freeEvent" className="mr-2">
+              Gratuito
+            </label>
+            <input
+              type="radio"
+              id="payEvent"
+              name="isFree"
+              value="false"
+              {...register("isFree", {
+                required: "Selecciona la visibilidad del evento",
+              })}
+              onChange={(e) => {
+                setIsFree(false);
+                setPrice(null);
+              }}
+            />
+            <label htmlFor="payEvent">Pago</label>
+            {errors.isFree && (
               <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                {errors.price.message}
+                {errors.isFree.message}
               </span>
             )}
           </div>
+          {!isFree && (
+            <div className="w-2/4">
+              <label htmlFor="price">Precio</label>
+              <br />
+              <input
+                className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                type="number"
+                name="price"
+                id="price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                {...register("price", {
+                  required: "Campo obligatorio",
+                })}
+              />
+              {errors.price && (
+                <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                  {errors.price.message}
+                </span>
+              )}
+            </div>
+          )}
+
           <div className="w-2/4">
             <label htmlFor="date">Fecha del evento</label>
             <br />
@@ -267,6 +315,7 @@ function CreateEvent() {
               </span>
             )}
           </div>
+
           <div className="w-full ">
             <label htmlFor="description">Descripción</label>
             <br />
