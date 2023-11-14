@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Wishlist from "./views/Wishlist/Wishlist";
 import BuyTicket from "./views/BuyTicket";
 import NavNext from "./components/NavNext";
+import Checkout from "./views/Checkout";
 
 function App() {
   return (
@@ -73,6 +74,14 @@ function App() {
           element={
             <ProtectedRoute>
               <BuyTicket />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/comprar/:eventId/checkout/:amount"
+          element={
+            <ProtectedRoute>
+              <Checkout />
             </ProtectedRoute>
           }
         />

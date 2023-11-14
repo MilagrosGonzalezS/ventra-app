@@ -4,11 +4,14 @@ import getEventById from "../functions/getEventById";
 import { PuffLoader } from "react-spinners";
 import { Link } from "react-router-dom";
 
-function BuyTicket() {
-  const { eventId } = useParams();
+function Checkout() {
+  const { eventId, amount } = useParams();
   const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [amount, setAmount] = useState(0);
+
+  const ticketsPrice = event.price * amount;
+  const servicePrice = (ticketsPrice * 10) / 100;
+  const totalPrice = ticketsPrice + servicePrice;
 
   useEffect(() => {
     const getEvent = () => {
@@ -26,20 +29,6 @@ function BuyTicket() {
     getEvent();
   }, []);
 
-  const ticketsPrice = event.price * amount;
-
-  function handleSubstract() {
-    if (amount > 0) {
-      setAmount(amount - 1);
-    }
-  }
-
-  function handleAdd() {
-    if (amount < 10) {
-      setAmount(amount + 1);
-    }
-  }
-
   return (
     <>
       {isLoading && (
@@ -49,7 +38,7 @@ function BuyTicket() {
         />
       )}
       <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
-        <Link to="/" className="hover:text-lightblue">
+        <Link to={`/comprar/${event._id}`} className="hover:text-lightblue">
           Volver
         </Link>
         <article className="w-2/4 bg-dark mx-auto rounded-2xl border">
@@ -59,29 +48,27 @@ function BuyTicket() {
             <p>{event.date ? event.date.slice(0, 10) : ""}</p>
           </div>
           <div className="p-8">
-            <h4>Seleccioná tu entrada</h4>
-            <div className="flex items-center justify-between my-12 border border-lightblue rounded-2xl p-4">
-              <p>Entrada General</p>
-              <p>${event.price}</p>
-              <div className="bg-opacity py-2 px-4 rounded-xl">
-                <p>Cantidad</p>
-                <div className="flex justify-evenly">
-                  <button onClick={handleSubstract}>-</button>
-                  <p>{amount}</p>
-                  <button onClick={handleAdd}>+</button>
-                </div>
+            <h4>Resumen de compra</h4>
+            <div className="my-12 border border-lightblue rounded-2xl p-4">
+              <div className="flex items-center justify-between">
+                <p>Entrada General x{amount}</p>
+                <p>${ticketsPrice}</p>
+              </div>
+              <div className="flex items-center justify-between">
+                <p>Cargo por servicio</p>
+                <p>${servicePrice}</p>
               </div>
             </div>
           </div>
           <div className="flex items-center justify-end gap-6 bg-opacity p-4 rounded-b-2xl">
             <h4>Total:</h4>
-            <p>${ticketsPrice}</p>
+            <p>${totalPrice}</p>
             {amount > 0 && (
               <Link
                 to={`/comprar/${event._id}/checkout/${amount}`}
                 className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
               >
-                Comprar
+                Ir a pagar
               </Link>
             )}
           </div>
@@ -91,4 +78,4 @@ function BuyTicket() {
   );
 }
 
-export default BuyTicket;
+export default Checkout;
