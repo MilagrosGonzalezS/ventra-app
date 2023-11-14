@@ -8,9 +8,7 @@ import { NextUIProvider } from "@nextui-org/react";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <HashRouter>
     <NextUIProvider darkMode="class">
-      <main className="dark text-foreground bg-background">
         <App />
-      </main>
     </NextUIProvider>
   </HashRouter>
 );
