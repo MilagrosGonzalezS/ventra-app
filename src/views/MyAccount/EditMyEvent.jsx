@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import editMyEvent from "../../functions/editMyEvent.js";
-import getEventToEdit from "../../functions/getEventToEdit.js";
+import getEventById from "../../functions/getEventToEdit.js";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -16,16 +16,36 @@ function EditMyEvent() {
   } = useForm();
 
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // const onSubmit = async (data, event) => {
+  //   event.preventDefault();
+  //   setIsCreatingEvent(true);
+  //   try {
+  //     // Llama a editMyEvent pasando la función fetchMyEvents para actualizar la lista de eventos
+  //     await editMyEvent(data, eventId);
+  //     reset();
+  //     setIsCreatingEvent(false);
+  //     navigate("/mis-eventos");
+  //   } catch (error) {
+  //     console.error(error);
+  //     setIsCreatingEvent(false);
+  //   }
+  // };
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
+
     try {
-      // Llama a createEvent pasando la función fetchMyEvents para actualizar la lista de eventos
       await editMyEvent(data, eventId);
-      reset();
       setIsCreatingEvent(false);
-      navigate("/mis-eventos");
+      //MENSAJE
+      setTimeout(() => {
+        reset();
+        navigate("/mis-eventos");
+      }, 1000);
     } catch (error) {
       console.error(error);
       setIsCreatingEvent(false);
@@ -33,8 +53,6 @@ function EditMyEvent() {
   };
 
   //------------------------
-  const [events, setEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   //   const handleEditEvent = (eventId) => {
   //     editMyEvent(eventId, fetchEvents);
@@ -42,9 +60,9 @@ function EditMyEvent() {
 
   const fetchEvents = () => {
     setIsLoading(true);
-    getEventToEdit(eventId)
-      .then((eventsData) => {
-        setEvents(eventsData);
+    getEventById(eventId)
+      .then((res) => {
+        setEvents(res.data);
         setIsLoading(false);
       })
       .catch((error) => {

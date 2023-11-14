@@ -1,7 +1,7 @@
 // import React from "react";
 
-function Whishlist() {
+function Wishlist() {
   return <div>Mis favoritos</div>;
 }
 
-export default Whishlist;
+export default Wishlist;

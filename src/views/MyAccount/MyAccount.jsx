@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import userData from "../../functions/userData";
 import { PuffLoader } from "react-spinners";
 import { Link } from "react-router-dom";
@@ -7,13 +7,11 @@ function MyAccount() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setIsLoading(true);
-    const fetchData = async () => {
-      const data = await userData();
+    const data = userData();
+    data.then((data) => {
       setUser(data);
       setIsLoading(false);
-    };
-
-    fetchData();
+    });
   }, []);
 
   return (

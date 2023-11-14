@@ -1,5 +1,5 @@
 {
-    "apiEvents" : "https://ventra-api-e311.onrender.com/events",
-    "apiUsers" : "https://ventra-api-e311.onrender.com/users",
-    "apiAuth" : "https://ventra-api-e311.onrender.com/auth"
+  "apiEvents": "https://ventra-api-e311.onrender.com/events",
+  "apiUsers": "https://ventra-api-e311.onrender.com/users",
+  "apiAuth": "https://ventra-api-e311.onrender.com/auth"
 }

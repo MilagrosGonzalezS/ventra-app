@@ -2,26 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .hamburger div:first-child {
-    @apply rotate-45 translate-y-1.5;
-  }
-  .hamburger div:last-child {
-    @apply -rotate-45 -translate-y-1;
-  }
-}
-
-#headerHome{
-  background: url('./assets/imgs/bg-home.jpg');
+.bodyBg {
+  background-image: url("./assets/imgs/Ellipse-1.png");
+  background-repeat: no-repeat;
   background-size: cover;
-}
-
-.cardBlur {
-  background: linear-gradient(
-    180deg,
-    rgba(217, 217, 217, 0.03) 0%,
-    rgba(217, 217, 217, 0) 100%
-  );
-
-  backdrop-filter: blur(25px);
 }

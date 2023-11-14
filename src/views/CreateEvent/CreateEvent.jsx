@@ -31,15 +31,33 @@ function CreateEvent() {
     checkToken();
   }, []);
 
+  // const onSubmit = async (data, event) => {
+  //   event.preventDefault();
+  //   setIsCreatingEvent(true);
+
+  //   try {
+  //     await createEvent(data);
+  //     reset();
+  //     setIsCreatingEvent(false);
+  //     navigate("/mis-eventos");
+  //   } catch (error) {
+  //     console.error(error);
+  //     setIsCreatingEvent(false);
+  //   }
+  // };
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
 
     try {
       await createEvent(data);
-      reset();
       setIsCreatingEvent(false);
-      navigate("/mis-eventos");
+      //MENSAJE
+      setTimeout(() => {
+        reset();
+        navigate("/mis-eventos");
+      }, 1000);
     } catch (error) {
       console.error(error);
       setIsCreatingEvent(false);
