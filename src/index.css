@@ -2,23 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .hamburger div:first-child {
-    @apply rotate-45 translate-y-1.5;
-  }
-  .hamburger div:last-child {
-    @apply -rotate-45 -translate-y-1;
-  }
-}
-
-#headerHome {
-  background: url("./assets/imgs/bg-home.jpg");
+.bodyBg {
+  background-image: url("./assets/imgs/Ellipse-1.png");
+  background-repeat: no-repeat;
   background-size: cover;
-}
-
-.navBlur {
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4.1px);
-  -webkit-backdrop-filter: blur(4.1px);
 }
