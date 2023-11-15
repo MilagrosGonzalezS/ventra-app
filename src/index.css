@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 .bodyBg {
-  background-image: url("./assets/imgs/Ellipse-1.png");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: url("./assets/imgs/Line-bg.png"),
+    url("./assets/imgs/Ellipse2.png"), url("./assets/imgs/Ellipse3.png");
+  background-size: contain, 15%, 20%;
+  background-position: top, top 10% left 0px, top right;
 }
