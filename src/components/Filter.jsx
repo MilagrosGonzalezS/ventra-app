@@ -31,10 +31,10 @@ const Filter = ({ onSearchResultsUpdate }) => {
       return;
     }
     const apiUrl = `${config.apiEvents}/category/${selectedCategory}`;
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        onSearchResultsUpdate(data); // Actualiza los resultados en el componente padre
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        onSearchResultsUpdate(response.data); // Actualiza los resultados en el componente padre
       })
       .catch((error) => {
         console.error("Error al buscar por categoría:", error);
