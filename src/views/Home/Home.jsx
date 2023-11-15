@@ -1,12 +1,8 @@
-// import React from "react";
+import { getEvents, Search, Filter, MiCard, EventCard } from "../../index.js";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
-import { getEvents } from "../../functions/events.js";
-import Search from "../../components/Search";
-import MiCard from "../../components/MiCard.jsx";
-import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
-import EventCard from "../../components/EventCard.jsx";
+import { Button } from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
 
 function Home() {
@@ -21,9 +17,6 @@ function Home() {
     if (token) {
       setTokenExists(true);
     }
-  }, []);
-
-  useEffect(() => {
     getEvents().then((res) => {
       setEvents(res.data);
     });
@@ -69,7 +62,10 @@ function Home() {
             <MiCard></MiCard>
           </div>
         </div>
-        <Search id="events" onSearchResultsUpdate={setSearchResults} />
+        <div className="flex gap-3">
+          <Search id="events" onSearchResultsUpdate={setSearchResults} />
+          <Filter id="events" onSearchResultsUpdate={setSearchResults} />
+        </div>
       </section>
 
       {searchResults.length !== 0 && (
@@ -136,4 +132,4 @@ function Home() {
   );
 }
 
-export default Home;
+export { Home };

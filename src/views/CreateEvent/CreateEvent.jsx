@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import { createEvent } from "../../functions/events.js";
-import userData from "../../functions/userData";
+import { userData, createEvent } from "../../index.js";
 
 function CreateEvent() {
   const [tokenExists, setTokenExists] = useState(false);
@@ -386,4 +385,4 @@ function CreateEvent() {
   );
 }
 
-export default CreateEvent;
+export { CreateEvent };

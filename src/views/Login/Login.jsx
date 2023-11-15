@@ -1,9 +1,8 @@
 // import React from 'react'
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import login from "../../functions/login.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../index.js";
 import { PuffLoader } from "react-spinners";
 
 function Login() {
@@ -109,4 +108,4 @@ function Login() {
   );
 }
 
-export default Login;
+export { Login };

@@ -1,7 +1,7 @@
 // import React from 'react'
 
 function Help() {
-  return <div>Help</div>;
+  return <div>AYUDAAA</div>;
 }
 
-export default Help;
+export { Help };

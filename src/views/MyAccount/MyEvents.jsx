@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import deleteMyEvent from "../../functions/deleteMyEvent.js";
-import getMyEvents from "../../functions/getMyEvents.js";
+import { deleteMyEvent, getMyEvents } from "../../index.js";
 
 function MyEvents() {
   const userId = localStorage.getItem("userId");
@@ -142,4 +141,4 @@ function MyEvents() {
   );
 }
 
-export default MyEvents;
+export { MyEvents };

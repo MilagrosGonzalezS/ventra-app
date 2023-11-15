@@ -1,5 +1,5 @@
 import axios from "axios";
-import config from "../config.json";
+import config from "../../config.json";
 
 async function createUser(data) {
   axios
@@ -16,4 +16,4 @@ async function createUser(data) {
     });
 }
 
-export default createUser;
+export { createUser };

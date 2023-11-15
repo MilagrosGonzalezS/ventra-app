@@ -45,4 +45,4 @@ const MiCard = () => {
   );
 };
 
-export default MiCard;
+export { MiCard };

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
-import editMyEvent from "../../functions/editMyEvent.js";
-import getEventById from "../../functions/getEventById.js";
+import { editMyEvent, getEventById } from "../../index.js";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -341,4 +340,4 @@ function EditMyEvent() {
   );
 }
 
-export default EditMyEvent;
+export { EditMyEvent };

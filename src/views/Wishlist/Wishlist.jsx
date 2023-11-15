@@ -4,4 +4,4 @@ function Wishlist() {
   return <div>Mis favoritos</div>;
 }
 
-export default Wishlist;
+export { Wishlist };

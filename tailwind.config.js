@@ -1,6 +1,4 @@
 import { nextui } from "@nextui-org/react";
-import daisyui from "daisyui";
-
 /** @type {import('tailwindcss').Config} */
 const config = {
   content: [
@@ -37,7 +35,6 @@ const config = {
   },
   darkmode: "class",
   plugins: [
-    daisyui,
     nextui({
       prefix: "nextui", // prefix for themes variables
       addCommonColors: true, // override common colors (e.g. "blue", "green", "pink").

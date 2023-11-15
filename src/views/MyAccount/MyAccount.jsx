@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import userData from "../../functions/userData";
+import { userData } from "../../index.js";
 import { PuffLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+
 function MyAccount() {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -48,4 +49,4 @@ function MyAccount() {
   );
 }
 
-export default MyAccount;
+export { MyAccount };

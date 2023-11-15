@@ -7,8 +7,8 @@ import { NextUIProvider } from "@nextui-org/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <HashRouter>
-    <NextUIProvider darkMode="class">
-        <App />
+    <NextUIProvider darkmode="class">
+      <App />
     </NextUIProvider>
   </HashRouter>
 );

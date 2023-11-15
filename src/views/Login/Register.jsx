@@ -1,10 +1,8 @@
 // import React from 'react'
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import createUser from "../../functions/createUser.js";
-import login from "../../functions/login.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login, createUser } from "../../index.js";
 import { PuffLoader } from "react-spinners";
 
 function Register() {
@@ -131,4 +129,4 @@ function Register() {
   );
 }
 
-export default Register;
+export { Register };

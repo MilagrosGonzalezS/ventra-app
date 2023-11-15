@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
-import userData from "../../functions/userData";
-import editMyProfile from "../../functions/editMyProfile.js";
+import { userData, editMyProfile } from "../../index.js";
 
 function EditProfile() {
   const [user, setUser] = useState({});
@@ -120,4 +119,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export { EditProfile };

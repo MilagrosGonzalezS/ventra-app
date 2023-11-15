@@ -1,8 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import getEventById from "../functions/getEventById";
+import { getEventById } from "../index.js";
 import { PuffLoader } from "react-spinners";
-import { Link } from "react-router-dom";
 
 function BuyTicket() {
   const { eventId } = useParams();
@@ -42,53 +41,54 @@ function BuyTicket() {
 
   return (
     <>
-      {isLoading && (
+      {isLoading ? (
         <PuffLoader
-          className="absolute left-1/2 -translate-x-1/2 top-10"
+          className="absolute left-1/2 -translate-x-1/2 top-60"
           color="#04b290"
         />
-      )}
-      <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
-        <Link to="/" className="hover:text-lightblue">
-          Volver
-        </Link>
-        <article className="w-2/4 bg-dark mx-auto rounded-2xl border">
-          <div className="flex gap-4 bg-opacity p-4 rounded-t-2xl">
-            <h3 className="">{event.name}</h3>
-            <p>{event.category}</p>
-            <p>{event.date ? event.date.slice(0, 10) : ""}</p>
-          </div>
-          <div className="p-8">
-            <h4>Seleccioná tu entrada</h4>
-            <div className="flex items-center justify-between my-12 border border-lightblue rounded-2xl p-4">
-              <p>Entrada General</p>
-              <p>${event.price}</p>
-              <div className="bg-opacity py-2 px-4 rounded-xl">
-                <p>Cantidad</p>
-                <div className="flex justify-evenly">
-                  <button onClick={handleSubstract}>-</button>
-                  <p>{amount}</p>
-                  <button onClick={handleAdd}>+</button>
+      ) : (
+        <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
+          <Link to="/" className="hover:text-lightblue">
+            Volver
+          </Link>
+          <article className="w-2/4 bg-dark mx-auto rounded-2xl border">
+            <div className="flex gap-4 bg-opacity p-4 rounded-t-2xl">
+              <h3 className="">{event.name}</h3>
+              <p>{event.category}</p>
+              <p>{event.date ? event.date.slice(0, 10) : ""}</p>
+            </div>
+            <div className="p-8">
+              <h4>Seleccioná tu entrada</h4>
+              <div className="flex items-center justify-between my-12 border border-lightblue rounded-2xl p-4">
+                <p>Entrada General</p>
+                <p>${event.price}</p>
+                <div className="bg-opacity py-2 px-4 rounded-xl">
+                  <p>Cantidad</p>
+                  <div className="flex justify-evenly">
+                    <button onClick={handleSubstract}>-</button>
+                    <p>{amount}</p>
+                    <button onClick={handleAdd}>+</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-center justify-end gap-6 bg-opacity p-4 rounded-b-2xl">
-            <h4>Total:</h4>
-            <p>${ticketsPrice}</p>
-            {amount > 0 && (
-              <Link
-                to={`/comprar/${event._id}/checkout/${amount}`}
-                className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
-              >
-                Comprar
-              </Link>
-            )}
-          </div>
-        </article>
-      </section>
+            <div className="flex items-center justify-end gap-6 bg-opacity p-4 rounded-b-2xl">
+              <h4>Total:</h4>
+              <p>${ticketsPrice}</p>
+              {amount > 0 && (
+                <Link
+                  to={`/comprar/${event._id}/checkout/${amount}`}
+                  className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
+                >
+                  Comprar
+                </Link>
+              )}
+            </div>
+          </article>
+        </section>
+      )}
     </>
   );
 }
 
-export default BuyTicket;
+export { BuyTicket };

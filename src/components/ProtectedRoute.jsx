@@ -13,4 +13,4 @@ ProtectedRoute.propTypes = {
   children: PropTypes.node,
 };
 
-export default ProtectedRoute;
+export { ProtectedRoute };
