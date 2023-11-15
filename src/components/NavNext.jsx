@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  faRightFromBracket,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import {
   Navbar,
   NavbarBrand,
@@ -43,6 +40,7 @@ const NavNext = () => {
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
+      className="bg-transparent"
       classNames={{
         item: [
           "flex",
@@ -103,11 +101,44 @@ const NavNext = () => {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="mi_perfil" onClick={() => { navigation("/mi-cuenta");}}>Mi Perfil</DropdownItem>
-              <DropdownItem key="mis_eventos"  onClick={() => { navigation("/mis-eventos");}}>Mis eventos</DropdownItem>
-              <DropdownItem key="mis_entradas"  onClick={() => { navigation("/");}}>Mis entradas</DropdownItem>
-              <DropdownItem key="favoritos"  onClick={() => { navigation("/favoritos");}}>Favoritos</DropdownItem>
-              <DropdownItem key="logout" color="danger" onClick={handleLogout} endContent={<FontAwesomeIcon icon={faRightFromBracket} />}>
+              <DropdownItem
+                key="mi_perfil"
+                onClick={() => {
+                  navigation("/mi-cuenta");
+                }}
+              >
+                Mi Perfil
+              </DropdownItem>
+              <DropdownItem
+                key="mis_eventos"
+                onClick={() => {
+                  navigation("/mis-eventos");
+                }}
+              >
+                Mis eventos
+              </DropdownItem>
+              <DropdownItem
+                key="mis_entradas"
+                onClick={() => {
+                  navigation("/");
+                }}
+              >
+                Mis entradas
+              </DropdownItem>
+              <DropdownItem
+                key="favoritos"
+                onClick={() => {
+                  navigation("/favoritos");
+                }}
+              >
+                Favoritos
+              </DropdownItem>
+              <DropdownItem
+                key="logout"
+                color="danger"
+                onClick={handleLogout}
+                endContent={<FontAwesomeIcon icon={faRightFromBracket} />}
+              >
                 Cerrar Sesión
               </DropdownItem>
             </DropdownMenu>
@@ -116,7 +147,13 @@ const NavNext = () => {
       ) : (
         <NavbarContent as="div" justify="end">
           <Link to="/iniciar-sesion">
-            <Button color="danger" variant="shadow" endContent={<FontAwesomeIcon icon={faUser}/>}>Iniciar Sesión</Button>
+            <Button
+              color="danger"
+              variant="shadow"
+              endContent={<FontAwesomeIcon icon={faUser} />}
+            >
+              Iniciar Sesión
+            </Button>
           </Link>
         </NavbarContent>
       )}
@@ -127,7 +164,12 @@ const NavNext = () => {
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link color="text-bluelight" className="w-full" to="/crear-evento" size="lg">
+          <Link
+            color="text-bluelight"
+            className="w-full"
+            to="/crear-evento"
+            size="lg"
+          >
             Crear Evento
           </Link>
         </NavbarMenuItem>
