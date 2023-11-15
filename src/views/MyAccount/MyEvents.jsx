@@ -59,21 +59,36 @@ function MyEvents() {
                 >
                   <div className="flex justify-between items-center mb-4">
                     <strong className="text-xl ">{event.name}</strong>
+                    <div className="flex gap-2">
+                      <p className="bg-green text-dark px-2 rounded-md">
+                        {event.date ? event.date.slice(0, 10) : ""}
+                      </p>
+                      <p className="bg-green text-dark px-2 rounded-md">
+                        {event.time}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="bg-pink px-2 rounded-md">{event.venue}</p>
+                    <p className="bg-gray-500 px-2 rounded-md">{event.zone}</p>
+                  </div>
+                  <p>{event.description}</p>
+                  <div className=" flex justify-between mb-4">
                     <p className="bg-green text-dark px-2 rounded-md">
-                      {" "}
-                      {event.date ? event.date.slice(0, 10) : ""}
+                      $ {event.price}
                     </p>
+                    <div className="flex gap-2">
+                      <p className="bg-orange px-2 rounded-md">
+                        {event.category}
+                      </p>
+                      <p className="bg-gray-500 px-2 rounded-md">
+                        {event.visibility === "public" ? "Público" : "Privado"}
+                      </p>
+                    </div>
                   </div>
 
-                  <p>{event.description}</p>
-                  <div className=" flex justify-between">
-                    <p className="bg-orange px-2 rounded-md">$ {event.price}</p>
-                    <p className="bg-orange px-2 rounded-md">
-                      {event.category}
-                    </p>
-                  </div>
                   <div className="flex gap-4">
-                    <button className="bg-pink mt-4 px-2 rounded-md">
+                    <button className="bg-lightblue mt-4 px-2 rounded-md">
                       <Link to={`/mis-eventos/${event._id}/editar`}>
                         Editar Evento
                       </Link>

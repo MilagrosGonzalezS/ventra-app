@@ -74,6 +74,10 @@ function EditMyEvent() {
               key={event._id}
               className="w-2/5 bg-opacity rounded-xl border p-8"
             >
+              <p className="text-red-500">
+                No es posible cambiar la modalidad de gratuito o pago, para ello
+                debes eliminar el evento y volver a crearlo.
+              </p>
               <div className="w-1/3">
                 <label htmlFor="name">Nombre</label>
                 <br />
