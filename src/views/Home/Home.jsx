@@ -1,4 +1,4 @@
-import { getEvents, Search, Filter, MiCard, EventCard } from "../../index.js";
+import { getEvents, Search, Filter, MyCard, EventCard } from "../../index.js";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,7 @@ function Home() {
             </div>
           </div>
           <div className="w-6/12">
-            <MiCard></MiCard>
+            <MyCard></MyCard>
           </div>
         </div>
         <div className="flex gap-3">

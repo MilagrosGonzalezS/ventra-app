@@ -13,7 +13,7 @@ export { userData } from "./services/users/userData.js";
 //Components ->
 export { EventCard } from "./components/EventCard.jsx";
 export { Filter } from "./components/Filter.jsx";
-export { MiCard } from "./components/MiCard.jsx";
+export { MyCard } from "./components/MyCard.jsx";
 export { NavBar } from "./components/NavBar.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Search } from "./components/Search.jsx";

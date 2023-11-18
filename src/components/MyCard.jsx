@@ -8,7 +8,7 @@ import {
   Button,
 } from "@nextui-org/react";
 
-const MiCard = () => {
+const MyCard = () => {
   return (
     <Card
       isFooterBlurred
@@ -45,4 +45,4 @@ const MiCard = () => {
   );
 };
 
-export { MiCard };
+export { MyCard };
