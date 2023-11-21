@@ -16,7 +16,7 @@ async function createEvent(data) {
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           auth: token,
         },
       }

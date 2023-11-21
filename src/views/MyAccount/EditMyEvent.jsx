@@ -26,10 +26,8 @@ function EditMyEvent() {
       await editMyEvent(data, eventId);
       setIsCreatingEvent(false);
       //MENSAJE
-      setTimeout(() => {
-        reset();
-        navigate("/mis-eventos");
-      }, 1000);
+      reset();
+      navigate("/mis-eventos");
     } catch (error) {
       console.error(error);
       setIsCreatingEvent(false);

@@ -18,6 +18,11 @@ function CreateEvent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(null);
   const [price, setPrice] = useState(0);
+  const [image, setImage] = useState(null);
+
+  const handleFileChange = (event) => {
+    setImage(event.target.files[0]);
+  };
 
   useEffect(() => {
     const checkToken = async () => {
@@ -26,7 +31,7 @@ function CreateEvent() {
       if (data.token) {
         setTokenExists(true);
       }
-      setIsLoading(false); // Detén el loader una vez que se ha verificado el token
+      setIsLoading(false);
     };
 
     checkToken();
@@ -35,15 +40,15 @@ function CreateEvent() {
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
-
+    data = { ...data, image };
+    console.log(image);
+    console.log(data);
     try {
       await createEvent(data);
       setIsCreatingEvent(false);
       //MENSAJE
-      setTimeout(() => {
-        reset();
-        navigate("/mis-eventos");
-      }, 1000);
+      reset();
+      navigate("/mis-eventos");
     } catch (error) {
       console.error(error);
       setIsCreatingEvent(false);
@@ -333,18 +338,18 @@ function CreateEvent() {
             )}
           </div>
           <div className="w-2/4">
-            <label htmlFor="cover">Portada del evento</label>
+            <label htmlFor="image">Portada del evento</label>
             <br />
             <input
               className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
               type="file"
-              name="cover"
-              id="cover"
-              {...register("cover")}
+              name="image"
+              id="image"
+              onChange={handleFileChange}
             />
-            {errors.cover && (
+            {errors.image && (
               <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                {errors.cover.message}
+                {errors.image.message}
               </span>
             )}
           </div>

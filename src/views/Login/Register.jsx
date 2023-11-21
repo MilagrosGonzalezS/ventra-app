@@ -20,16 +20,14 @@ function Register() {
     setIsLoading(true);
     try {
       console.log(data); // Log the form data
-      await createUser(data).then(() => {
-        const email = data.email;
-        const password = data.password;
-        setTimeout(() => {
-          login({ email, password });
-        }, [2000]);
-      });
+      const res = await createUser(data);
+      const email = res.email;
+      const password = data.password;
+      await login({ email, password });
       setIsLoading(false);
       reset();
       navigate("/");
+      window.location.reload(true);
     } catch (error) {
       console.log(error);
     }
