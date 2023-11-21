@@ -18,10 +18,10 @@ function CreateEvent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(null);
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState(null);
+  const [cover, setCover] = useState(null);
 
   const handleFileChange = (event) => {
-    setImage(event.target.files[0]);
+    setCover(event.target.files[0]);
   };
 
   useEffect(() => {
@@ -40,8 +40,8 @@ function CreateEvent() {
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
-    data = { ...data, image };
-    console.log(image);
+    data = { ...data, cover };
+    console.log(cover);
     console.log(data);
     try {
       await createEvent(data);
@@ -181,7 +181,7 @@ function CreateEvent() {
               {...register("isFree", {
                 required: "Selecciona la visibilidad del evento",
               })}
-              onChange={(e) => {
+              onChange={() => {
                 setIsFree(true);
                 setPrice(0);
               }}
@@ -338,18 +338,18 @@ function CreateEvent() {
             )}
           </div>
           <div className="w-2/4">
-            <label htmlFor="image">Portada del evento</label>
+            <label htmlFor="cover">Portada del evento</label>
             <br />
             <input
               className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
               type="file"
-              name="image"
-              id="image"
+              name="cover"
+              id="cover"
               onChange={handleFileChange}
             />
-            {errors.image && (
+            {errors.cover && (
               <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                {errors.image.message}
+                {errors.cover.message}
               </span>
             )}
           </div>
