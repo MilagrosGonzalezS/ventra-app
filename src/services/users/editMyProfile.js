@@ -1,8 +1,9 @@
 import axios from "axios";
 import config from "../../config.json";
+import Cookies from "js-cookie";
 
 async function editMyProfile(data, userId) {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
 
   axios
     .put(

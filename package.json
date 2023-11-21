@@ -17,10 +17,12 @@
     "@nextui-org/react": "^2.2.9",
     "axios": "^1.6.1",
     "framer-motion": "^10.16.4",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-modal": "^3.16.1",
+    "react-qr-code": "^2.0.12",
     "react-spinners": "^0.13.8"
   },
   "devDependencies": {

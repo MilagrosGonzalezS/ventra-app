@@ -1,9 +1,10 @@
 import axios from "axios";
 import config from "../../config.json";
+import Cookies from "js-cookie";
 
 async function userData() {
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("userId");
+  const token = Cookies.get("token");
+  const id = Cookies.get("userId");
   let username;
   let email;
 

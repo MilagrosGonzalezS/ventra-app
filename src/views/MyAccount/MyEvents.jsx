@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { deleteMyEvent, getMyEvents } from "../../index.js";
+import Cookies from "js-cookie";
 
 function MyEvents() {
-  const userId = localStorage.getItem("userId");
+  const userId = Cookies.get("userId");
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

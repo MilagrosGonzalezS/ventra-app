@@ -5,11 +5,16 @@ export { createEvent } from "./services/userEvents/createEvent.js";
 export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";
 export { editMyEvent } from "./services/userEvents/editMyEvent.js";
 export { getMyEvents } from "./services/userEvents/getMyEvents.js";
+export { addToWishlist } from "./services/userEvents/addToWishlist.js";
+export { getMyWishlist } from "./services/userEvents/getMyWishlist.js";
 export { createUser } from "./services/users/createUser.js";
 export { editMyProfile } from "./services/users/editMyProfile.js";
 export { login } from "./services/users/login.js";
 export { logout } from "./services/users/logout.js";
 export { userData } from "./services/users/userData.js";
+export { createTicket } from "./services/tickets/createTicket.js";
+export { getMyTickets } from "./services/tickets/getMyTickets.js";
+
 //Components ->
 export { EventCard } from "./components/EventCard.jsx";
 export { Filter } from "./components/Filter.jsx";
@@ -31,3 +36,4 @@ export { EditMyEvent } from "./views/MyAccount/EditMyEvent";
 export { Wishlist } from "./views/Wishlist/Wishlist";
 export { BuyTicket } from "./views/BuyTicket";
 export { Checkout } from "./views/Checkout";
+export { MyTickets } from "./views/MyAccount/MyTickets";

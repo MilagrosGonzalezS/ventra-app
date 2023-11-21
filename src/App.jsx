@@ -15,6 +15,7 @@ import {
   Wishlist,
   BuyTicket,
   Checkout,
+  MyTickets,
 } from "./index.js";
 import { ProtectedRoute, NavBar } from "./index.js";
 
@@ -82,6 +83,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Checkout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mis-entradas"
+          element={
+            <ProtectedRoute>
+              <MyTickets />
             </ProtectedRoute>
           }
         />

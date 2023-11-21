@@ -3,8 +3,28 @@ import PropTypes from "prop-types";
 import image from "../assets/imgs/Duki-River.jpg";
 import { Card, CardHeader, CardFooter, Image } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import { addToWishlist } from "../index.js";
 
 function EventCard(props) {
+  const wishlistData = {
+    eventId: props.id,
+    eventName: props.name,
+    eventVenue: props.venue,
+    eventDate: props.date,
+    eventTime: props.time,
+    eventPrice: props.price,
+    status: true,
+  };
+
+  const handleAddToWishlist = async () => {
+    await addToWishlist(wishlistData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <Card
@@ -16,6 +36,7 @@ function EventCard(props) {
             {props.category}
           </p>
           <h4 className="text-white/90 font-medium text-xl">{props.name}</h4>
+          <button onClick={handleAddToWishlist}> ❤ </button>
         </CardHeader>
         <Image
           removeWrapper
@@ -33,6 +54,7 @@ function EventCard(props) {
             </div>
             <p className="ml-4">${props.price}</p>
           </div>
+
           <Link
             to={`/comprar/${props.id}`}
             className="transition block text-center bg-green font-bold text-dark py-2 px-4 rounded-xl hover:bg-lime-600"
@@ -52,6 +74,7 @@ EventCard.propTypes = {
   date: PropTypes.string,
   price: PropTypes.number,
   id: PropTypes.string,
+  time: PropTypes.string,
 };
 
 export { EventCard };

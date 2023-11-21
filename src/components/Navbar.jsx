@@ -19,13 +19,15 @@ import {
 } from "@nextui-org/react";
 import VentraLogo from "../assets/imgs/logo-blanco.png";
 import { logout } from "../index.js";
+import Cookies from "js-cookie";
+
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigation = useNavigate();
   const [tokenExists, setTokenExists] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       setTokenExists(true);
     }
@@ -119,7 +121,7 @@ const NavBar = () => {
               <DropdownItem
                 key="mis_entradas"
                 onClick={() => {
-                  navigation("/");
+                  navigation("/mis-entradas");
                 }}
               >
                 Mis entradas

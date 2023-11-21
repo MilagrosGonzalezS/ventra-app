@@ -1,8 +1,9 @@
 import axios from "axios";
 import config from "../../config.json";
+import Cookies from "js-cookie";
 
-const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId");
+const token = Cookies.get("token");
+const userId = Cookies.get("userId");
 
 //CREAR EVENTO
 async function createEvent(data) {

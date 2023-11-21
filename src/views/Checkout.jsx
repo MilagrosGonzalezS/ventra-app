@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getEventById } from "../index.js";
+import { getEventById, createTicket } from "../index.js";
 import { PuffLoader } from "react-spinners";
 
 function Checkout() {
@@ -27,6 +27,28 @@ function Checkout() {
     };
     getEvent();
   }, []);
+
+  const ticketData = {
+    eventId: event._id,
+    eventName: event.name,
+    eventVenue: event.venue,
+    eventDate: event.date,
+    eventTime: event.time,
+    eventPrice: event.price,
+  };
+
+  const handleCreateTicket = async () => {
+    console.log(ticketData);
+    for (let i = 0; i < amount; i++) {
+      await createTicket(ticketData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   return (
     <>
@@ -63,12 +85,12 @@ function Checkout() {
               <h4>Total:</h4>
               <p>${totalPrice}</p>
               {amount > 0 && (
-                <Link
-                  to={`/comprar/${event._id}/checkout/${amount}`}
+                <button
+                  onClick={handleCreateTicket}
                   className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
                 >
                   Ir a pagar
-                </Link>
+                </button>
               )}
             </div>
           </article>

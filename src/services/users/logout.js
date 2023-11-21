@@ -1,5 +1,7 @@
+import Cookies from "js-cookie";
+
 async function logout() {
-  localStorage.clear();
+  Cookies.remove("token", "userId");
   window.location.reload(true);
 }
 export { logout };

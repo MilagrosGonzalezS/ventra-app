@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "../../config.json";
+import Cookies from "js-cookie";
 
 async function login(data) {
   const options = {
@@ -14,8 +15,8 @@ async function login(data) {
     // Verifica el estado de la respuesta
     if (response.status === 200) {
       const res = response.data;
-      localStorage.setItem("userId", res.user._id);
-      localStorage.setItem("token", res.jwToken);
+      Cookies.set("userId", res.user._id);
+      Cookies.set("token", res.jwToken);
       return res;
     } else {
       // En caso de error, construye un objeto JSON con el mensaje de error

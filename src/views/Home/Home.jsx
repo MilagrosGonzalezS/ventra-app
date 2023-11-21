@@ -4,6 +4,7 @@ import { PuffLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
+import Cookies from "js-cookie";
 
 function Home() {
   const [tokenExists, setTokenExists] = useState(false);
@@ -13,7 +14,7 @@ function Home() {
   const navigation = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       setTokenExists(true);
     }
@@ -125,6 +126,7 @@ function Home() {
             date={event.date}
             price={event.price}
             id={event._id}
+            time={event.time}
           />
         ))}
       </section>

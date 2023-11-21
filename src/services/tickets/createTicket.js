@@ -5,15 +5,13 @@ import Cookies from "js-cookie";
 const token = Cookies.get("token");
 const userId = Cookies.get("userId");
 
-//EIDTAR UN EVENTO
-async function editMyEvent(data, eventId) {
+//CREAR EVENTO
+async function createTicket(data) {
   axios
-    .put(
-      `${config.apiEvents}/${eventId}`,
+    .post(
+      config.apiTickets,
       {
         ...data,
-        /* image: data.image, */
-        /*         isFree: false, */
         status: true,
         userId: userId,
       },
@@ -25,6 +23,7 @@ async function editMyEvent(data, eventId) {
       }
     )
     .then(function (res) {
+      console.log(res.data);
       return res.data;
     })
     .catch(function (error) {
@@ -32,4 +31,4 @@ async function editMyEvent(data, eventId) {
     });
 }
 
-export { editMyEvent };
+export { createTicket };

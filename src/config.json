@@ -1,5 +1,7 @@
 {
   "apiEvents": "http://localhost:3000/events",
   "apiUsers": "http://localhost:3000/users",
-  "apiAuth": "http://localhost:3000/auth"
+  "apiAuth": "http://localhost:3000/auth",
+  "apiTickets": "http://localhost:3000/tickets",
+  "apiWishlist": "http://localhost:3000/wishlist"
 }
