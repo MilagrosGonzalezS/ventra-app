@@ -1,11 +1,13 @@
 import axios from "axios";
 import config from "../../config.json";
 import Cookies from "js-cookie";
+const token = Cookies.get("token");
 
 async function login(data) {
   const options = {
     headers: {
       "Content-Type": "application/json",
+      auth: token,
     },
   };
 

@@ -197,7 +197,7 @@ function CreateEvent() {
               {...register("isFree", {
                 required: "Selecciona la visibilidad del evento",
               })}
-              onChange={(e) => {
+              onChange={() => {
                 setIsFree(false);
                 setPrice(null);
               }}

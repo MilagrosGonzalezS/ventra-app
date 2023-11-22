@@ -22,7 +22,7 @@ function EventCard(props) {
         console.log(res);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, "evento ya agregado");
       });
   };
   return (

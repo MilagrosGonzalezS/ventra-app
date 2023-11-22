@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../../config.json";
 import Cookies from "js-cookie";
+import updateEventTickets from "../events/updateEventTickets.js";
 
 const token = Cookies.get("token");
 const userId = Cookies.get("userId");
@@ -22,8 +23,9 @@ async function createTicket(data) {
         },
       }
     )
-    .then(function (res) {
+    .then(async function (res) {
       console.log(res.data);
+      await updateEventTickets(data.eventId);
       return res.data;
     })
     .catch(function (error) {

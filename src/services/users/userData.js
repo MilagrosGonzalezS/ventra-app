@@ -10,7 +10,12 @@ async function userData() {
 
   if (id) {
     try {
-      const res = await axios.get(`${config.apiUsers}/${id}`);
+      const res = await axios.get(`${config.apiUsers}/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          auth: token,
+        },
+      });
 
       // Verifica el estado de la respuesta
       if (res.status === 200) {

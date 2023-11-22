@@ -49,9 +49,6 @@ function MyTickets() {
                     <strong className="text-xl ">{ticket.eventName}</strong>
                     <div className="flex gap-2">
                       <p className="bg-green text-dark px-2 rounded-md">
-                        {ticket.evenDate ? ticket.evenDate.slice(0, 10) : ""}
-                      </p>
-                      <p className="bg-green text-dark px-2 rounded-md">
                         {ticket.eventTime}
                       </p>
                       <p className="bg-green text-dark px-2 rounded-md">
