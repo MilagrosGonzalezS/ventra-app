@@ -1,7 +1,14 @@
-import { getEvents, Search, Filter, MyCard, EventCard } from "../../index.js";
+import {
+  getEvents,
+  getMyWishlist,
+  Search,
+  Filter,
+  MyCard,
+  EventCard,
+} from "../../index.js";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
 import Cookies from "js-cookie";
@@ -9,15 +16,24 @@ import Cookies from "js-cookie";
 function Home() {
   const [tokenExists, setTokenExists] = useState(false);
   const [events, setEvents] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const navigation = useNavigate();
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
 
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
       setTokenExists(true);
     }
+    getMyWishlist().then((res) => {
+      setWishlist(res.data);
+    });
     getEvents().then((res) => {
       setEvents(res.data);
     });
@@ -65,7 +81,11 @@ function Home() {
         </div>
         <div className="flex gap-3">
           <Search id="events" onSearchResultsUpdate={setSearchResults} />
-          <Filter id="events" onSearchResultsUpdate={setSearchResults} />
+          <Filter
+            id="events"
+            onSearchResultsUpdate={setSearchResults}
+            onCategorySelect={handleCategorySelect}
+          />
         </div>
       </section>
 
@@ -78,7 +98,7 @@ function Home() {
               alt="recurso grafico de colores"
             />
           </div>
-          <h2 className="text-2xl my-4 font-accent">Categoría</h2>
+          <h2 className="text-2xl my-4 font-accent">{selectedCategory}</h2>
         </div>
       )}
       <section className="flex gap-16 justify-start flex-wrap my-4">
@@ -88,18 +108,30 @@ function Home() {
             color="#04b290"
           />
         )}
-        {searchResults.map((event) => (
-          <EventCard
-            key={event._id}
-            name={event.name}
-            category={event.category}
-            venue={event.venue}
-            date={event.date}
-            price={event.price}
-            id={event._id}
-            cover={event.cover}
-          />
-        ))}
+        {searchResults.map((event) => {
+          let isFavorite = false;
+          if (
+            wishlist.find(
+              (wishlistEvent) => wishlistEvent.eventId === event._id
+            )
+          ) {
+            isFavorite = true;
+          }
+          return (
+            <EventCard
+              key={event._id}
+              name={event.name}
+              category={event.category}
+              venue={event.venue}
+              date={event.date}
+              price={event.price}
+              id={event._id}
+              time={event.time}
+              cover={event.cover}
+              favorite={isFavorite}
+            />
+          );
+        })}
       </section>
       <div className="flex items-center gap-4">
         <div className="w-16">
@@ -118,8 +150,16 @@ function Home() {
             color="#04b290"
           />
         )}
-        {events.map((event) => (
-          <>
+        {events.map((event) => {
+          let isFavorite = false;
+          if (
+            wishlist.find(
+              (wishlistEvent) => wishlistEvent.eventId === event._id
+            )
+          ) {
+            isFavorite = true;
+          }
+          return (
             <EventCard
               key={event._id}
               name={event.name}
@@ -130,9 +170,10 @@ function Home() {
               id={event._id}
               time={event.time}
               cover={event.cover}
+              favorite={isFavorite}
             />
-          </>
-        ))}
+          );
+        })}
       </section>
     </main>
   );

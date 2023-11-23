@@ -6,6 +6,7 @@ export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";
 export { editMyEvent } from "./services/userEvents/editMyEvent.js";
 export { getMyEvents } from "./services/userEvents/getMyEvents.js";
 export { addToWishlist } from "./services/userEvents/addToWishlist.js";
+export { deleteFromWishlist } from "./services/userEvents/deleteFromWishlist.js";
 export { getMyWishlist } from "./services/userEvents/getMyWishlist.js";
 export { createUser } from "./services/users/createUser.js";
 export { editMyProfile } from "./services/users/editMyProfile.js";
@@ -22,8 +23,8 @@ export { MyCard } from "./components/MyCard.jsx";
 export { NavBar } from "./components/NavBar.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Search } from "./components/Search.jsx";
-//Views ->
 
+//Views ->
 export { Home } from "./views/Home/Home";
 export { Login } from "./views/Login/Login";
 export { Register } from "./views/Login/Register";
@@ -37,3 +38,4 @@ export { Wishlist } from "./views/Wishlist/Wishlist";
 export { BuyTicket } from "./views/BuyTicket";
 export { Checkout } from "./views/Checkout";
 export { MyTickets } from "./views/MyAccount/MyTickets";
+export { EventDetails } from "./views/Events/EventDetails";

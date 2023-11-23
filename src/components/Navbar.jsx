@@ -147,15 +147,16 @@ const NavBar = () => {
         </NavbarContent>
       ) : (
         <NavbarContent as="div" justify="end">
-          <Link to="/iniciar-sesion">
-            <Button
-              color="danger"
-              variant="shadow"
-              endContent={<FontAwesomeIcon icon={faUser} />}
-            >
-              Iniciar Sesión
-            </Button>
-          </Link>
+          <Button
+            color="danger"
+            onPress={() => {
+              navigation("/iniciar-sesion");
+            }}
+            variant="shadow"
+            endContent={<FontAwesomeIcon icon={faUser} />}
+          >
+            Iniciar Sesión
+          </Button>
         </NavbarContent>
       )}
       <NavbarMenu>

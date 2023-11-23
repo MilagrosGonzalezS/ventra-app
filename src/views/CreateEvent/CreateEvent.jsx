@@ -16,7 +16,7 @@ function CreateEvent() {
 
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFree, setIsFree] = useState(null);
+  const [isFree, setIsFree] = useState(true);
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState(null);
 
@@ -199,7 +199,7 @@ function CreateEvent() {
               })}
               onChange={() => {
                 setIsFree(false);
-                setPrice(null);
+                setPrice();
               }}
             />
             <label htmlFor="payEvent">Pago</label>

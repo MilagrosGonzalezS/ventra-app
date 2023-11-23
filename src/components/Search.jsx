@@ -13,50 +13,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Search = ({ onSearchResultsUpdate }) => {
-  // const [selectedCategory, setSelectedCategory] = useState("");
-  // const [evenstCategory, setEventsCategory] = useState([]);
   const [eventName, setEventName] = useState("");
-
-  // BUSCAR POR CATEGORIA
-  // const fetchEventsCategory = async () => {
-  //   const res = await axios.get(
-  //     `${config.apiEvents}/category/${selectedCategory}`
-  //   );
-  //   setEventsCategory(res.data);
-  //   onSearchResultsUpdate(res.data);
-  // };
-
-  // useEffect(() => {
-  //   fetchEventsCategory();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!selectedCategory) {
-  //     onSearchResultsUpdate([]); // Actualiza los resultados en el componente padre
-  //     return;
-  //   }
-  //   const apiUrl = `${config.apiEvents}/category/${selectedCategory}`;
-  //   fetch(apiUrl)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       onSearchResultsUpdate(data); // Actualiza los resultados en el componente padre
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error al buscar por categoría:", error);
-  //     });
-  // }, [selectedCategory, onSearchResultsUpdate]);
 
   // BUSCAR POR NOMBRE
   useEffect(() => {
     if (eventName.trim() === "") {
-      onSearchResultsUpdate([]); // Actualiza los resultados en el componente padre
+      onSearchResultsUpdate([]);
       return;
     }
-    const apiUrl = `http://localhost:3000/events/find-by-name/${eventName}`;
-    fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        onSearchResultsUpdate(data); // Actualiza los resultados en el componente padre
+    const apiUrl = `${config.apiEvents}/find-by-name/${eventName}`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        const data = response.data;
+        onSearchResultsUpdate(data);
       })
       .catch((error) => {
         console.error("Error al buscar por nombre de evento:", error);

@@ -7,24 +7,24 @@ const userId = Cookies.get("userId");
 
 //EIDTAR UN EVENTO
 async function editMyEvent(data, eventId) {
+  console.log("Data function", data);
   axios
-    .put(
+    .patch(
       `${config.apiEvents}/${eventId}`,
       {
         ...data,
-        /* image: data.image, */
-        /*         isFree: false, */
         status: true,
         userId: userId,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           auth: token,
         },
       }
     )
     .then(function (res) {
+      console.log("res.data", res.data);
       return res.data;
     })
     .catch(function (error) {
