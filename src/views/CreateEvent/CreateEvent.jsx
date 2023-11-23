@@ -40,9 +40,10 @@ function CreateEvent() {
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
-    data = { ...data, cover };
+    data = price === 0 ? { ...data, cover, price } : { ...data, cover };
     console.log(cover);
-    console.log(data);
+    console.log("data", data);
+    console.log("price", price);
     try {
       await createEvent(data);
       setIsCreatingEvent(false);
