@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import image from "../assets/imgs/Duki-River.jpg";
+// import image from "../assets/imgs/Duki-River.jpg";
 import { Card, CardHeader, CardFooter, Image } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { addToWishlist } from "../index.js";
@@ -42,7 +42,7 @@ function EventCard(props) {
           removeWrapper
           alt="Relaxing app background"
           className="z-0 w-full h-full object-cover"
-          src={image}
+          src={`http://localhost/ventra-API/${props.cover}`}
         />
         <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
           <div className="flex flex-grow gap-2 items-center">
@@ -75,6 +75,7 @@ EventCard.propTypes = {
   price: PropTypes.number,
   id: PropTypes.string,
   time: PropTypes.string,
+  cover: PropTypes.string,
 };
 
 export { EventCard };

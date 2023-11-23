@@ -97,6 +97,7 @@ function Home() {
             date={event.date}
             price={event.price}
             id={event._id}
+            cover={event.cover}
           />
         ))}
       </section>
@@ -118,16 +119,19 @@ function Home() {
           />
         )}
         {events.map((event) => (
-          <EventCard
-            key={event._id}
-            name={event.name}
-            category={event.category}
-            venue={event.venue}
-            date={event.date}
-            price={event.price}
-            id={event._id}
-            time={event.time}
-          />
+          <>
+            <EventCard
+              key={event._id}
+              name={event.name}
+              category={event.category}
+              venue={event.venue}
+              date={event.date}
+              price={event.price}
+              id={event._id}
+              time={event.time}
+              cover={event.cover}
+            />
+          </>
         ))}
       </section>
     </main>
