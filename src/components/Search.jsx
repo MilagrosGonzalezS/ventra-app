@@ -52,7 +52,7 @@ const Search = ({ onSearchResultsUpdate }) => {
       onSearchResultsUpdate([]); // Actualiza los resultados en el componente padre
       return;
     }
-    const apiUrl = `https://ventra-api-e311.onrender.com/events/find-by-name/${eventName}`;
+    const apiUrl = `http://localhost:3000/events/find-by-name/${eventName}`;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
