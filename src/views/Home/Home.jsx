@@ -9,7 +9,12 @@ import {
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { useNavigate, Link } from "react-router-dom";
-import { Button } from "@nextui-org/react";
+import {
+  Button,
+  Pagination,
+  PaginationItem,
+  PaginationCurso,
+} from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
 import Cookies from "js-cookie";
 
@@ -34,7 +39,7 @@ function Home() {
     getMyWishlist().then((res) => {
       setWishlist(res.data);
     });
-    getEvents().then((res) => {
+    getEvents(2).then((res) => {
       setEvents(res.data);
     });
     setIsLoading(false);
@@ -175,6 +180,7 @@ function Home() {
           );
         })}
       </section>
+      <Pagination isCompact showControls total={10} initialPage={1} />
     </main>
   );
 }

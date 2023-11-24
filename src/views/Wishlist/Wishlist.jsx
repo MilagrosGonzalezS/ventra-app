@@ -36,7 +36,7 @@ function Wishlist() {
           <div className="flex flex-col items-center gap-16 flex-wrap mt-16">
             {wishlist.length === 0 ? (
               <p className="font-accent text-center">
-                Aún no tenés ninguna entrada comprada.
+                Aún no tenés ningun evento favorito.
               </p>
             ) : (
               wishlist.map((wishlistItem) => (

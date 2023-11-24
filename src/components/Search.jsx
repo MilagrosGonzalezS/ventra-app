@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Input,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import axios from "axios";
 import config from "../config.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Search = ({ onSearchResultsUpdate }) => {
   const [eventName, setEventName] = useState("");
