@@ -1,11 +1,16 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-// import image from "../assets/imgs/Duki-River.jpg";
-import { Card, CardHeader, CardFooter, Image } from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-import { addToWishlist } from "../index.js";
+import { addToWishlist, deleteFromWishlist } from "../index.js";
+import Cookies from "js-cookie";
 
 function EventCard(props) {
+  const navigation = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const token = Cookies.get("token");
   const wishlistData = {
     eventId: props.id,
     eventName: props.name,
@@ -16,27 +21,63 @@ function EventCard(props) {
     status: true,
   };
 
+  useEffect(() => {
+    if (props.favorite) {
+      setIsFavorite(true);
+    }
+  }, []);
+
+  const handleDeleteFromWishlist = async () => {
+    await deleteFromWishlist(props.id).then(() => {
+      setIsFavorite(false);
+    });
+  };
+
   const handleAddToWishlist = async () => {
     await addToWishlist(wishlistData)
       .then((res) => {
+        setIsFavorite(true);
         console.log(res);
       })
       .catch((error) => {
         console.log(error, "evento ya agregado");
       });
   };
+
   return (
     <>
       <Card
         isFooterBlurred
-        className="w-[350px] h-[450px] col-span-12 sm:col-span-7"
+        className="w-[350px] h-[250px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
       >
         <CardHeader className="absolute z-10 top-1 flex-col items-start">
           <p className="text-tiny text-white/60 uppercase font-bold">
             {props.category}
           </p>
           <h4 className="text-white/90 font-medium text-xl">{props.name}</h4>
-          <button onClick={handleAddToWishlist}> ❤ </button>
+          {token ? (
+            isFavorite ? (
+              <Button
+                isIconOnly
+                color="danger"
+                aria-label="Like"
+                onPress={handleDeleteFromWishlist}
+              >
+                No ♥
+              </Button>
+            ) : (
+              // <button onClick={handleDeleteFromWishlist}>Sacar Favorito</button>
+              // <button onClick={handleAddToWishlist}> ❤ </button>
+              <Button
+                isIconOnly
+                color="danger"
+                aria-label="Like"
+                onPress={handleAddToWishlist}
+              >
+                ♥
+              </Button>
+            )
+          ) : null}
         </CardHeader>
         <Image
           removeWrapper
@@ -55,12 +96,21 @@ function EventCard(props) {
             <p className="ml-4">${props.price}</p>
           </div>
 
-          <Link
-            to={`/comprar/${props.id}`}
+          {/* <Link
+            to={`detalle/${props.id}`}
             className="transition block text-center bg-green font-bold text-dark py-2 px-4 rounded-xl hover:bg-lime-600"
           >
-            Comprar
-          </Link>
+            Ver más
+          </Link> */}
+          <Button
+            color="default"
+            onPress={() => {
+              navigation(`/detalle/${props.id}`);
+            }}
+            variant="faded"
+          >
+            Ver mas
+          </Button>
         </CardFooter>
       </Card>
     </>
@@ -76,6 +126,7 @@ EventCard.propTypes = {
   id: PropTypes.string,
   time: PropTypes.string,
   cover: PropTypes.string,
+  favorite: PropTypes.bool,
 };
 
 export { EventCard };

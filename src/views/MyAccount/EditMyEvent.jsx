@@ -17,15 +17,20 @@ function EditMyEvent() {
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [cover, setCover] = useState(null);
+
+  const handleFileChange = (event) => {
+    setCover(event.target.files[0]);
+  };
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
-
+    const eventData = cover ? { ...data, cover } : { ...data };
+    console.log("eventData", eventData);
     try {
-      await editMyEvent(data, eventId);
+      await editMyEvent(eventData, eventId);
       setIsCreatingEvent(false);
-      //MENSAJE
       reset();
       navigate("/mis-eventos");
     } catch (error) {
@@ -49,7 +54,7 @@ function EditMyEvent() {
 
   useEffect(() => {
     fetchEvents();
-  }, []); // Asegúrate de pasar un array vacío como segundo argumento para evitar múltiples llamadas
+  }, []);
 
   return (
     <>
@@ -70,6 +75,7 @@ function EditMyEvent() {
               onSubmit={handleSubmit(onSubmit)}
               key={event._id}
               className="w-2/5 bg-opacity rounded-xl border p-8"
+              encType="multipart/form-data"
             >
               <p className="text-red-500">
                 No es posible cambiar la modalidad de gratuito o pago, para ello
@@ -315,7 +321,7 @@ function EditMyEvent() {
                   type="file"
                   name="cover"
                   id="cover"
-                  {...register("cover")}
+                  onChange={handleFileChange}
                 />
                 {errors.cover && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">

@@ -1,4 +1,3 @@
-// import React from 'react'
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,7 +12,10 @@ function Register() {
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
   } = useForm();
+
+  const password = watch("password");
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
@@ -32,9 +34,10 @@ function Register() {
       console.log(error);
     }
   };
+
   return (
     <div className="border rounded-2xl bg-opacity p-8 w-1/3 mt-48 mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <label htmlFor="username" className="text-xs xl:text-base">
           Nombre de usuario
         </label>
@@ -47,7 +50,7 @@ function Register() {
           type="username"
         />
         {errors.username && (
-          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
             {errors.username.message}
           </span>
         )}
@@ -60,14 +63,17 @@ function Register() {
           className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
           {...register("email", {
             required: "Campo obligatorio",
-            pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              message: "Ingrese una dirección de correo electrónico válida",
+            },
           })}
           id="email"
           name="email"
           type="email"
         />
         {errors.email && (
-          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
             {errors.email.message}
           </span>
         )}
@@ -84,7 +90,7 @@ function Register() {
           type="password"
         />
         {errors.password && (
-          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
             {errors.password.message}
           </span>
         )}
@@ -92,16 +98,20 @@ function Register() {
         <label htmlFor="password2" className="text-xs xl:text-base">
           Repetir contraseña
         </label>
-        <br></br>
+        <br />
         <input
           className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("password2", { required: "Campo obligatorio" })}
+          {...register("password2", {
+            required: "Campo obligatorio",
+            validate: (value) =>
+              value === password || "Las contraseñas no coinciden",
+          })}
           id="password2"
           name="password2"
           type="password"
         />
         {errors.password2 && (
-          <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
             {errors.password2.message}
           </span>
         )}

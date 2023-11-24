@@ -48,7 +48,7 @@ function BuyTicket() {
         />
       ) : (
         <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
-          <Link to="/" className="hover:text-lightblue">
+          <Link to={`/detalle/${event._id}`} className="hover:text-lightblue">
             Volver
           </Link>
           <article className="w-2/4 bg-dark mx-auto rounded-2xl border">
@@ -77,7 +77,7 @@ function BuyTicket() {
               <p>${ticketsPrice}</p>
               {amount > 0 && (
                 <Link
-                  to={`/comprar/${event._id}/checkout/${amount}`}
+                  to={`/detalle/comprar/${event._id}/checkout/${amount}`}
                   className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
                 >
                   Comprar

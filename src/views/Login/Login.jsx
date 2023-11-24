@@ -48,7 +48,7 @@ function Login() {
 
   return (
     <div className="border rounded-2xl bg-opacity p-8 pb-6 w-1/3 mt-48 mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <label htmlFor="email" className="text-xs xl:text-base">
           Email
         </label>
@@ -56,8 +56,11 @@ function Login() {
         <input
           className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
           {...register("email", {
-            required: "Campo obligatorio y debe ser un email válido",
-            pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+            required: "Campo obligatorio",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              message: "Ingrese una dirección de correo electrónico válida",
+            },
           })}
           id="email"
           name="email"

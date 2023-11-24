@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getEventById, createTicket } from "../index.js";
 import { PuffLoader } from "react-spinners";
@@ -7,6 +7,8 @@ function Checkout() {
   const { eventId, amount } = useParams();
   const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigation = useNavigate();
 
   const ticketsPrice = event.price * amount;
   const servicePrice = (ticketsPrice * 10) / 100;
@@ -48,6 +50,7 @@ function Checkout() {
           console.log(error);
         });
     }
+    navigation("/mis-entradas");
   };
 
   return (
@@ -59,7 +62,10 @@ function Checkout() {
         />
       ) : (
         <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
-          <Link to={`/comprar/${event._id}`} className="hover:text-lightblue">
+          <Link
+            to={`/detalle/comprar/${event._id}`}
+            className="hover:text-lightblue"
+          >
             Volver
           </Link>
           <article className="w-2/4 bg-dark mx-auto rounded-2xl border">

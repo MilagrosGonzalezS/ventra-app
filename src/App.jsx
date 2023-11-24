@@ -16,6 +16,7 @@ import {
   BuyTicket,
   Checkout,
   MyTickets,
+  EventDetails,
 } from "./index.js";
 import { ProtectedRoute, NavBar } from "./index.js";
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/registrarse" element={<Register />} />
         <Route path="/iniciar-sesion" element={<Login />} />
         <Route path="/crear-evento" element={<CreateEvent />} />
+        <Route path="/detalle/:eventId" element={<EventDetails />} />
         <Route path="/ayuda" element={<Help />} />
         <Route
           path="/favoritos"
@@ -71,7 +73,7 @@ function App() {
           }
         />
         <Route
-          path="/comprar/:eventId"
+          path="/detalle/comprar/:eventId"
           element={
             <ProtectedRoute>
               <BuyTicket />
@@ -79,7 +81,7 @@ function App() {
           }
         />
         <Route
-          path="/comprar/:eventId/checkout/:amount"
+          path="/detalle/comprar/:eventId/checkout/:amount"
           element={
             <ProtectedRoute>
               <Checkout />

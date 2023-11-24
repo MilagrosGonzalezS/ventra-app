@@ -13,7 +13,7 @@ async function getMyWishlist() {
       auth: token,
     },
   });
-  console.log("el get", res);
+  console.log(res);
   return res;
 }
 
