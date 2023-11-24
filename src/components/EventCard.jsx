@@ -29,7 +29,7 @@ function EventCard(props) {
     <>
       <Card
         isFooterBlurred
-        className="w-[350px] h-[250px] col-span-12 sm:col-span-7"
+        className="w-[350px] h-[450px] col-span-12 sm:col-span-7"
       >
         <CardHeader className="absolute z-10 top-1 flex-col items-start">
           <p className="text-tiny text-white/60 uppercase font-bold">
