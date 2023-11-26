@@ -1,5 +1,6 @@
 //Services ->
 export { getEvents } from "./services/events/getEvents";
+export { getAllEvents } from "./services/events/getEvents";
 export { getEventById } from "./services/events/getEventById.js";
 export { createEvent } from "./services/userEvents/createEvent.js";
 export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";

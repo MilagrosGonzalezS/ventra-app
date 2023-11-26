@@ -13,7 +13,6 @@ async function getMyWishlist() {
       auth: token,
     },
   });
-  console.log(res);
   return res;
 }
 

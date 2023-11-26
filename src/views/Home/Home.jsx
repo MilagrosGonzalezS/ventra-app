@@ -1,5 +1,6 @@
 import {
   getEvents,
+  getAllEvents,
   getMyWishlist,
   Search,
   Filter,
@@ -9,28 +10,44 @@ import {
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  Button,
-  Pagination,
-  PaginationItem,
-  PaginationCurso,
-} from "@nextui-org/react";
+import { Button, Pagination } from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
 import Cookies from "js-cookie";
 
 function Home() {
   const [tokenExists, setTokenExists] = useState(false);
   const [events, setEvents] = useState([]);
+  const [eventsLength, setEventsLength] = useState();
   const [wishlist, setWishlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
   const navigation = useNavigate();
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };
 
+  function handlePageChange(pageNumber) {
+    getMyWishlist().then((res) => {
+      setWishlist(res.data);
+    });
+    getEvents(pageNumber).then((res) => {
+      setEvents(res.data);
+    });
+  }
+  const chevron = document.querySelector('[aria-label="dots element"]');
+  if (chevron) {
+    // Oculta el elemento cambiando su estilo
+    chevron.style.display = "none";
+    console.log("Elemento oculto correctamente");
+  } else {
+    console.error(
+      'No se encontró ningún elemento con el atributo aria-label "dots element"'
+    );
+  }
+  console.log(eventsLength);
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
@@ -39,8 +56,11 @@ function Home() {
     getMyWishlist().then((res) => {
       setWishlist(res.data);
     });
-    getEvents(2).then((res) => {
+    getEvents(1).then((res) => {
       setEvents(res.data);
+    });
+    getAllEvents().then((res) => {
+      setEventsLength(res.data.events.length);
     });
     setIsLoading(false);
   }, []);
@@ -180,7 +200,13 @@ function Home() {
           );
         })}
       </section>
-      <Pagination isCompact showControls total={10} initialPage={1} />
+      <Pagination
+        isCompact
+        showControls
+        total={Math.ceil(eventsLength / 6)}
+        initialPage={1}
+        onChange={handlePageChange}
+      />
     </main>
   );
 }
