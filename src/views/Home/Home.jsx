@@ -24,7 +24,7 @@ function Home() {
 
   const navigation = useNavigate();
   const { auth } = useContext(AuthContext);
-  const token = { token: auth };
+  const token = auth;
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };

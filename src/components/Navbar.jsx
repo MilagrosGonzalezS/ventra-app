@@ -19,14 +19,13 @@ import {
 } from "@nextui-org/react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import VentraLogo from "../assets/imgs/logo-blanco.png";
-import { logout } from "../index.js";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigation = useNavigate();
   const [tokenExists, setTokenExists] = useState(false);
-  const { auth } = useContext(AuthContext);
-  const token = { token: auth };
+  const { auth, logout } = useContext(AuthContext);
+  const token = auth;
 
   useEffect(() => {
     if (token) {

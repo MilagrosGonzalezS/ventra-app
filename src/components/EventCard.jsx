@@ -49,13 +49,12 @@ function EventCard(props) {
     <>
       <Card
         isFooterBlurred
-        className="w-[350px] h-[250px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
+        className="w-[350px] h-[450px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
       >
         <CardHeader className="absolute z-10 top-1 flex-col items-start">
-          <p className="text-tiny text-white/60 uppercase font-bold">
+          <p className="text-tiny text-white/60 uppercase font-bold bg-dark py-2 px-4 rounded-full">
             {props.category}
           </p>
-          <h4 className="text-white/90 font-medium text-xl">{props.name}</h4>
           {token ? (
             isFavorite ? (
               <Button
@@ -84,9 +83,12 @@ function EventCard(props) {
           className="z-0 w-full h-full object-cover"
           src={`http://localhost/ventra-API/${props.cover}`}
         />
-        <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
+        <CardFooter className="absolute h-[100px] bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
           <div className="flex flex-grow gap-2 items-center">
             <div className="flex flex-col">
+              <h4 className="text-white/90 font-medium text-xl">
+                {props.name}
+              </h4>
               <p className="text-tiny text-white/100">{props.venue}</p>
               <p className="text-tiny text-white/60">
                 {props.date ? props.date.slice(0, 10) : ""}

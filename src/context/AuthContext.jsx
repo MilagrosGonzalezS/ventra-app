@@ -20,6 +20,12 @@ const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
+  const logout = () => {
+    Cookies.remove("token", "userId");
+    setUser(null);
+    window.location.reload(true);
+  };
+
   return (
     <AuthContext.Provider value={{ user, setUser, auth }}>
       {children}

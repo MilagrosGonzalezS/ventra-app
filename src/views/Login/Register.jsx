@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { login, createUser } from "../../index.js";
 import { PuffLoader } from "react-spinners";
+import { Button, Input } from "@nextui-org/react";
 
 function Register() {
   const navigate = useNavigate();
@@ -36,104 +37,88 @@ function Register() {
   };
 
   return (
-    <div className="border rounded-2xl bg-opacity p-8 w-1/3 mt-48 mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <label htmlFor="username" className="text-xs xl:text-base">
-          Nombre de usuario
-        </label>
-        <br></br>
-        <input
-          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("username", { required: "Campo obligatorio" })}
-          id="username"
-          name="username"
-          type="username"
-        />
-        {errors.username && (
-          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
-            {errors.username.message}
-          </span>
-        )}
-        <br></br>
-        <label htmlFor="email" className="text-xs xl:text-base">
-          Email
-        </label>
-        <br></br>
-        <input
-          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("email", {
-            required: "Campo obligatorio",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Ingrese una dirección de correo electrónico válida",
-            },
-          })}
-          id="email"
-          name="email"
-          type="email"
-        />
-        {errors.email && (
-          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
-            {errors.email.message}
-          </span>
-        )}
-        <br></br>
-        <label htmlFor="password" className="text-xs xl:text-base">
-          Contraseña
-        </label>
-        <br></br>
-        <input
-          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("password", { required: "Campo obligatorio" })}
-          id="password"
-          name="password"
-          type="password"
-        />
-        {errors.password && (
-          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
-            {errors.password.message}
-          </span>
-        )}
-        <br></br>
-        <label htmlFor="password2" className="text-xs xl:text-base">
-          Repetir contraseña
-        </label>
-        <br />
-        <input
-          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("password2", {
-            required: "Campo obligatorio",
-            validate: (value) =>
-              value === password || "Las contraseñas no coinciden",
-          })}
-          id="password2"
-          name="password2"
-          type="password"
-        />
-        {errors.password2 && (
-          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
-            {errors.password2.message}
-          </span>
-        )}
-        <br></br>
-        {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
-        {!isLoading && (
-          <button
-            className="transition hover:bg-hover block mx-auto mt-4 bg-lightblue text-white py-2 px-10 text-xs xl:text-base rounded-xl cursor-pointer"
-            type="submit"
-          >
-            Registrarme
-          </button>
-        )}
-
-        <Link
-          to="/iniciar-sesion"
-          className="mx-auto text-lightblue hover:text-light"
-        >
-          Iniciar Sesión
-        </Link>
-      </form>
-    </div>
+    <main className="flex items-center justify-center h-[90vh] bg-login">
+      <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
+        <div className="flex flex-col aling mb-3 items-center">
+          <h1 className="font-accent text-2xl text-pink">Registrate</h1>
+          <div className="flex gap-1">
+            <p className="text-sm">¿Ya tenés una cuenta?</p>
+            <Link
+              to="/iniciar-sesion"
+              className="text-lightblue hover:text-blue-200 text-sm transition-all duration-300"
+            >
+              Iniciar Sesión.
+            </Link>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <Input
+            type="text"
+            label="Usuario"
+            id="username"
+            name="username"
+            variant="bordered"
+            className="mb-5"
+            {...register("username", {
+              required: "Campo obligatorio.",
+            })}
+            isInvalid={!!errors.username}
+            errorMessage={errors.username && errors.username.message}
+          />
+          <Input
+            type="email"
+            label="Email"
+            id="email"
+            name="email"
+            variant="bordered"
+            className="mb-5"
+            {...register("email", {
+              required: "Campo obligatorio.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Ingrese una dirección de correo electrónico válida.",
+              },
+            })}
+            isInvalid={!!errors.email}
+            errorMessage={errors.email && errors.email.message}
+          />
+          <Input
+            type="password"
+            label="Contraseña"
+            id="password"
+            name="password"
+            variant="bordered"
+            className="mb-5"
+            {...register("password", {
+              required: "Campo obligatorio.",
+            })}
+            isInvalid={!!errors.password}
+            errorMessage={errors.password && errors.password.message}
+          />
+          <Input
+            type="password"
+            label="Confirmar contraseña"
+            id="password2"
+            name="password2"
+            variant="bordered"
+            className="mb-5"
+            {...register("password2", {
+              required: "Campo obligatorio.",
+              validate: (value) =>
+                value === password || "Las contraseñas no coinciden.",
+            })}
+            isInvalid={!!errors.password2}
+            errorMessage={errors.password2 && errors.password2.message}
+          />
+          {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
+          {!isLoading && (
+            <Button className="w-full bg-lightblue text-black" type="submit">
+              Crear cuenta
+            </Button>
+          )}
+        </form>
+      </div>
+    </main>
   );
 }
 
