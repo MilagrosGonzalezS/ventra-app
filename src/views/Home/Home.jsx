@@ -7,13 +7,12 @@ import {
   MyCard,
   EventCard,
 } from "../../index.js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Pagination } from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
-import Cookies from "js-cookie";
-
+import { AuthContext } from "../../context/AuthContext.jsx";
 function Home() {
   const [tokenExists, setTokenExists] = useState(false);
   const [events, setEvents] = useState([]);
@@ -24,15 +23,18 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const navigation = useNavigate();
-
+  const { auth } = useContext(AuthContext);
+  const token = { token: auth };
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };
 
   function handlePageChange(pageNumber) {
-    getMyWishlist().then((res) => {
-      setWishlist(res.data);
-    });
+    if (token) {
+      getMyWishlist().then((res) => {
+        setWishlist(res.data);
+      });
+    }
     getEvents(pageNumber).then((res) => {
       setEvents(res.data);
     });
@@ -41,21 +43,19 @@ function Home() {
   if (chevron) {
     // Oculta el elemento cambiando su estilo
     chevron.style.display = "none";
-    console.log("Elemento oculto correctamente");
   } else {
     console.error(
       'No se encontró ningún elemento con el atributo aria-label "dots element"'
     );
   }
-  console.log(eventsLength);
   useEffect(() => {
-    const token = Cookies.get("token");
     if (token) {
       setTokenExists(true);
+
+      getMyWishlist().then((res) => {
+        setWishlist(res.data);
+      });
     }
-    getMyWishlist().then((res) => {
-      setWishlist(res.data);
-    });
     getEvents(1).then((res) => {
       setEvents(res.data);
     });

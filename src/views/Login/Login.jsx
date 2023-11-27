@@ -8,7 +8,6 @@ import { PuffLoader } from "react-spinners";
 function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  // const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
 
   const {

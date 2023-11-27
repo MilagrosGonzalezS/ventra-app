@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { addToWishlist, deleteFromWishlist } from "../index.js";
-import Cookies from "js-cookie";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function EventCard(props) {
   const navigation = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
-  const token = Cookies.get("token");
+  const { auth } = useContext(AuthContext);
+  const token = auth;
   const wishlistData = {
     eventId: props.id,
     eventName: props.name,
@@ -66,8 +67,6 @@ function EventCard(props) {
                 No ♥
               </Button>
             ) : (
-              // <button onClick={handleDeleteFromWishlist}>Sacar Favorito</button>
-              // <button onClick={handleAddToWishlist}> ❤ </button>
               <Button
                 isIconOnly
                 color="danger"

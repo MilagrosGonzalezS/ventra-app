@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import { userData, createEvent } from "../../index.js";
-
+import { createEvent } from "../../index.js";
+import { AuthContext } from "../../context/AuthContext.jsx";
 function CreateEvent() {
   const [tokenExists, setTokenExists] = useState(false);
   const navigate = useNavigate();
@@ -19,6 +19,8 @@ function CreateEvent() {
   const [isFree, setIsFree] = useState(true);
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState(null);
+  const { auth } = useContext(AuthContext);
+  const token = { token: auth };
 
   const handleFileChange = (event) => {
     setCover(event.target.files[0]);
@@ -26,9 +28,7 @@ function CreateEvent() {
 
   useEffect(() => {
     const checkToken = async () => {
-      const data = await userData();
-      console.log(data.token);
-      if (data.token) {
+      if (token) {
         setTokenExists(true);
       }
       setIsLoading(false);

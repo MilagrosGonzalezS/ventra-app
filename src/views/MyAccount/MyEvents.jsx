@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { deleteMyEvent, getMyEvents } from "../../index.js";
-import Cookies from "js-cookie";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 function MyEvents() {
-  const userId = Cookies.get("userId");
+  const { user } = useContext(AuthContext);
+  const userId = user.id;
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
