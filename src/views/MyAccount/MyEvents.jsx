@@ -2,21 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { deleteMyEvent, getMyEvents } from "../../index.js";
+import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 import { AuthContext } from "../../context/AuthContext.jsx";
-import { Button } from "@nextui-org/react";
+
 function MyEvents() {
   const { user } = useContext(AuthContext);
   const userId = user.id;
   const navigation = useNavigate();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [eventToDelete, setEventToDelete] = useState(null);
-
-  const handleDeleteEvent = (eventId) => {
-    setEventToDelete(eventId); // Almacenar el ID del evento a eliminar
-    setIsDeleteModalOpen(true); // Abrir el modal de confirmación
-  };
 
   const getEvents = () => {
     setIsLoading(true);
@@ -53,95 +47,57 @@ function MyEvents() {
             ) : (
               events.map((event) => (
                 <article key={event._id}>
-                  <div className="flex justify-between items-center mb-4">
-                    <strong className="text-xl ">{event.name}</strong>
-                    <div className="flex gap-2">
-                      <p className="bg-green text-dark px-2 rounded-md">
-                        {event.date ? event.date.slice(0, 10) : ""}
-                      </p>
-                      <p className="bg-green text-dark px-2 rounded-md">
-                        {event.time}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="bg-pink px-2 rounded-md">{event.venue}</p>
-                    <p className="bg-gray-500 px-2 rounded-md">{event.zone}</p>
-                  </div>
-                  <p>{event.description}</p>
-                  <div className=" flex justify-between mb-4">
-                    <p className="bg-green text-dark px-2 rounded-md">
-                      $ {event.price}
-                    </p>
-                    <div className="flex gap-2">
-                      <p className="bg-orange px-2 rounded-md">
-                        {event.category}
-                      </p>
-                      <p className="bg-gray-500 px-2 rounded-md">
-                        {event.visibility === "public" ? "Público" : "Privado"}
-                      </p>
-                    </div>
-                  </div>
-                  <Button
-                    color="default"
-                    onPress={() => {
-                      navigation(`/detalle/${event._id}`);
-                    }}
-                    variant="faded"
+                  <Card
+                    isFooterBlurred
+                    className="w-[350px] h-[450px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
                   >
-                    Ver evento
-                  </Button>
-                  <div className="flex gap-4">
-                    <button className="bg-lightblue mt-4 px-2 rounded-md">
-                      <Link to={`/mis-eventos/${event._id}/editar`}>
-                        Editar Evento
-                      </Link>
-                    </button>
-
-                    <button
-                      onClick={() => handleDeleteEvent(event._id)}
-                      className="bg-red-600 mt-4 px-2 rounded-md"
-                    >
-                      Eliminar Evento
-                    </button>
-                  </div>
+                    <Image
+                      removeWrapper
+                      alt={event.name}
+                      className="z-0 w-full h-full object-cover"
+                      src={`http://localhost/ventra-API/${event.cover}`}
+                    />
+                    <CardFooter className="absolute h-fit bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
+                      <div className="flex flex-grow gap-2 items-center">
+                        <div className="flex flex-col gap-2">
+                          <h4 className="text-white/90 font-medium text-xl">
+                            {event.name}
+                          </h4>
+                          <p className="text-sm text-white/100">
+                            {event.venue}
+                          </p>
+                          <p className="text-xs text-white/60">
+                            {event.date ? event.date.slice(0, 10) : ""}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <Button
+                          className="bg-green text-dark py-2 px-4"
+                          onPress={() => {
+                            navigation(`/detalle/${event._id}`);
+                          }}
+                        >
+                          Ver más
+                        </Button>
+                        <Button
+                          className="bg-orange"
+                          onPress={() => {
+                            navigation(`/mis-eventos/${event._id}/editar`);
+                          }}
+                          variant="faded"
+                        >
+                          Administrar
+                        </Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
                 </article>
               ))
             )}
           </div>
         )}
       </section>
-      {isDeleteModalOpen && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
-          <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
-            <p className="text-light text-lg">
-              ¿Estás seguro de que deseas eliminar este evento?
-            </p>
-            <div className="mt-4 flex justify-center gap-16">
-              <button
-                onClick={() => {
-                  deleteMyEvent(eventToDelete).then(() => {
-                    getEvents();
-                  });
-
-                  setIsDeleteModalOpen(false); // Cerrar el modal después de eliminar
-                }}
-                className="bg-red-600 text-white px-4 py-2 rounded-md mr-4"
-              >
-                Eliminar
-              </button>
-              <button
-                onClick={() => {
-                  setIsDeleteModalOpen(false); // Cerrar el modal sin eliminar
-                }}
-                className="bg-green text-dark px-4 py-2 rounded-md"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

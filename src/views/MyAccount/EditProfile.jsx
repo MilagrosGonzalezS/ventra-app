@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import { userData, editMyProfile } from "../../index.js";
+import { Button, Input } from "@nextui-org/react";
 
 function EditProfile() {
   const [user, setUser] = useState({});
@@ -65,7 +66,24 @@ function EditProfile() {
               key={user._id}
               className="w-2/5 bg-opacity rounded-xl border p-8"
             >
-              <div className="w-1/3">
+              <div className="flex flex-col w-2/4 p-3">
+                <Input
+                  label="Nombre de usuario"
+                  type="text"
+                  labelPlacement="outside"
+                  placeholder="Nombre"
+                  id="username"
+                  name="username"
+                  variant="bordered"
+                  defaultValue={user.username}
+                  {...register("username", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.username}
+                  errorMessage={errors.username && errors.username.message}
+                />
+              </div>
+              {/* <div className="w-1/3">
                 <label htmlFor="name">Nombre</label>
                 <br />
                 <input
@@ -83,9 +101,28 @@ function EditProfile() {
                     {errors.username.message}
                   </span>
                 )}
-              </div>
-              <div className="w-1/3">
-                <label htmlFor="email">Email</label>
+              </div> */}
+              <div className="flex flex-col w-2/4 p-3">
+                <Input
+                  type="email"
+                  label="Email"
+                  id="email"
+                  name="email"
+                  variant="bordered"
+                  defaultValue={user.email}
+                  className="mb-5"
+                  {...register("email", {
+                    required: "Campo obligatorio.",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message:
+                        "Ingrese una dirección de correo electrónico válida.",
+                    },
+                  })}
+                  isInvalid={!!errors.email}
+                  errorMessage={errors.email && errors.email.message}
+                />
+                {/* <label htmlFor="email">Email</label>
                 <br />
                 <input
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
@@ -101,16 +138,18 @@ function EditProfile() {
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
                     {errors.email.message}
                   </span>
-                )}
+                )} */}
               </div>
-
-              <button
+              <Button className="w-full bg-green text-black" type="submit">
+                Editar Datos
+              </Button>
+              {/* <button
                 disabled={isEditingUser}
                 type="submit"
                 className="bg-pink text-light px-2 text-xl font-semibold rounded-md"
               >
                 EDITAR DATOS
-              </button>
+              </button> */}
             </form>
           </div>
         )}
