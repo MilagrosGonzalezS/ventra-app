@@ -5,38 +5,44 @@ import config from "../config.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-const Search = ({ onSearchResultsUpdate }) => {
+const Search = ({ onSearchResultsUpdate, onSearchSelect }) => {
   const [eventName, setEventName] = useState("");
 
-  // BUSCAR POR NOMBRE
   useEffect(() => {
-    if (eventName.trim() === "") {
-      onSearchResultsUpdate([]);
-      return;
-    }
-    const apiUrl = `${config.apiEvents}/find-by-name/${eventName}`;
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        const data = response.data;
-        onSearchResultsUpdate(data);
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        if (!eventName.trim()) {
+          onSearchResultsUpdate([]);
+          return;
+        }
+        const apiUrl = `${config.apiEvents}/find-by-name/${eventName}`;
+        const response = await axios.get(apiUrl);
+        onSearchResultsUpdate(response.data);
+      } catch (error) {
         console.error("Error al buscar por nombre de evento:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, [eventName, onSearchResultsUpdate]);
+
+  const handleChange = (value) => {
+    setEventName(value);
+    onSearchSelect(value);
+  };
 
   return (
     <Input
       type="search"
       variant="faded"
-      // label="Buscá tu evento"
       placeholder="Buscá tu evento"
       labelPlacement="outside"
       value={eventName}
-      onChange={(e) => setEventName(e.target.value)}
-      endContent={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+      onChange={(e) => handleChange(e.target.value)}
+      onBlur={() => onSearchSelect(eventName)}
+      startContent={<FontAwesomeIcon icon={faMagnifyingGlass} />}
     />
   );
 };
+
 export { Search };

@@ -7,13 +7,12 @@ import {
   MyCard,
   EventCard,
 } from "../../index.js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Pagination } from "@nextui-org/react";
 import colors from "../../assets/imgs/recurso-colores.png";
-import Cookies from "js-cookie";
-
+import { AuthContext } from "../../context/AuthContext.jsx";
 function Home() {
   const [tokenExists, setTokenExists] = useState(false);
   const [events, setEvents] = useState([]);
@@ -22,17 +21,28 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSearch, setSelectedSearch] = useState(null);
 
   const navigation = useNavigate();
+  const { auth } = useContext(AuthContext);
+  const token = auth;
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+    setSelectedSearch("");
+  };
+
+  const handleSearchSelect = (search) => {
+    setSelectedSearch(search);
+    setSelectedCategory("");
   };
 
   function handlePageChange(pageNumber) {
-    getMyWishlist().then((res) => {
-      setWishlist(res.data);
-    });
+    if (token) {
+      getMyWishlist().then((res) => {
+        setWishlist(res.data);
+      });
+    }
     getEvents(pageNumber).then((res) => {
       setEvents(res.data);
     });
@@ -41,21 +51,19 @@ function Home() {
   if (chevron) {
     // Oculta el elemento cambiando su estilo
     chevron.style.display = "none";
-    console.log("Elemento oculto correctamente");
   } else {
     console.error(
       'No se encontró ningún elemento con el atributo aria-label "dots element"'
     );
   }
-  console.log(eventsLength);
   useEffect(() => {
-    const token = Cookies.get("token");
     if (token) {
       setTokenExists(true);
+
+      getMyWishlist().then((res) => {
+        setWishlist(res.data);
+      });
     }
-    getMyWishlist().then((res) => {
-      setWishlist(res.data);
-    });
     getEvents(1).then((res) => {
       setEvents(res.data);
     });
@@ -79,13 +87,8 @@ function Home() {
               Fácil, rápido y sencillo.
             </p>
             <div className="flex gap-3 mt-5">
-              <Button
-                onPress={() => {
-                  navigation("#events");
-                }}
-                className="bg-green text-dark font-medium"
-              >
-                Explorar eventos
+              <Button className="bg-green text-dark font-medium">
+                <a href="#events">Explorar eventos</a>
               </Button>
               {!tokenExists && (
                 <Button
@@ -104,10 +107,12 @@ function Home() {
             <MyCard></MyCard>
           </div>
         </div>
-        <div className="flex gap-3">
-          <Search id="events" onSearchResultsUpdate={setSearchResults} />
+        <div className="flex gap-3" id="events">
+          <Search
+            onSearchResultsUpdate={setSearchResults}
+            onSearchSelect={handleSearchSelect}
+          />
           <Filter
-            id="events"
             onSearchResultsUpdate={setSearchResults}
             onCategorySelect={handleCategorySelect}
           />
@@ -120,10 +125,14 @@ function Home() {
             <img
               className="w-full"
               src={colors}
-              alt="recurso grafico de colores"
+              alt="recurso gráfico de colores"
             />
           </div>
-          <h2 className="text-2xl my-4 font-accent">{selectedCategory}</h2>
+          <h2 className="text-2xl my-4 font-accent">
+            {selectedCategory && !selectedSearch
+              ? `Categoría: ${selectedCategory}`
+              : `Búsqueda: ${selectedSearch}`}
+          </h2>
         </div>
       )}
       <section className="flex gap-16 justify-start flex-wrap my-4">
@@ -200,13 +209,15 @@ function Home() {
           );
         })}
       </section>
-      <Pagination
-        isCompact
-        showControls
-        total={Math.ceil(eventsLength / 6)}
-        initialPage={1}
-        onChange={handlePageChange}
-      />
+      <div className="w-fit mx-auto my-12">
+        <Pagination
+          isCompact
+          showControls
+          total={Math.ceil(eventsLength / 6)}
+          initialPage={1}
+          onChange={handlePageChange}
+        />
+      </div>
     </main>
   );
 }

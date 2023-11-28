@@ -38,7 +38,7 @@ const MyCard = () => {
           </div>
         </div>
         <Button radius="full" size="sm">
-          Ver Mas
+          Ver Más
         </Button>
       </CardFooter>
     </Card>

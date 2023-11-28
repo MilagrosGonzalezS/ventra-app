@@ -8,3 +8,9 @@
   background-size: contain, 15%, 20%;
   background-position: top, top 10% left 0px, top right;
 }
+
+.bg-pattern {
+  background-image: url("./assets/imgs/patter1.png");
+  background-repeat: repeat;
+  background-size: 50%;
+}

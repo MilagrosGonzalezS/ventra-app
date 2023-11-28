@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as fasFaHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as farFaHeart } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { addToWishlist, deleteFromWishlist } from "../index.js";
-import Cookies from "js-cookie";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function EventCard(props) {
   const navigation = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
-  const token = Cookies.get("token");
+  const { auth } = useContext(AuthContext);
+  const token = auth;
   const wishlistData = {
     eventId: props.id,
     eventName: props.name,
@@ -18,9 +21,9 @@ function EventCard(props) {
     eventDate: props.date,
     eventTime: props.time,
     eventPrice: props.price,
+    eventCover: props.cover,
     status: true,
   };
-
   useEffect(() => {
     if (props.favorite) {
       setIsFavorite(true);
@@ -48,60 +51,43 @@ function EventCard(props) {
     <>
       <Card
         isFooterBlurred
-        className="w-[350px] h-[250px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
+        className="w-[350px] h-[450px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
       >
-        <CardHeader className="absolute z-10 top-1 flex-col items-start">
-          <p className="text-tiny text-white/60 uppercase font-bold">
-            {props.category}
-          </p>
-          <h4 className="text-white/90 font-medium text-xl">{props.name}</h4>
+        <CardHeader className="absolute z-10 top-1 flex items-center justify-end">
           {token ? (
             isFavorite ? (
-              <Button
-                isIconOnly
-                color="danger"
-                aria-label="Like"
-                onPress={handleDeleteFromWishlist}
-              >
-                No ♥
-              </Button>
+              <FontAwesomeIcon
+                icon={fasFaHeart}
+                style={{ color: "#c61022", fontSize: "25px" }}
+                onClick={handleDeleteFromWishlist}
+              />
             ) : (
-              // <button onClick={handleDeleteFromWishlist}>Sacar Favorito</button>
-              // <button onClick={handleAddToWishlist}> ❤ </button>
-              <Button
-                isIconOnly
-                color="danger"
-                aria-label="Like"
-                onPress={handleAddToWishlist}
-              >
-                ♥
-              </Button>
+              <FontAwesomeIcon
+                icon={farFaHeart}
+                style={{ color: "#232323", fontSize: "25px" }}
+                onClick={handleAddToWishlist}
+              />
             )
           ) : null}
         </CardHeader>
         <Image
           removeWrapper
-          alt="Relaxing app background"
+          alt={props.name}
           className="z-0 w-full h-full object-cover"
           src={`http://localhost/ventra-API/${props.cover}`}
         />
-        <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
+        <CardFooter className="absolute h-[100px] bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
           <div className="flex flex-grow gap-2 items-center">
             <div className="flex flex-col">
-              <p className="text-tiny text-white/100">{props.venue}</p>
-              <p className="text-tiny text-white/60">
+              <h4 className="text-white/90 font-medium text-xl">
+                {props.name}
+              </h4>
+              <p className="text-sm text-white/100">{props.venue}</p>
+              <p className="text-xs text-white/60">
                 {props.date ? props.date.slice(0, 10) : ""}
               </p>
             </div>
-            <p className="ml-4">${props.price}</p>
           </div>
-
-          {/* <Link
-            to={`detalle/${props.id}`}
-            className="transition block text-center bg-green font-bold text-dark py-2 px-4 rounded-xl hover:bg-lime-600"
-          >
-            Ver más
-          </Link> */}
           <Button
             color="default"
             onPress={() => {
@@ -109,7 +95,7 @@ function EventCard(props) {
             }}
             variant="faded"
           >
-            Ver mas
+            Ver más
           </Button>
         </CardFooter>
       </Card>

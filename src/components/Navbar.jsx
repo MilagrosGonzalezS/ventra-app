@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -17,17 +17,17 @@ import {
   DropdownItem,
   Button,
 } from "@nextui-org/react";
+import { AuthContext } from "../context/AuthContext.jsx";
 import VentraLogo from "../assets/imgs/logo-blanco.png";
-import { logout } from "../index.js";
-import Cookies from "js-cookie";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const navigation = useNavigate();
   const [tokenExists, setTokenExists] = useState(false);
+  const { auth, logout } = useContext(AuthContext);
+  const token = auth;
 
   useEffect(() => {
-    const token = Cookies.get("token");
     if (token) {
       setTokenExists(true);
     }
@@ -71,7 +71,7 @@ const NavBar = () => {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-11" justify="center">
-        <NavbarItem isActive>
+        <NavbarItem>
           <Link color="foreground" to="/">
             Inicio
           </Link>

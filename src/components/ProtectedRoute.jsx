@@ -1,17 +1,12 @@
-import { Navigate } from "react-router-dom";
-// import PropTypes from "prop-types";
-import Cookies from "js-cookie";
+import { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
 
-const ProtectedRoute = ({ children }) => {
-  const token = Cookies.get("token");
-  if (!token) {
-    return <Navigate to="/iniciar-sesion" replace />;
-  }
-  return children;
+const ProtectedRoute = () => {
+  const { auth } = useContext(AuthContext);
+  const token = auth;
+
+  return token ? <Outlet /> : <Navigate to="/iniciar-sesion" />;
 };
-
-// ProtectedRoute.propTypes = {
-//   children: PropTypes.node,
-// };
 
 export { ProtectedRoute };

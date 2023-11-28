@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
-import { editMyEvent, getEventById } from "../../index.js";
+import {
+  editMyEvent,
+  getEventById,
+  getEvents,
+  deleteMyEvent,
+} from "../../index.js";
+import { Button, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -18,11 +24,19 @@ function EditMyEvent() {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cover, setCover] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState(null);
 
   const handleFileChange = (event) => {
     setCover(event.target.files[0]);
   };
 
+  const handleDeleteEvent = (eventId) => {
+    console.log(eventId);
+    setEventToDelete(eventId); // Almacenar el ID del evento a eliminar
+    setIsDeleteModalOpen(true); // Abrir el modal de confirmación
+  };
+  console.log(eventToDelete);
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -57,70 +71,67 @@ function EditMyEvent() {
   }, []);
 
   return (
-    <>
+    <main className="h-auto bg-login">
       <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl text-center">Editar Este Evento</h1>
-        <h2 className="font-accent text-xl text-center mb-4">
-          Acá podés editar tu evento
-        </h2>
+        <h1 className="font-accent text-2xl text-center">
+          Administrá tu evento
+        </h1>
         {isLoading && (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
             color="#04b290"
           />
         )}
-        <div className="flex flex-col items-center gap-16 flex-wrap ">
+        <div className="">
           {events.map((event) => (
             <form
               onSubmit={handleSubmit(onSubmit)}
               key={event._id}
-              className="w-2/5 bg-opacity rounded-xl border p-8"
+              className="flex flex-wrap bg-opacity p-10"
               encType="multipart/form-data"
             >
               <p className="text-red-500">
                 No es posible cambiar la modalidad de gratuito o pago, para ello
                 debes eliminar el evento y volver a crearlo.
               </p>
-              <div className="w-1/3">
-                <label htmlFor="name">Nombre</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+
+              <div className="flex flex-col w-2/4 p-3">
+                <Input
+                  label="Nombre del Evento"
                   type="text"
-                  name="name"
-                  id="name"
+                  labelPlacement="outside"
+                  placeholder="Nombre"
                   defaultValue={event.name}
+                  id="name"
+                  name="name"
+                  variant="bordered"
                   {...register("name", {
-                    required: "Campo obligatorio",
+                    required: "Campo obligatorio.",
                   })}
+                  isInvalid={!!errors.name}
+                  errorMessage={errors.name && errors.name.message}
                 />
-                {errors.name && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.name.message}
-                  </span>
-                )}
               </div>
-              <div className="w-1/3">
-                <label htmlFor="venue">Lugar del evento</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
+              <div className="flex flex-col w-2/4 p-3">
+                <Input
                   type="text"
-                  name="venue"
+                  label="Lugar del Evento"
+                  labelPlacement="outside"
+                  placeholder="Lugar"
                   id="venue"
+                  name="venue"
+                  variant="bordered"
                   defaultValue={event.venue}
                   {...register("venue", {
-                    required: "Campo obligatorio",
+                    required: "Campo obligatorio.",
                   })}
+                  isInvalid={!!errors.venue}
+                  errorMessage={errors.venue && errors.venue.message}
                 />
-                {errors.venue && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.venue.message}
-                  </span>
-                )}
               </div>
-              <div className="w-1/3">
-                <label htmlFor="zone">Ubicación del evento</label>
+
+              <div className="flex flex-col w-2/6 p-3">
+                <label htmlFor="zone">Zona del evento</label>
                 <br />
                 <select
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
@@ -144,7 +155,8 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-              <div className="w-1/3">
+
+              <div className="flex flex-col w-2/6 p-3">
                 <label htmlFor="category">Categoría</label>
                 <br />
                 <select
@@ -180,144 +192,128 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-
-              <div className="w-2/4">
-                <label htmlFor="price">Precio</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+              <div className="w-2/6 p-3">
+                <Input
+                  label="Precio"
+                  labelPlacement="outside"
                   type="number"
-                  name="price"
+                  placeholder="0.00"
                   id="price"
+                  name="price"
+                  variant="bordered"
                   defaultValue={event.price}
                   onChange={(e) => setPrice(e.target.value)}
                   {...register("price", {
-                    required: "Campo obligatorio",
+                    required: "Campo obligatorio.",
                   })}
+                  isInvalid={!!errors.price}
+                  errorMessage={errors.price && errors.price.message}
                 />
-                {errors.price && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.price.message}
-                  </span>
-                )}
               </div>
 
-              <div className="w-2/4">
-                <label htmlFor="date">Fecha del evento</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-                  type="date"
-                  name="date"
-                  id="date"
-                  defaultValue={event.date ? event.date.slice(0, 10) : ""}
-                  {...register("date", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.date && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.date.message}
-                  </span>
-                )}
-              </div>
-              <div className="w-2/4">
-                <label htmlFor="time">Horario</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-                  type="time"
-                  name="time"
-                  id="time"
-                  defaultValue={event.time}
-                  {...register("time", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.time && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.time.message}
-                  </span>
-                )}
-              </div>
-              <div className="w-2/4">
-                <label htmlFor="ticketCount">Cantidad de tickets</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+              <div className="flex flex-col w-2/6 p-3">
+                <Input
+                  label="Cantidad de Tickets"
+                  labelPlacement="outside"
+                  placeholder="0"
                   type="number"
-                  name="ticketCount"
                   id="ticketCount"
+                  name="ticketCount"
+                  variant="bordered"
                   defaultValue={event.ticketCount}
                   {...register("ticketCount", {
-                    required: "Campo obligatorio",
+                    required: "Campo obligatorio.",
                   })}
+                  isInvalid={!!errors.ticketCount}
+                  errorMessage={
+                    errors.ticketCount && errors.ticketCount.message
+                  }
                 />
-                {errors.ticketCount && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.ticketCount.message}
-                  </span>
-                )}
-              </div>
-              <div className="w-2/4">
-                <label htmlFor="visibility" className="mr-2">
-                  Visibilidad del evento
-                </label>
-                <br />
-                <input
-                  type="radio"
-                  id="private"
-                  name="visibility"
-                  value="private"
-                  defaultChecked={event.visibility === "private"}
-                  {...register("visibility", {
-                    required: "Selecciona la visibilidad del evento",
-                  })}
-                />
-                <label htmlFor="private" className="mr-2">
-                  Privado
-                </label>
-                <input
-                  type="radio"
-                  id="public"
-                  name="visibility"
-                  value="public"
-                  defaultChecked={event.visibility === "public"}
-                  {...register("visibility", {
-                    required: "Selecciona la visibilidad del evento",
-                  })}
-                />
-                <label htmlFor="public">Público</label>
-                {errors.visibility && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.visibility.message}
-                  </span>
-                )}
               </div>
 
-              <div className="w-full ">
-                <label htmlFor="description">Descripción</label>
-                <br />
-                <textarea
-                  className="bg-gray-700 border-solid h-24 border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-full"
-                  name="description"
-                  id="description"
-                  defaultValue={event.description}
-                  {...register("description", {
-                    required: "Campo obligatorio",
+              <div className="flex flex-col w-2/6 p-3">
+                <Input
+                  label="Fecha"
+                  labelPlacement="outside"
+                  placeholder=" "
+                  type="date"
+                  id="date"
+                  name="date"
+                  defaultValue={event.date ? event.date.slice(0, 10) : ""}
+                  variant="bordered"
+                  {...register("date", {
+                    required: "Campo obligatorio.",
                   })}
-                ></textarea>
-                {errors.description && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.description.message}
-                  </span>
-                )}
+                  isInvalid={!!errors.date}
+                  errorMessage={errors.date && errors.date.message}
+                />
               </div>
-              <div className="w-2/4">
+
+              <div className="flex flex-col w-2/6 p-3">
+                <Input
+                  label="Hora"
+                  labelPlacement="outside"
+                  placeholder=" "
+                  type="time"
+                  id="time"
+                  name="time"
+                  variant="bordered"
+                  defaultValue={event.time}
+                  {...register("time", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.time}
+                  errorMessage={errors.time && errors.time.message}
+                />
+              </div>
+
+              <div className="flex flex-col w-2/6 p-3">
+                <RadioGroup
+                  label="Visibilidad del evento"
+                  orientation="horizontal"
+                  defaultValue={event.visibility}
+                  {...register("visibility", {
+                    required: "Selecciona la visibilidad del evento.",
+                  })}
+                  isInvalid={!!errors.visibility}
+                  errorMessage={errors.visibility && errors.visibility.message}
+                >
+                  <Radio
+                    id="private"
+                    name="visibility"
+                    value="private"
+                    defaultChecked={event.visibility === "private"}
+                    {...register("visibility", {
+                      required: "Selecciona la visibilidad del evento.",
+                    })}
+                    errorMessage={
+                      errors.visibility && errors.visibility.message
+                    }
+                  >
+                    Privado
+                  </Radio>
+                  <Radio
+                    id="public"
+                    name="visibility"
+                    value="public"
+                    defaultChecked={event.visibility === "public"}
+                    {...register("visibility", {
+                      required: "Selecciona la visibilidad del evento.",
+                    })}
+                    errorMessage={
+                      errors.visibility && errors.visibility.message
+                    }
+                  >
+                    Público
+                  </Radio>
+                </RadioGroup>
+              </div>
+
+              <div className="flex flex-col w-2/6 p-3">
                 <label htmlFor="cover">Portada del evento</label>
                 <br />
                 <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-auto"
                   type="file"
                   name="cover"
                   id="cover"
@@ -329,18 +325,77 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-              <button
-                disabled={isCreatingEvent}
-                type="submit"
-                className="bg-pink text-light px-2 text-xl font-semibold rounded-md"
-              >
-                EDITAR EVENTO
-              </button>
+
+              <div className="flex flex-col w-full p-3">
+                <Textarea
+                  label="Descripción"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  name="description"
+                  id="description"
+                  placeholder="Descripción del evento"
+                  defaultValue={event.description}
+                  {...register("description", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.description}
+                  errorMessage={
+                    errors.description && errors.description.message
+                  }
+                />
+              </div>
+              <div className="flex w-full gap-2 p-3">
+                <Button
+                  disabled={isCreatingEvent}
+                  type="submit"
+                  className="bg-pink text-light"
+                >
+                  Editar evento
+                </Button>
+                <Button
+                  onClick={() => handleDeleteEvent(eventId)}
+                  className="bg-red-700 text-light w-full"
+                >
+                  Eliminar Evento
+                </Button>
+              </div>
             </form>
           ))}
+          {isDeleteModalOpen && (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
+              <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
+                <p className="text-light text-lg">
+                  ¿Estás seguro de que deseas eliminar este evento?
+                </p>
+                <div className="mt-4 flex justify-center gap-16">
+                  <button
+                    onClick={() => {
+                      deleteMyEvent(eventToDelete).then(() => {
+                        getEvents();
+                        navigate("/mis-eventos");
+                      });
+
+                      setIsDeleteModalOpen(false); // Cerrar el modal después de eliminar
+                    }}
+                    className="bg-red-600 text-white px-4 py-2 rounded-md mr-4"
+                  >
+                    Eliminar
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsDeleteModalOpen(false); // Cerrar el modal sin eliminar
+                    }}
+                    className="bg-green text-dark px-4 py-2 rounded-md"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
-    </>
+    </main>
   );
 }
 

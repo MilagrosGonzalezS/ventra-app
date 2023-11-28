@@ -11,7 +11,10 @@ function MyTickets() {
     setIsLoading(true);
     getMyTickets()
       .then((ticketsData) => {
-        setTickets(ticketsData.data);
+        const sortedTickets = ticketsData.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setTickets(sortedTickets);
         setIsLoading(false);
       })
       .catch((error) => {

@@ -9,6 +9,18 @@ function EventDetails() {
 
   const { eventId } = useParams();
 
+  const handleShare = (eventId, eventName, eventDescription) => {
+    console.log(eventId);
+    let dataShare = {
+      title: eventName,
+      text: eventDescription,
+      url: `http://localhost:5173/#/detalle/${eventId}`,
+    };
+    navigator.share(dataShare).then((res) => {
+      console.log("compartir el evento");
+    });
+  };
+
   useEffect(() => {
     const getEvent = () => {
       setIsLoading(true);
@@ -42,12 +54,35 @@ function EventDetails() {
           <p>{event.venue}</p>
           <p>{event.date ? event.date.slice(0, 10) : ""}</p>
           <p className="text-lg">${event.price}</p>
-          <Link
-            className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark"
-            to={`/detalle/comprar/${event._id}`}
-          >
-            Comprar
-          </Link>
+          <div className="flex gap-4">
+            {!event.isFree ? (
+              <Link
+                className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark"
+                to={`/detalle/comprar/${event._id}`}
+              >
+                Comprar
+              </Link>
+            ) : (
+              <p className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark">
+                Evento Gratuito
+              </p>
+            )}
+
+            <button
+              onClick={() => {
+                handleShare(event._id, event.name, event.description);
+              }}
+              className="rounded-2xl bg-orange py-2 px-4 my-4 w-fit text-dark"
+            >
+              Compartir
+            </button>
+          </div>
+          {event.visibility === "private" ? (
+            <p className="text-red-400">
+              Este es un evento privado, solo vos y quienes tengan el link
+              pueden verlo.
+            </p>
+          ) : null}
         </div>
       </section>
     </>

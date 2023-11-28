@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../index.js";
 import { PuffLoader } from "react-spinners";
+import { Button, Input } from "@nextui-org/react";
 
 function Login() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  // const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
 
   const {
@@ -47,67 +47,63 @@ function Login() {
   };
 
   return (
-    <div className="border rounded-2xl bg-opacity p-8 pb-6 w-1/3 mt-48 mx-auto">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <label htmlFor="email" className="text-xs xl:text-base">
-          Email
-        </label>
-        <br></br>
-        <input
-          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("email", {
-            required: "Campo obligatorio",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Ingrese una dirección de correo electrónico válida",
-            },
-          })}
-          id="email"
-          name="email"
-          type="email"
-        />
-        {errors.email && (
-          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
-            {errors.email.message}
-          </span>
-        )}
-        <br></br>
-        <label htmlFor="password" className="text-xs xl:text-base">
-          Contraseña
-        </label>
-        <br></br>
-        <input
-          className="bg-opacity p-2 border-lightblue border-2 rounded-xl mt-4 w-full mb-6"
-          {...register("password", { required: "Campo obligatorio" })}
-          id="password"
-          name="password"
-          type="password"
-        />
-        {errors.password && (
-          <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
-            {errors.password.message}
-          </span>
-        )}
-        <br></br>
-        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-        {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
-        {!isLoading && (
-          <button
-            className="transition hover:bg-hover block mx-auto my-2 bg-lightblue text-white py-2 px-10 text-sm xl:text-base rounded-xl cursor-pointer"
-            type="submit"
-          >
-            Iniciar Sesion
-          </button>
-        )}
+    <main className="flex items-center justify-center h-[90vh] bg-pattern">
+      <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
+        <div className="flex flex-col aling mb-3 items-center">
+          <h1 className="font-accent text-2xl text-green">Iniciar Sesión</h1>
+          <div className="flex gap-1">
+            <p className="text-sm">¿Nuevo en Ventra?</p>
+            <Link
+              to="/registrarse"
+              className="text-lightblue hover:text-blue-200 text-sm transition-all duration-300"
+            >
+              Registrate gratis.
+            </Link>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <Input
+            type="email"
+            label="Email"
+            id="email"
+            name="email"
+            variant="bordered"
+            className="mb-5"
+            {...register("email", {
+              required: "Campo obligatorio.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Ingrese una dirección de correo electrónico válida.",
+              },
+            })}
+            isInvalid={!!errors.email}
+            errorMessage={errors.email && errors.email.message}
+          />
+          <Input
+            type="password"
+            label="Contraseña"
+            id="password"
+            name="password"
+            variant="bordered"
+            {...register("password", {
+              required: "Campo obligatorio",
+            })}
+            isInvalid={!!errors.password}
+            errorMessage={errors.password && errors.password.message}
+          />
 
-        <Link
-          to="/registrarse"
-          className="mx-auto text-lightblue hover:text-light"
-        >
-          Registrarme
-        </Link>
-      </form>
-    </div>
+          <br></br>
+          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
+          {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
+          {!isLoading && (
+            <Button className="w-full bg-green text-black" type="submit">
+              Iniciar Sesión
+            </Button>
+          )}
+        </form>
+      </div>
+    </main>
   );
 }
 

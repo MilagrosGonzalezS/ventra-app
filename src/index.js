@@ -12,7 +12,6 @@ export { getMyWishlist } from "./services/userEvents/getMyWishlist.js";
 export { createUser } from "./services/users/createUser.js";
 export { editMyProfile } from "./services/users/editMyProfile.js";
 export { login } from "./services/users/login.js";
-export { logout } from "./services/users/logout.js";
 export { userData } from "./services/users/userData.js";
 export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
@@ -24,6 +23,7 @@ export { MyCard } from "./components/MyCard.jsx";
 export { NavBar } from "./components/NavBar.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Search } from "./components/Search.jsx";
+export { Footer } from "./components/Footer.jsx";
 
 //Views ->
 export { Home } from "./views/Home/Home";
@@ -38,5 +38,6 @@ export { EditMyEvent } from "./views/MyAccount/EditMyEvent";
 export { Wishlist } from "./views/Wishlist/Wishlist";
 export { BuyTicket } from "./views/BuyTicket";
 export { Checkout } from "./views/Checkout";
+export { PaymentForm } from "./views/PaymentForm";
 export { MyTickets } from "./views/MyAccount/MyTickets";
 export { EventDetails } from "./views/Events/EventDetails";

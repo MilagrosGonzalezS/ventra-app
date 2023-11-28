@@ -17,86 +17,50 @@ import {
   Checkout,
   MyTickets,
   EventDetails,
+  PaymentForm,
+  ProtectedRoute,
+  NavBar,
+  Footer,
 } from "./index.js";
-import { ProtectedRoute, NavBar } from "./index.js";
 
 function App() {
   return (
     <>
       <NavBar></NavBar>
-      {/* <Navbar></Navbar> */}
       <Routes>
+        {/* vistas protegidas */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/favoritos" element={<Wishlist />} />
+          <Route path="/mi-cuenta" element={<MyAccount />} />
+          <Route
+            path="/mi-cuenta/:userId/editar-datos"
+            element={<EditProfile />}
+          />
+          <Route path="/mis-eventos" element={<MyEvents />} />
+          <Route
+            path="/mis-eventos/:eventId/editar"
+            element={<EditMyEvent />}
+          />
+          <Route path="/detalle/comprar/:eventId" element={<BuyTicket />} />
+          <Route
+            path="/detalle/comprar/:eventId/checkout/:amount"
+            element={<Checkout />}
+          />
+          <Route
+            path="/detalle/comprar/pago/:name/:eventId/:amount"
+            element={<PaymentForm />}
+          />
+          <Route path="/mis-entradas" element={<MyTickets />} />
+        </Route>
+        {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />
         <Route path="/registrarse" element={<Register />} />
         <Route path="/iniciar-sesion" element={<Login />} />
         <Route path="/crear-evento" element={<CreateEvent />} />
         <Route path="/detalle/:eventId" element={<EventDetails />} />
         <Route path="/ayuda" element={<Help />} />
-        <Route
-          path="/favoritos"
-          element={
-            <ProtectedRoute>
-              <Wishlist />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mi-cuenta"
-          element={
-            <ProtectedRoute>
-              <MyAccount />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mi-cuenta/:userId/editar-datos"
-          element={
-            <ProtectedRoute>
-              <EditProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mis-eventos"
-          element={
-            <ProtectedRoute>
-              <MyEvents />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mis-eventos/:eventId/editar"
-          element={
-            <ProtectedRoute>
-              <EditMyEvent />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/detalle/comprar/:eventId"
-          element={
-            <ProtectedRoute>
-              <BuyTicket />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/detalle/comprar/:eventId/checkout/:amount"
-          element={
-            <ProtectedRoute>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mis-entradas"
-          element={
-            <ProtectedRoute>
-              <MyTickets />
-            </ProtectedRoute>
-          }
-        />
       </Routes>
+      <Footer></Footer>
     </>
   );
 }
