@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { deleteMyEvent, getMyEvents } from "../../index.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
-
+import { Button } from "@nextui-org/react";
 function MyEvents() {
   const { user } = useContext(AuthContext);
   const userId = user.id;
+  const navigation = useNavigate();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -36,28 +37,22 @@ function MyEvents() {
 
   return (
     <>
-      <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl text-center">Mis Eventos</h1>
-        <h2 className="font-accent text-xl text-center">
-          Acá podés encontrar la lista de todos los eventos que creaste
-        </h2>
+      <section className="min-h-screen flex-col items-center bg-pattern px-20 pt-12">
+        <h1 className="font-accent text-3xl text-orange mb-8">Mis Eventos</h1>
         {isLoading ? (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
             color="#04b290"
           />
         ) : (
-          <div className="flex flex-col items-center gap-16 flex-wrap mt-16">
+          <div className="flex gap-16 justify-start flex-wrap mt-4">
             {events.length === 0 ? (
               <p className="font-accent text-center">
                 Aún no has creado ningún evento.
               </p>
             ) : (
               events.map((event) => (
-                <article
-                  key={event._id}
-                  className="w-2/5 bg-opacity rounded-xl border p-8"
-                >
+                <article key={event._id}>
                   <div className="flex justify-between items-center mb-4">
                     <strong className="text-xl ">{event.name}</strong>
                     <div className="flex gap-2">
@@ -87,7 +82,15 @@ function MyEvents() {
                       </p>
                     </div>
                   </div>
-
+                  <Button
+                    color="default"
+                    onPress={() => {
+                      navigation(`/detalle/${event._id}`);
+                    }}
+                    variant="faded"
+                  >
+                    Ver evento
+                  </Button>
                   <div className="flex gap-4">
                     <button className="bg-lightblue mt-4 px-2 rounded-md">
                       <Link to={`/mis-eventos/${event._id}/editar`}>

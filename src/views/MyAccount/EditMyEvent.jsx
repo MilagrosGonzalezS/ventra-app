@@ -3,6 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import { editMyEvent, getEventById } from "../../index.js";
+import {
+  Button,
+  Input,
+  Radio,
+  RadioGroup,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@nextui-org/react";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -57,7 +66,7 @@ function EditMyEvent() {
   }, []);
 
   return (
-    <>
+    <main className="h-auto bg-login">
       <section className="flex-col items-center">
         <h1 className="font-accent text-2xl text-center">Editar Este Evento</h1>
         <h2 className="font-accent text-xl text-center mb-4">
@@ -69,19 +78,37 @@ function EditMyEvent() {
             color="#04b290"
           />
         )}
-        <div className="flex flex-col items-center gap-16 flex-wrap ">
+        <div className="">
           {events.map((event) => (
             <form
               onSubmit={handleSubmit(onSubmit)}
               key={event._id}
-              className="w-2/5 bg-opacity rounded-xl border p-8"
+              className="flex flex-wrap bg-opacity p-10"
               encType="multipart/form-data"
             >
               <p className="text-red-500">
                 No es posible cambiar la modalidad de gratuito o pago, para ello
                 debes eliminar el evento y volver a crearlo.
               </p>
-              <div className="w-1/3">
+
+              <div className="flex flex-col w-2/4 p-3">
+                <Input
+                  label="Nombre del Evento"
+                  type="text"
+                  labelPlacement="outside"
+                  placeholder="Nombre"
+                  defaultValue={event.name}
+                  id="name"
+                  name="name"
+                  variant="bordered"
+                  {...register("name", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.name}
+                  errorMessage={errors.name && errors.name.message}
+                />
+              </div>
+              {/* <div className="w-1/3">
                 <label htmlFor="name">Nombre</label>
                 <br />
                 <input
@@ -99,8 +126,25 @@ function EditMyEvent() {
                     {errors.name.message}
                   </span>
                 )}
+              </div> */}
+              <div className="flex flex-col w-2/4 p-3">
+                <Input
+                  type="text"
+                  label="Lugar del Evento"
+                  labelPlacement="outside"
+                  placeholder="Lugar"
+                  id="venue"
+                  name="venue"
+                  variant="bordered"
+                  defaultValue={event.venue}
+                  {...register("venue", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.venue}
+                  errorMessage={errors.venue && errors.venue.message}
+                />
               </div>
-              <div className="w-1/3">
+              {/* <div className="w-1/3">
                 <label htmlFor="venue">Lugar del evento</label>
                 <br />
                 <input
@@ -118,9 +162,38 @@ function EditMyEvent() {
                     {errors.venue.message}
                   </span>
                 )}
-              </div>
-              <div className="w-1/3">
-                <label htmlFor="zone">Ubicación del evento</label>
+              </div> */}
+              {/* <div className="flex flex-col w-2/6 p-3">
+                <Select
+                  label="Zona del evento"
+                  labelPlacement="outside"
+                  placeholder="Selecciona un lugar"
+                  className="w-full"
+                  variant="bordered"
+                  name="zone"
+                  id="zone"
+                  {...register("zone", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.zone}
+                  errorMessage={errors.zone && errors.zone.message}
+                >
+                  <SelectItem key="CABA" value="CABA">
+                    CABA
+                  </SelectItem>
+                  <SelectItem key="Zona Norte" value="Zona Norte">
+                    Zona Norte
+                  </SelectItem>
+                  <SelectItem key="Zona Oeste" value="Zona Oeste">
+                    Zona Oeste
+                  </SelectItem>
+                  <SelectItem key="Zona Sur" value="Zona Sur">
+                    Zona Sur
+                  </SelectItem>
+                </Select>
+              </div> */}
+              <div className="flex flex-col w-2/6 p-3">
+                <label htmlFor="zone">Zona del evento</label>
                 <br />
                 <select
                   className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
@@ -144,7 +217,54 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-              <div className="w-1/3">
+              {/* <div className="flex flex-col w-2/6 p-3">
+                <Select
+                  label="Categoría"
+                  labelPlacement="outside"
+                  placeholder="Selecciona una categoría"
+                  className="w-full"
+                  variant="bordered"
+                  name="category"
+                  id="category"
+                  {...register("category", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.category}
+                  errorMessage={errors.category && errors.category.message}
+                >
+                  <SelectItem key="Concierto de Rock" value="Concierto de Rock">
+                    Concierto de Rock
+                  </SelectItem>
+                  <SelectItem key="Concierto De Pop" value="Concierto De Pop">
+                    Concierto De Pop
+                  </SelectItem>
+                  <SelectItem
+                    key="Fiesta Electrónica"
+                    value="Fiesta Electrónica"
+                  >
+                    Fiesta Electrónica
+                  </SelectItem>
+                  <SelectItem key="Concierto De Rap" value="Concierto De Rap">
+                    Concierto De Rap
+                  </SelectItem>
+                  <SelectItem
+                    key="Festival De Bandas"
+                    value="Festival De Bandas"
+                  >
+                    Festival De Bandas
+                  </SelectItem>
+                  <SelectItem key="Fiesta" value="Fiesta">
+                    Fiesta
+                  </SelectItem>
+                  <SelectItem key="Cumpleaños" value="Cumpleaños">
+                    Cumpleaños
+                  </SelectItem>
+                  <SelectItem key="Reunión" value="Reunión">
+                    Reunión
+                  </SelectItem>
+                </Select>
+              </div> */}
+              <div className="flex flex-col w-2/6 p-3">
                 <label htmlFor="category">Categoría</label>
                 <br />
                 <select
@@ -180,8 +300,25 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-
-              <div className="w-2/4">
+              <div className="w-2/6 p-3">
+                <Input
+                  label="Precio"
+                  labelPlacement="outside"
+                  type="number"
+                  placeholder="0.00"
+                  id="price"
+                  name="price"
+                  variant="bordered"
+                  defaultValue={event.price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  {...register("price", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.price}
+                  errorMessage={errors.price && errors.price.message}
+                />
+              </div>
+              {/* <div className="w-2/4">
                 <label htmlFor="price">Precio</label>
                 <br />
                 <input
@@ -200,9 +337,64 @@ function EditMyEvent() {
                     {errors.price.message}
                   </span>
                 )}
+              </div> */}
+              <div className="flex flex-col w-2/6 p-3">
+                <Input
+                  label="Cantidad de Tickets"
+                  labelPlacement="outside"
+                  placeholder="0"
+                  type="number"
+                  id="ticketCount"
+                  name="ticketCount"
+                  variant="bordered"
+                  defaultValue={event.ticketCount}
+                  {...register("ticketCount", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.ticketCount}
+                  errorMessage={
+                    errors.ticketCount && errors.ticketCount.message
+                  }
+                />
               </div>
 
-              <div className="w-2/4">
+              <div className="flex flex-col w-2/6 p-3">
+                <Input
+                  label="Fecha"
+                  labelPlacement="outside"
+                  placeholder=" "
+                  type="date"
+                  id="date"
+                  name="date"
+                  defaultValue={event.date ? event.date.slice(0, 10) : ""}
+                  variant="bordered"
+                  {...register("date", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.date}
+                  errorMessage={errors.date && errors.date.message}
+                />
+              </div>
+
+              <div className="flex flex-col w-2/6 p-3">
+                <Input
+                  label="Hora"
+                  labelPlacement="outside"
+                  placeholder=" "
+                  type="time"
+                  id="time"
+                  name="time"
+                  variant="bordered"
+                  defaultValue={event.time}
+                  {...register("time", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.time}
+                  errorMessage={errors.time && errors.time.message}
+                />
+              </div>
+
+              {/* <div className="w-2/4">
                 <label htmlFor="date">Fecha del evento</label>
                 <br />
                 <input
@@ -258,8 +450,51 @@ function EditMyEvent() {
                     {errors.ticketCount.message}
                   </span>
                 )}
+              </div> */}
+
+              <div className="flex flex-col w-2/6 p-3">
+                <RadioGroup
+                  label="Visibilidad del evento"
+                  orientation="horizontal"
+                  defaultValue={event.visibility}
+                  {...register("visibility", {
+                    required: "Selecciona la visibilidad del evento.",
+                  })}
+                  isInvalid={!!errors.visibility}
+                  errorMessage={errors.visibility && errors.visibility.message}
+                >
+                  <Radio
+                    id="private"
+                    name="visibility"
+                    value="private"
+                    defaultChecked={event.visibility === "private"}
+                    {...register("visibility", {
+                      required: "Selecciona la visibilidad del evento.",
+                    })}
+                    errorMessage={
+                      errors.visibility && errors.visibility.message
+                    }
+                  >
+                    Privado
+                  </Radio>
+                  <Radio
+                    id="public"
+                    name="visibility"
+                    value="public"
+                    defaultChecked={event.visibility === "public"}
+                    {...register("visibility", {
+                      required: "Selecciona la visibilidad del evento.",
+                    })}
+                    errorMessage={
+                      errors.visibility && errors.visibility.message
+                    }
+                  >
+                    Público
+                  </Radio>
+                </RadioGroup>
               </div>
-              <div className="w-2/4">
+
+              {/* <div className="w-2/4">
                 <label htmlFor="visibility" className="mr-2">
                   Visibilidad del evento
                 </label>
@@ -293,9 +528,44 @@ function EditMyEvent() {
                     {errors.visibility.message}
                   </span>
                 )}
+              </div> */}
+
+              <div className="flex flex-col w-2/6 p-3">
+                <label htmlFor="cover">Portada del evento</label>
+                <br />
+                <input
+                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-auto"
+                  type="file"
+                  name="cover"
+                  id="cover"
+                  onChange={handleFileChange}
+                />
+                {errors.cover && (
+                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                    {errors.cover.message}
+                  </span>
+                )}
               </div>
 
-              <div className="w-full ">
+              <div className="flex flex-col w-full p-3">
+                <Textarea
+                  label="Descripción"
+                  labelPlacement="outside"
+                  variant="bordered"
+                  name="description"
+                  id="description"
+                  placeholder="Descripción del evento"
+                  defaultValue={event.description}
+                  {...register("description", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.description}
+                  errorMessage={
+                    errors.description && errors.description.message
+                  }
+                />
+              </div>
+              {/* <div className="w-full ">
                 <label htmlFor="description">Descripción</label>
                 <br />
                 <textarea
@@ -312,8 +582,8 @@ function EditMyEvent() {
                     {errors.description.message}
                   </span>
                 )}
-              </div>
-              <div className="w-2/4">
+              </div> */}
+              {/* <div className="w-2/4">
                 <label htmlFor="cover">Portada del evento</label>
                 <br />
                 <input
@@ -328,19 +598,28 @@ function EditMyEvent() {
                     {errors.cover.message}
                   </span>
                 )}
-              </div>
-              <button
+              </div> */}
+              {/* <button
                 disabled={isCreatingEvent}
                 type="submit"
                 className="bg-pink text-light px-2 text-xl font-semibold rounded-md"
               >
                 EDITAR EVENTO
-              </button>
+              </button> */}
+              <div className="flex w-full justify-start p-3">
+                <Button
+                  disabled={isCreatingEvent}
+                  type="submit"
+                  className="bg-pink text-light w-5/12"
+                >
+                  Editar evento
+                </Button>
+              </div>
             </form>
           ))}
         </div>
       </section>
-    </>
+    </main>
   );
 }
 

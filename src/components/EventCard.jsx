@@ -1,9 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as fasFaHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as farFaHeart } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { addToWishlist, deleteFromWishlist } from "../index.js";
 import { AuthContext } from "../context/AuthContext.jsx";
 
@@ -19,9 +21,9 @@ function EventCard(props) {
     eventDate: props.date,
     eventTime: props.time,
     eventPrice: props.price,
+    eventCover: props.cover,
     status: true,
   };
-
   useEffect(() => {
     if (props.favorite) {
       setIsFavorite(true);
@@ -51,35 +53,26 @@ function EventCard(props) {
         isFooterBlurred
         className="w-[350px] h-[450px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
       >
-        <CardHeader className="absolute z-10 top-1 flex-col items-start">
-          <p className="text-tiny text-white/60 uppercase font-bold bg-dark py-2 px-4 rounded-full">
-            {props.category}
-          </p>
+        <CardHeader className="absolute z-10 top-1 flex items-center justify-end">
           {token ? (
             isFavorite ? (
-              <Button
-                isIconOnly
-                color="danger"
-                aria-label="Like"
-                onPress={handleDeleteFromWishlist}
-              >
-                No ♥
-              </Button>
+              <FontAwesomeIcon
+                icon={fasFaHeart}
+                style={{ color: "#c61022", fontSize: "25px" }}
+                onClick={handleDeleteFromWishlist}
+              />
             ) : (
-              <Button
-                isIconOnly
-                color="danger"
-                aria-label="Like"
-                onPress={handleAddToWishlist}
-              >
-                ♥
-              </Button>
+              <FontAwesomeIcon
+                icon={farFaHeart}
+                style={{ color: "#232323", fontSize: "25px" }}
+                onClick={handleAddToWishlist}
+              />
             )
           ) : null}
         </CardHeader>
         <Image
           removeWrapper
-          alt="Relaxing app background"
+          alt={props.name}
           className="z-0 w-full h-full object-cover"
           src={`http://localhost/ventra-API/${props.cover}`}
         />
@@ -89,20 +82,12 @@ function EventCard(props) {
               <h4 className="text-white/90 font-medium text-xl">
                 {props.name}
               </h4>
-              <p className="text-tiny text-white/100">{props.venue}</p>
-              <p className="text-tiny text-white/60">
+              <p className="text-sm text-white/100">{props.venue}</p>
+              <p className="text-xs text-white/60">
                 {props.date ? props.date.slice(0, 10) : ""}
               </p>
             </div>
-            <p className="ml-4">${props.price}</p>
           </div>
-
-          {/* <Link
-            to={`detalle/${props.id}`}
-            className="transition block text-center bg-green font-bold text-dark py-2 px-4 rounded-xl hover:bg-lime-600"
-          >
-            Ver más
-          </Link> */}
           <Button
             color="default"
             onPress={() => {
@@ -110,7 +95,7 @@ function EventCard(props) {
             }}
             variant="faded"
           >
-            Ver mas
+            Ver más
           </Button>
         </CardFooter>
       </Card>

@@ -37,7 +37,7 @@ function Register() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] bg-login">
+    <main className="flex items-center justify-center h-[90vh] bg-pattern">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent text-2xl text-pink">Registrate</h1>
@@ -112,7 +112,7 @@ function Register() {
           />
           {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
           {!isLoading && (
-            <Button className="w-full bg-lightblue text-black" type="submit">
+            <Button className="w-full bg-pink text-light" type="submit">
               Crear cuenta
             </Button>
           )}

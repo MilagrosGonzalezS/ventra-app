@@ -72,7 +72,7 @@ function CreateEvent() {
     />
   ) : tokenExists ? (
     <>
-      <main className="h-[90vh] bg-login">
+      <main className="h-auto bg-login">
         {/* <h1 className="font-accent text-2xl text-green">Creá tu evento</h1> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -234,7 +234,6 @@ function CreateEvent() {
             <label htmlFor="isFree" className="mr-2 mb-2 text-sm">
               ¿Es un evento gratuito o pago?
             </label>
-
             <div>
               <input
                 type="radio"
@@ -401,7 +400,7 @@ function CreateEvent() {
             <label htmlFor="cover">Portada del evento</label>
             <br />
             <input
-              className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+              className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-auto"
               type="file"
               name="cover"
               id="cover"

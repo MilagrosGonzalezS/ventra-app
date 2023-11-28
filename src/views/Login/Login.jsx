@@ -47,7 +47,7 @@ function Login() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] bg-login">
+    <main className="flex items-center justify-center h-[90vh] bg-pattern">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent text-2xl text-green">Iniciar Sesión</h1>

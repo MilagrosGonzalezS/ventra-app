@@ -90,14 +90,12 @@ function Checkout() {
             <div className="flex items-center justify-end gap-6 bg-opacity p-4 rounded-b-2xl">
               <h4>Total:</h4>
               <p>${totalPrice}</p>
-              {amount > 0 && (
-                <button
-                  onClick={handleCreateTicket}
-                  className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
-                >
-                  Ir a pagar
-                </button>
-              )}
+              <Link
+                to={`/detalle/comprar/pago/${event.name}/${event._id}/${amount}`}
+                className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
+              >
+                Ir a pagar
+              </Link>
             </div>
           </article>
         </section>
