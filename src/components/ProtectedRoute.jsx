@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
 const ProtectedRoute = ({ children }) => {
@@ -10,8 +10,8 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-ProtectedRoute.propTypes = {
-  children: PropTypes.node,
-};
+// ProtectedRoute.propTypes = {
+//   children: PropTypes.node,
+// };
 
 export { ProtectedRoute };
