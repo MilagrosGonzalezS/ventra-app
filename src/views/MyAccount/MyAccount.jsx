@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { userData } from "../../index.js";
 import { PuffLoader } from "react-spinners";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@nextui-org/react";
 
 function MyAccount() {
+  const navigation = useNavigate();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -16,36 +18,40 @@ function MyAccount() {
   }, []);
 
   return (
-    <>
-      <h1 className="text-center text-4xl my-4">Mi Cuenta</h1>
-      {isLoading ? (
-        <PuffLoader
-          className="absolute left-1/2 -translate-x-1/2 top-10"
-          color="#04b290"
-        />
-      ) : (
-        <div className="flex flex-col items-center text-xl">
-          <p className="mb-2">
-            <span className="underline underline-offset-4 decoration-green  me-4">
-              Nombre:
-            </span>
-            {user.username}
-          </p>
-          <p className="mb-2">
-            <span className="underline underline-offset-4 decoration-green  me-4">
-              Email:
-            </span>
-            {user.email}
-          </p>
-
-          <button className="bg-pink mt-4 px-2 rounded-md">
-            <Link to={`/mi-cuenta/${user.id}/editar-datos`}>
+    <main className="min-h-[90vh] flex items-center justify-center bg-pattern">
+      <div className="text-center bg-opacity border p-6 rounded-xl w-[500px]">
+        <h1 className="mb-3 font-accent text-xl text-green">Mi Cuenta</h1>
+        <hr />
+        {isLoading ? (
+          <PuffLoader className="mt-10" color="#04b290" />
+        ) : (
+          <div className="text-start mt-4">
+            <p className="mb-2 font-primary text-sm">
+              <span className="me-2 font-accent text-base">Nombre:</span>
+              {user.username}
+            </p>
+            <p className="mb-5 font-primary text-sm">
+              <span className="me-2 font-accent text-base">Email:</span>
+              {user.email}
+            </p>
+            <Button
+              className="w-full bg-green text-dark"
+              type="submit"
+              onPress={() => {
+                navigation(`/mi-cuenta/${user.id}/editar-datos`);
+              }}
+            >
               Editar Mis Datos
-            </Link>
-          </button>
-        </div>
-      )}
-    </>
+            </Button>
+            {/* <button className="bg-pink mt-4 px-2 rounded-md w-full">
+              <Link to={`/mi-cuenta/${user.id}/editar-datos`}>
+                Editar Mis Datos
+              </Link>
+            </button> */}
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
 

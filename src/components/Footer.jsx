@@ -6,18 +6,20 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-dark h-[200px] flex justify-evenly items-center">
-      <ul>
-        <li className="hover:text-lightblue">
+    <footer className="bg-opacity border-t-1 md:h-[200px] flex flex-col h-[400px] py-12 md:py-0 md:flex md:flex-row justify-evenly items-center">
+      <ul className="text-center md:text-left">
+        <li className="hover:text-lightblue my-4 md:my-0">
           <Link to="/crear-evento">Crear evento</Link>
         </li>
-        <li className="hover:text-lightblue">
+        <li className="hover:text-lightblue my-4 md:my-0">
           <Link to="/help">Preguntas frecuentes</Link>
         </li>
-        <li className="hover:text-lightblue">Términos y Condiciones</li>
+        <li className="hover:text-lightblue my-4 md:my-0">
+          Términos y Condiciones
+        </li>
       </ul>
-      <img src={LogoVentra} alt="logo ventra" className="w-40" />
-      <div>
+      <img src={LogoVentra} alt="logo ventra" className="w-40 my-8 md:my-0" />
+      <div className="flex flex-col items-center gap-2 md:block">
         <Link
           className="flex gap-2 items-center hover:text-lightblue"
           to="https://www.instagram.com/ventra.ar/"

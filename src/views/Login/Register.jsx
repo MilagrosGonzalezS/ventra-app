@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login, createUser } from "../../index.js";
 import { PuffLoader } from "react-spinners";
 import { Button, Input } from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 function Register() {
   const navigate = useNavigate();
@@ -24,20 +25,29 @@ function Register() {
     try {
       console.log(data); // Log the form data
       const res = await createUser(data);
-      const email = res.email;
-      const password = data.password;
-      await login({ email, password });
-      setIsLoading(false);
-      reset();
-      navigate("/");
-      window.location.reload(true);
+      if (res.error) {
+        console.log(res.error);
+        toast.error("Error al registrarse");
+        setIsLoading(false);
+      } else {
+        const email = res.email;
+        const password = data.password;
+        await login({ email, password });
+        setIsLoading(false);
+        reset();
+        toast.success("¡Te registraste!");
+        setTimeout(() => {
+          navigate("/");
+          window.location.reload(true);
+        }, 1500);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] bg-pattern">
+    <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent text-2xl text-pink">Registrate</h1>
@@ -117,6 +127,23 @@ function Register() {
             </Button>
           )}
         </form>
+        <Toaster
+          position="center-center"
+          toastOptions={{
+            success: {
+              style: {
+                background: "#232323",
+                color: "#FCFCFC",
+              },
+            },
+            error: {
+              style: {
+                background: "#232323",
+                color: "#FCFCFC",
+              },
+            },
+          }}
+        />
       </div>
     </main>
   );

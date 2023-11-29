@@ -61,22 +61,24 @@ function Checkout() {
           color="#04b290"
         />
       ) : (
-        <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
+        <section className="min-h-screen bg-opacity flex flex-col items-center justify-start p-10">
           <Link
             to={`/detalle/comprar/${event._id}`}
-            className="hover:text-lightblue"
+            className="hover:text-lightblue mb-2"
           >
             Volver
           </Link>
-          <article className="w-2/4 bg-dark mx-auto rounded-2xl border">
-            <div className="flex gap-4 bg-opacity p-4 rounded-t-2xl">
-              <h3 className="">{event.name}</h3>
-              <p>{event.category}</p>
+          <article className="w-full md:w-3/4 lg:w-2/4 bg-pattern mx-auto rounded-2xl border">
+            <div className="flex justify-between bg-opacity p-4 rounded-t-2xl">
+              <div>
+                <h3>{event.name}</h3>
+                <p>{event.category}</p>
+              </div>
               <p>{event.date ? event.date.slice(0, 10) : ""}</p>
             </div>
-            <div className="p-8">
+            <div className="p-6">
               <h4>Resumen de compra</h4>
-              <div className="my-12 border border-lightblue rounded-2xl p-4">
+              <div className="my-6 bg-lightblue text-dark rounded-2xl p-4 font-bold">
                 <div className="flex items-center justify-between">
                   <p>Entrada General x{amount}</p>
                   <p>${ticketsPrice}</p>
@@ -92,7 +94,7 @@ function Checkout() {
               <p>${totalPrice}</p>
               <Link
                 to={`/detalle/comprar/pago/${event.name}/${event._id}/${amount}`}
-                className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
+                className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600 text-dark font-medium"
               >
                 Ir a pagar
               </Link>

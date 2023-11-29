@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { getMyTickets } from "../../index.js";
 import QRCode from "react-qr-code";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,11 +26,8 @@ function MyTickets() {
   }, []);
   return (
     <>
-      <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl text-center">Mis Tickets</h1>
-        <h2 className="font-accent text-xl text-center">
-          Acá podés encontrar la lista de todas tus entradas
-        </h2>
+      <section className="flex-col items-center p-10">
+        <h1 className="font-accent text-2xl text-center">Tus entradas</h1>
         {isLoading ? (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
@@ -44,31 +43,34 @@ function MyTickets() {
               tickets.map((ticket) => (
                 <article
                   key={ticket._id}
-                  className="w-2/5 bg-opacity rounded-xl border p-8"
+                  className="w-full md:w-2/3 bg-opacity rounded-xl border py-5 px-6"
                 >
-                  <p className="text-gray-500">Órden número: {ticket._id}</p>
-                  <QRCode value={ticket._id} />
+                  <p className="text-gray-500">
+                    Órden número: {ticket._id.slice(0, 6)}
+                  </p>
+
                   <div className="flex justify-between items-center mb-4">
                     <strong className="text-xl ">{ticket.eventName}</strong>
-                    <div className="flex gap-2">
-                      <p className="bg-green text-dark px-2 rounded-md">
-                        {ticket.eventTime}
-                      </p>
-                      <p className="bg-green text-dark px-2 rounded-md">
-                        {ticket.eventDate ? ticket.eventDate.slice(0, 10) : ""}
-                      </p>
+                    <p className="px-2 rounded-md">
+                      {ticket.eventDate ? ticket.eventDate.slice(0, 10) : ""}
+                    </p>
+                    <p className="px-2 rounded-md">{ticket.eventTime}</p>
+                  </div>
+                  <div className="flex justify-between mb-4">
+                    <div>
+                      <p className="mb-4">{ticket.eventVenue}</p>
+                      <p>$ {ticket.eventPrice}</p>
                     </div>
+                    <QRCode className="w-1/6 h-fit" value={ticket._id} />
                   </div>
-                  <div className="flex gap-2">
-                    <p className="bg-pink px-2 rounded-md">
-                      {ticket.eventVenue}
-                    </p>
-                  </div>
-                  <div className=" flex justify-between mb-4">
-                    <p className="bg-green text-dark px-2 rounded-md">
-                      $ {ticket.eventPrice}
-                    </p>
-                  </div>
+                  <button className="bg-orange text-dark py-1 px-4 rounded-lg font-medium hover:bg-amber-700">
+                    Descargar Ticket
+                    <FontAwesomeIcon
+                      icon={faCircleChevronDown}
+                      color="#141414"
+                      className="ml-3"
+                    />
+                  </button>
                 </article>
               ))
             )}

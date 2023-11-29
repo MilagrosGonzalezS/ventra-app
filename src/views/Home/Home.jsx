@@ -74,10 +74,10 @@ function Home() {
   }, []);
 
   return (
-    <main className="px-20 bodyBg bg-no-repeat">
+    <main className="md:px-20 px-10 bodyBg bg-no-repeat">
       <section className="h-[90vh] flex flex-col justify-center">
-        <div className="flex justify-center items-center gap-8 mb-28 mt-12">
-          <div className="w-6/12 flex flex-col">
+        <div className="flex justify-center flex-col md:flex-row items-center gap-8 mb-28 mt-20 md:mt-12">
+          <div className="md:w-6/12  flex flex-col">
             <h1 className="font-accent text-[1.8rem] font-semibold">
               Organizá <span className="text-orange">eventos</span> únicos,
               vendé <span className="text-green">entradas</span> exclusivas y
@@ -103,7 +103,7 @@ function Home() {
               )}
             </div>
           </div>
-          <div className="w-6/12">
+          <div className="md:w-6/12">
             <MyCard></MyCard>
           </div>
         </div>
@@ -177,7 +177,7 @@ function Home() {
         </div>
         <h2 className="text-2xl my-4 font-accent">Más recientes</h2>
       </div>
-      <section className="flex gap-16 justify-start flex-wrap mt-4">
+      <section className="flex gap-16 justify-center flex-wrap mt-4">
         {isLoading && (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
@@ -212,6 +212,7 @@ function Home() {
       <div className="w-fit mx-auto my-12">
         <Pagination
           isCompact
+          color="secondary"
           showControls
           total={Math.ceil(eventsLength / 6)}
           initialPage={1}

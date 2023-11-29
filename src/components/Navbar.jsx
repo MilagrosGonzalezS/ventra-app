@@ -78,7 +78,7 @@ const NavBar = () => {
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" to="/crear-evento">
-            Crear Evento
+            Crear evento
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -108,7 +108,7 @@ const NavBar = () => {
                   navigation("/mi-cuenta");
                 }}
               >
-                Mi Perfil
+                Mi perfil
               </DropdownItem>
               <DropdownItem
                 key="mis_eventos"
@@ -140,7 +140,7 @@ const NavBar = () => {
                 onClick={handleLogout}
                 endContent={<FontAwesomeIcon icon={faRightFromBracket} />}
               >
-                Cerrar Sesión
+                Cerrar sesión
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -172,7 +172,7 @@ const NavBar = () => {
             to="/crear-evento"
             size="lg"
           >
-            Crear Evento
+            Crear evento
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>

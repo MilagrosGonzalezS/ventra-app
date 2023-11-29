@@ -121,7 +121,7 @@ function CreateEvent() {
                 required: "Campo obligatorio",
               })}
             >
-              <option value="">Selecciona un lugar</option>
+              <option value="">Seleccioná un lugar</option>
               <option value="CABA">CABA</option>
               <option value="Zona Norte">Zona Norte</option>
               <option value="Zona Oeste">Zona Oeste</option>
@@ -145,7 +145,7 @@ function CreateEvent() {
                 required: "Campo obligatorio",
               })}
             >
-              <option value="">Selecciona una categoría</option>
+              <option value="">Seleccioná una categoría</option>
               {[
                 "Concierto De Rock",
                 "Concierto De Pop",
@@ -180,7 +180,7 @@ function CreateEvent() {
               name="isFree"
               value="true"
               {...register("isFree", {
-                required: "Selecciona la visibilidad del evento",
+                required: "Seleccioná la visibilidad del evento",
               })}
               onChange={() => {
                 setIsFree(true);
@@ -196,7 +196,7 @@ function CreateEvent() {
               name="isFree"
               value="false"
               {...register("isFree", {
-                required: "Selecciona la visibilidad del evento",
+                required: "Seleccioná la visibilidad del evento",
               })}
               onChange={() => {
                 setIsFree(false);
@@ -310,7 +310,7 @@ function CreateEvent() {
               name="visibility"
               value="public"
               {...register("visibility", {
-                required: "Selecciona la visibilidad del evento",
+                required: "Seleccioná la visibilidad del evento",
               })}
             />
             <label htmlFor="public">Público</label>

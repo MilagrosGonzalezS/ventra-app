@@ -5,6 +5,7 @@ import { PuffLoader } from "react-spinners";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { createTicket, getEventById } from "../index.js";
 import { Input } from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 function PaymentForm() {
   const [tokenExists, setTokenExists] = useState(false);
   const navigation = useNavigate();
@@ -55,9 +56,11 @@ function PaymentForm() {
             console.log(error);
           });
       }
-
+      toast.success("¡Compra finalizada!");
       reset();
-      navigation("/mis-entradas");
+      setTimeout(() => {
+        navigation("/mis-entradas");
+      }, 1500);
     } catch (error) {}
   };
 
@@ -82,16 +85,16 @@ function PaymentForm() {
     />
   ) : tokenExists ? (
     <>
-      <main className="h-[90vh]">
-        <h1 className="font-accent text-center text-2xl text-light pt-8">
+      <main className="h-[90vh] p-10">
+        <h1 className="font-accent md:text-center text-2xl text-light pt-8">
           Realizar el pago
         </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
-          className="flex flex-wrap bg-opacity p-10"
+          className="flex flex-wrap bg-opacity"
         >
-          <div className="flex flex-col w-2/4 p-3">
+          <div className="flex flex-col w-full md:w-2/4 p-3">
             <Input
               label="Nombre"
               type="text"
@@ -108,7 +111,7 @@ function PaymentForm() {
             />
           </div>
 
-          <div className="flex flex-col w-2/4 p-3">
+          <div className="flex flex-col w-full md:w-2/4 p-3">
             <Input
               type="text"
               label="Apellido"
@@ -125,7 +128,7 @@ function PaymentForm() {
             />
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col w-2/4 md:w-2/6 p-3">
             <Input
               type="number"
               label="Número de tarjeta"
@@ -145,9 +148,9 @@ function PaymentForm() {
             />
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col w-2/4 md:w-2/6 p-3">
             <Input
-              label="Fecha de vencimiento"
+              label="Vencimiento"
               labelPlacement="outside"
               placeholder="0"
               type="text"
@@ -193,16 +196,27 @@ function PaymentForm() {
             />
           </div>
 
-          <div className="flex w-full justify-start items-baseline gap-4 p-3">
+          <div className="flex flex-col md:flex-row w-full justify-start items-baseline gap-4 p-3">
             <p className="text-xl">{name}</p>
             <p>Cantidad de entradas: {amount} </p>
             <p>Costo total a pagar: ${amount * event.price} </p>
             <button
               type="submit"
-              className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
+              className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600 font-medium text-dark"
             >
               Finalizar Compra
             </button>
+            <Toaster
+              position="center-center"
+              toastOptions={{
+                success: {
+                  style: {
+                    background: "#141414",
+                    color: "#FCFCFC",
+                  },
+                },
+              }}
+            />
           </div>
         </form>
       </main>

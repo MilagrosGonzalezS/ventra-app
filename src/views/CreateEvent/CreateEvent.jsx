@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { createEvent } from "../../index.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
+import toast, { Toaster } from "react-hot-toast";
 import {
   Button,
   Input,
@@ -58,7 +59,10 @@ function CreateEvent() {
       setIsCreatingEvent(false);
       //MENSAJE
       reset();
-      navigate("/mis-eventos");
+      toast.success("¡Evento Creado!");
+      setTimeout(() => {
+        navigate("/mis-eventos");
+      }, 1500);
     } catch (error) {
       console.error(error);
       setIsCreatingEvent(false);
@@ -73,15 +77,14 @@ function CreateEvent() {
   ) : tokenExists ? (
     <>
       <main className="h-auto bg-login">
-        {/* <h1 className="font-accent text-2xl text-green">Creá tu evento</h1> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
           className="flex flex-wrap bg-opacity p-10"
         >
-          <div className="flex flex-col w-2/4 p-3">
+          <div className="flex flex-col  md:w-2/4 p-3">
             <Input
-              label="Nombre del Evento"
+              label="Nombre del evento"
               type="text"
               labelPlacement="outside"
               placeholder="Nombre"
@@ -96,10 +99,10 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col w-2/4 p-3">
+          <div className="flex flex-col md:w-2/4 p-3">
             <Input
               type="text"
-              label="Lugar del Evento"
+              label="Lugar del evento"
               labelPlacement="outside"
               placeholder="Lugar"
               id="venue"
@@ -113,11 +116,11 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col md:w-2/6 p-3">
             <Select
               label="Zona del evento"
               labelPlacement="outside"
-              placeholder="Selecciona un lugar"
+              placeholder="Seleccioná un lugar"
               className="w-full"
               variant="bordered"
               name="zone"
@@ -143,11 +146,11 @@ function CreateEvent() {
             </Select>
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col md:w-2/6 p-3">
             <Select
               label="Categoría"
               labelPlacement="outside"
-              placeholder="Selecciona una categoría"
+              placeholder="Seleccioná una categoría"
               className="w-full"
               variant="bordered"
               name="category"
@@ -185,52 +188,7 @@ function CreateEvent() {
             </Select>
           </div>
 
-          {/* <div className="flex flex-col w-2/6 p-3">
-            <RadioGroup
-              label="Tipo de Evento"
-              orientation="horizontal"
-              {...register("isFree", {
-                required: "Selecciona la visibilidad del evento.",
-              })}
-              isInvalid={!!errors.isFree}
-              errorMessage={errors.isFree && errors.isFree.message}
-            >
-              <Radio
-                id="freeEvent"
-                name="isFree"
-                value="true"
-                onChange={() => {
-                  setIsFree(true);
-                  setPrice(0);
-                }}
-                {...register("isFree", {
-                  required: "Selecciona la visibilidad del evento.",
-                })}
-                isInvalid={!!errors.isFree}
-                errorMessage={errors.isFree && errors.isFree.message}
-              >
-                Gratuito
-              </Radio>
-              <Radio
-                id="payEvent"
-                name="isFree"
-                value="false"
-                onChange={() => {
-                  setIsFree(false);
-                  setPrice();
-                }}
-                {...register("isFree", {
-                  required: "Selecciona la visibilidad del evento.",
-                })}
-                isInvalid={!!errors.isFree}
-                errorMessage={errors.isFree && errors.isFree.message}
-              >
-                Pago
-              </Radio>
-            </RadioGroup>
-          </div> */}
-
-          <div className="flex flex-col w-2/6 p-2">
+          <div className="flex flex-col md:w-2/6 p-2">
             <label htmlFor="isFree" className="mr-2 mb-2 text-sm">
               ¿Es un evento gratuito o pago?
             </label>
@@ -241,7 +199,7 @@ function CreateEvent() {
                 name="isFree"
                 value="true"
                 {...register("isFree", {
-                  required: "Selecciona la visibilidad del evento",
+                  required: "Seleccioná la visibilidad del evento",
                 })}
                 onChange={() => {
                   setIsFree(true);
@@ -257,7 +215,7 @@ function CreateEvent() {
                 name="isFree"
                 value="false"
                 {...register("isFree", {
-                  required: "Selecciona la visibilidad del evento",
+                  required: "Seleccioná la visibilidad del evento",
                 })}
                 onChange={() => {
                   setIsFree(false);
@@ -276,7 +234,7 @@ function CreateEvent() {
           </div>
 
           {!isFree && (
-            <div className="w-2/6 p-3">
+            <div className="md:w-2/6 p-3">
               <Input
                 label="Precio"
                 labelPlacement="outside"
@@ -295,9 +253,9 @@ function CreateEvent() {
             </div>
           )}
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col md:w-2/6 p-3">
             <Input
-              label="Cantidad de Tickets"
+              label="Cantidad de tickets"
               labelPlacement="outside"
               placeholder="0"
               type="number"
@@ -312,7 +270,7 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col md:w-2/6 p-3">
             <Input
               label="Fecha"
               labelPlacement="outside"
@@ -329,7 +287,7 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col md:w-2/6 p-3">
             <Input
               label="Hora"
               labelPlacement="outside"
@@ -346,12 +304,12 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col md:w-2/6 p-3">
             <RadioGroup
               label="Visibilidad del evento"
               orientation="horizontal"
               {...register("visibility", {
-                required: "Selecciona la visibilidad del evento.",
+                required: "Seleccioná la visibilidad del evento.",
               })}
               isInvalid={!!errors.visibility}
               errorMessage={errors.visibility && errors.visibility.message}
@@ -361,7 +319,7 @@ function CreateEvent() {
                 name="visibility"
                 value="private"
                 {...register("visibility", {
-                  required: "Selecciona la visibilidad del evento.",
+                  required: "Seleccioná la visibilidad del evento.",
                 })}
                 errorMessage={errors.visibility && errors.visibility.message}
               >
@@ -372,7 +330,7 @@ function CreateEvent() {
                 name="visibility"
                 value="public"
                 {...register("visibility", {
-                  required: "Selecciona la visibilidad del evento.",
+                  required: "Seleccioná la visibilidad del evento.",
                 })}
                 errorMessage={errors.visibility && errors.visibility.message}
               >
@@ -381,26 +339,11 @@ function CreateEvent() {
             </RadioGroup>
           </div>
 
-          {/* <div className="flex flex-col w-2/6 p-3">
-            <Input
-              label="Portada del Evento"
-              labelPlacement="outside"
-              placeholder=" "
-              type="file"
-              id="cover"
-              name="cover"
-              variant="bordered"
-              onChange={handleFileChange}
-              {...register("cover", {})}
-              isInvalid={!!errors.cover}
-              errorMessage={errors.cover && errors.cover.message}
-            />
-          </div> */}
-          <div className="flex flex-col w-2/6 p-3">
+          <div className="flex flex-col  md:w-2/6 p-3">
             <label htmlFor="cover">Portada del evento</label>
             <br />
             <input
-              className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-auto"
+              className="bg-opacity border-solid border-1 border-light mb-8 rounded-md w-11/12"
               type="file"
               name="cover"
               id="cover"
@@ -429,31 +372,6 @@ function CreateEvent() {
             />
           </div>
 
-          {/* <div className="p-3">
-            <RadioGroup
-              {...register("termsAndConditions", {
-                required: "Los términos y condiciones son obligatorios.",
-              })}
-              isInvalid={!!errors.termsAndConditions}
-              errorMessage={
-                errors.termsAndConditions && errors.termsAndConditions.message
-              }
-            >
-              <Radio
-                id="termsAndConditions"
-                name="termsAndConditions"
-                value="termsAndConditions"
-                {...register("termsAndConditions", {
-                  required: "Los términos y condiciones son obligatorios.",
-                })}
-                errorMessage={
-                  errors.termsAndConditions && errors.termsAndConditions.message
-                }
-              >
-                Aceptar los Términos y condiciones.
-              </Radio>
-            </RadioGroup>
-          </div> */}
           <div className="p-3">
             <label htmlFor="termsAndConditions">Terminos y Condiciones</label>
             <br />
@@ -481,15 +399,22 @@ function CreateEvent() {
               Crear evento
             </Button>
           </div>
+          <Toaster position="center-center"></Toaster>
         </form>
       </main>
     </>
   ) : (
-    <div className="flex justify-center my-8">
-      <h1 className="text-4xl font-accent text-center text-pink font-semibold">
-        TENÉS QUE INICAR SESIÓN <br /> PARA PODER CREAR UN EVENTO
+    <section className="min-h-screen flex flex-col justify-start mt-12">
+      <h1 className="font-accent text-center text-2xl">
+        Para poder crear un evento, por favor iniciá sesión
       </h1>
-    </div>
+      <Link
+        to="/iniciar-sesion"
+        className="block bg-lightblue py-2 px-4 mx-auto rounded-2xl mt-8"
+      >
+        Iniciar Sesión
+      </Link>
+    </section>
   );
 }
 

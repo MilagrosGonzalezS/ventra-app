@@ -41,8 +41,8 @@ function EventDetails() {
   return (
     <>
       {isLoading && <PuffLoader />}
-      <section className="bg-dark flex gap-16 p-8 rounded-2xl mx-auto my-8 w-2/3">
-        <div className="w-1/3 rounded-2xl">
+      <section className="bg-dark flex flex-col md:flex-row gap-16 p-8 rounded-2xl mx-auto my-28 w-2/3 bg-pattern">
+        <div className="w-full lg:w-1/3 rounded-2xl">
           <img
             className="w-full"
             src={`http://localhost/ventra-API/${event.cover}`}

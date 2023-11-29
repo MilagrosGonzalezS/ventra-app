@@ -2,12 +2,13 @@ import { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fasFaHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farFaHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeartBroken } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
-// import { Link } from "react-router-dom";
 import { addToWishlist, deleteFromWishlist } from "../index.js";
 import { AuthContext } from "../context/AuthContext.jsx";
+import toast, { Toaster } from "react-hot-toast";
 
 function EventCard(props) {
   const navigation = useNavigate();
@@ -33,6 +34,15 @@ function EventCard(props) {
   const handleDeleteFromWishlist = async () => {
     await deleteFromWishlist(props.id).then(() => {
       setIsFavorite(false);
+      toast("Quitado de favoritos", {
+        icon: (
+          <FontAwesomeIcon icon={faHeartBroken} style={{ color: "#c61022" }} />
+        ),
+        style: {
+          background: "#232323",
+          color: "#FCFCFC",
+        },
+      });
     });
   };
 
@@ -40,6 +50,15 @@ function EventCard(props) {
     await addToWishlist(wishlistData)
       .then((res) => {
         setIsFavorite(true);
+        toast("Agregado a favoritos", {
+          icon: (
+            <FontAwesomeIcon icon={fasFaHeart} style={{ color: "#c61022" }} />
+          ),
+          style: {
+            background: "#232323",
+            color: "#FCFCFC",
+          },
+        });
         console.log(res);
       })
       .catch((error) => {
@@ -57,12 +76,14 @@ function EventCard(props) {
           {token ? (
             isFavorite ? (
               <FontAwesomeIcon
+                className="cursor-pointer"
                 icon={fasFaHeart}
                 style={{ color: "#c61022", fontSize: "25px" }}
                 onClick={handleDeleteFromWishlist}
               />
             ) : (
               <FontAwesomeIcon
+                className="cursor-pointer"
                 icon={farFaHeart}
                 style={{ color: "#232323", fontSize: "25px" }}
                 onClick={handleAddToWishlist}
@@ -99,6 +120,7 @@ function EventCard(props) {
           </Button>
         </CardFooter>
       </Card>
+      <Toaster position="center-center" />
     </>
   );
 }

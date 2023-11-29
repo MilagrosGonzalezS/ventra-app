@@ -37,9 +37,9 @@ const MyCard = () => {
             </p>
           </div>
         </div>
-        <Button radius="full" size="sm">
+        {/* <Button radius="full" size="sm">
           Ver Más
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );
