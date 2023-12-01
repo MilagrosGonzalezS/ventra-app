@@ -22,7 +22,7 @@ function Wishlist() {
   }, []);
   return (
     <>
-      <section className="min-h-screen flex-col items-center bg-pattern px-20 pt-12">
+      <section className="min-h-screen flex-col items-center bg-pattern px-10 pt-12">
         <h1 className="font-accent text-3xl text-pink mb-8">
           Tus eventos favoritos
         </h1>
@@ -32,7 +32,7 @@ function Wishlist() {
             color="#04b290"
           />
         ) : (
-          <div className="flex gap-16 justify-start flex-wrap mt-4">
+          <div className="flex gap-16 justify-center flex-wrap mt-4 pb-20">
             {wishlist.length === 0 ? (
               <p className="font-accent text-center">
                 Aún no tenés ningun evento favorito.

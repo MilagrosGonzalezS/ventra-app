@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import { userData, editMyProfile } from "../../index.js";
 import { Button, Input } from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 function EditProfile() {
   const [user, setUser] = useState({});
@@ -25,9 +26,13 @@ function EditProfile() {
       await editMyProfile(data, userId);
       reset();
       setIsEditingUser(false);
-      navigate("/mi-cuenta");
+      toast.success("Editaste tus datos con éxito");
+      setTimeout(() => {
+        navigate("/mi-cuenta");
+      }, 1500);
     } catch (error) {
       console.error(error);
+      toast.error("Error al editar tus datos");
       setIsEditingUser(false);
     }
   };
@@ -60,13 +65,13 @@ function EditProfile() {
             color="#04b290"
           />
         ) : (
-          <div className="flex flex-col items-center gap-16 flex-wrap ">
+          <div className="flex flex-col items-center gap-16 flex-wrap py-12">
             <form
               onSubmit={handleSubmit(onSubmit)}
               key={user._id}
-              className="w-2/5 bg-opacity rounded-xl border p-8"
+              className="md:w-2/5 bg-opacity rounded-xl border  p-8  "
             >
-              <div className="flex flex-col w-2/4 p-3">
+              <div className="flex flex-col w-full mb-4 md:p-3">
                 <Input
                   label="Nombre de usuario"
                   type="text"
@@ -83,29 +88,11 @@ function EditProfile() {
                   errorMessage={errors.username && errors.username.message}
                 />
               </div>
-              {/* <div className="w-1/3">
-                <label htmlFor="name">Nombre</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-                  type="text"
-                  name="username"
-                  id="username"
-                  defaultValue={user.username}
-                  {...register("username", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.username && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.username.message}
-                  </span>
-                )}
-              </div> */}
-              <div className="flex flex-col w-2/4 p-3">
+              <div className="flex flex-col w-full md:p-3">
                 <Input
                   type="email"
                   label="Email"
+                  labelPlacement="outside"
                   id="email"
                   name="email"
                   variant="bordered"
@@ -122,37 +109,30 @@ function EditProfile() {
                   isInvalid={!!errors.email}
                   errorMessage={errors.email && errors.email.message}
                 />
-                {/* <label htmlFor="email">Email</label>
-                <br />
-                <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
-                  type="email"
-                  name="email"
-                  id="email"
-                  defaultValue={user.email}
-                  {...register("email", {
-                    required: "Campo obligatorio",
-                  })}
-                />
-                {errors.email && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.email.message}
-                  </span>
-                )} */}
               </div>
               <Button className="w-full bg-green text-black" type="submit">
                 Editar Datos
               </Button>
-              {/* <button
-                disabled={isEditingUser}
-                type="submit"
-                className="bg-pink text-light px-2 text-xl font-semibold rounded-md"
-              >
-                EDITAR DATOS
-              </button> */}
             </form>
           </div>
         )}
+        <Toaster
+          position="center-center"
+          toastOptions={{
+            success: {
+              style: {
+                background: "#232323",
+                color: "#FCFCFC",
+              },
+            },
+            error: {
+              style: {
+                background: "#232323",
+                color: "#FCFCFC",
+              },
+            },
+          }}
+        />
       </section>
     </>
   );

@@ -28,7 +28,7 @@ async function login(data) {
     }
   } catch (error) {
     console.error("Error al loguearse:", error.message);
-    return { error: "Error al loguearse" };
+    return { error: error.message };
   }
 }
 

@@ -9,6 +9,7 @@ import {
   deleteMyEvent,
 } from "../../index.js";
 import { Button, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -46,9 +47,13 @@ function EditMyEvent() {
       await editMyEvent(eventData, eventId);
       setIsCreatingEvent(false);
       reset();
-      navigate("/mis-eventos");
+      toast.success("Editaste tu evento con éxito");
+      setTimeout(() => {
+        navigate("/mis-eventos");
+      }, 1500);
     } catch (error) {
       console.error(error);
+      toast.success("Error al editar tu evento");
       setIsCreatingEvent(false);
     }
   };
@@ -95,9 +100,9 @@ function EditMyEvent() {
                 debes eliminar el evento y volver a crearlo.
               </p>
 
-              <div className="flex flex-col w-2/4 p-3">
+              <div className="flex flex-col md:w-2/4 p-3">
                 <Input
-                  label="Nombre del Evento"
+                  label="Nombre del evento"
                   type="text"
                   labelPlacement="outside"
                   placeholder="Nombre"
@@ -112,10 +117,10 @@ function EditMyEvent() {
                   errorMessage={errors.name && errors.name.message}
                 />
               </div>
-              <div className="flex flex-col w-2/4 p-3">
+              <div className="flex flex-col md:w-2/4 p-3">
                 <Input
                   type="text"
-                  label="Lugar del Evento"
+                  label="Lugar del evento"
                   labelPlacement="outside"
                   placeholder="Lugar"
                   id="venue"
@@ -130,11 +135,11 @@ function EditMyEvent() {
                 />
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col md:w-2/6 p-3">
                 <label htmlFor="zone">Zona del evento</label>
                 <br />
                 <select
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
+                  className="bg-opacity border-solid border-1 border-light mb-8 mt-1 px-2 rounded-md w-auto"
                   name="zone"
                   id="zone"
                   defaultValue={event.zone}
@@ -142,7 +147,7 @@ function EditMyEvent() {
                     required: "Campo obligatorio",
                   })}
                 >
-                  <option value="">Selecciona un lugar</option>
+                  <option value="">Seleccioná un lugar</option>
                   <option value="CABA">CABA</option>
                   <option value="Zona Norte">Zona Norte</option>
                   <option value="Zona Oeste">Zona Oeste</option>
@@ -156,11 +161,11 @@ function EditMyEvent() {
                 )}
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col md:w-2/6 p-3">
                 <label htmlFor="category">Categoría</label>
                 <br />
                 <select
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md  w-auto"
+                  className="bg-opacity border-solid border-1 border-light mb-8 mt-1 px-2 rounded-md  w-auto"
                   name="category"
                   id="category"
                   defaultValue={event.category}
@@ -168,7 +173,7 @@ function EditMyEvent() {
                     required: "Campo obligatorio",
                   })}
                 >
-                  <option value="">Selecciona una categoría</option>
+                  <option value="">Seleccioná una categoría</option>
                   {[
                     "Concierto De Rock",
                     "Concierto De Pop",
@@ -192,7 +197,7 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-              <div className="w-2/6 p-3">
+              <div className="md:w-2/6 p-3">
                 <Input
                   label="Precio"
                   labelPlacement="outside"
@@ -211,9 +216,9 @@ function EditMyEvent() {
                 />
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col md:w-2/6 p-3">
                 <Input
-                  label="Cantidad de Tickets"
+                  label="Cantidad de tickets"
                   labelPlacement="outside"
                   placeholder="0"
                   type="number"
@@ -231,7 +236,7 @@ function EditMyEvent() {
                 />
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col md:w-2/6 p-3">
                 <Input
                   label="Fecha"
                   labelPlacement="outside"
@@ -249,7 +254,7 @@ function EditMyEvent() {
                 />
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col md:w-2/6 p-3">
                 <Input
                   label="Hora"
                   labelPlacement="outside"
@@ -267,13 +272,13 @@ function EditMyEvent() {
                 />
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col md:w-2/6 p-3">
                 <RadioGroup
                   label="Visibilidad del evento"
                   orientation="horizontal"
                   defaultValue={event.visibility}
                   {...register("visibility", {
-                    required: "Selecciona la visibilidad del evento.",
+                    required: "Seleccioná la visibilidad del evento.",
                   })}
                   isInvalid={!!errors.visibility}
                   errorMessage={errors.visibility && errors.visibility.message}
@@ -284,7 +289,7 @@ function EditMyEvent() {
                     value="private"
                     defaultChecked={event.visibility === "private"}
                     {...register("visibility", {
-                      required: "Selecciona la visibilidad del evento.",
+                      required: "Seleccioná la visibilidad del evento.",
                     })}
                     errorMessage={
                       errors.visibility && errors.visibility.message
@@ -298,7 +303,7 @@ function EditMyEvent() {
                     value="public"
                     defaultChecked={event.visibility === "public"}
                     {...register("visibility", {
-                      required: "Selecciona la visibilidad del evento.",
+                      required: "Seleccioná la visibilidad del evento.",
                     })}
                     errorMessage={
                       errors.visibility && errors.visibility.message
@@ -309,11 +314,11 @@ function EditMyEvent() {
                 </RadioGroup>
               </div>
 
-              <div className="flex flex-col w-2/6 p-3">
+              <div className="flex flex-col w-5/6 md:w-2/6 p-3">
                 <label htmlFor="cover">Portada del evento</label>
                 <br />
                 <input
-                  className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 rounded-md w-auto"
+                  className="bg-opacity border-solid border-1  border-light mb-8 rounded-md w-auto"
                   type="file"
                   name="cover"
                   id="cover"
@@ -348,7 +353,7 @@ function EditMyEvent() {
                 <Button
                   disabled={isCreatingEvent}
                   type="submit"
-                  className="bg-pink text-light"
+                  className="bg-pink text-light w-full"
                 >
                   Editar evento
                 </Button>
@@ -356,7 +361,7 @@ function EditMyEvent() {
                   onClick={() => handleDeleteEvent(eventId)}
                   className="bg-red-700 text-light w-full"
                 >
-                  Eliminar Evento
+                  Eliminar evento
                 </Button>
               </div>
             </form>
@@ -365,7 +370,7 @@ function EditMyEvent() {
             <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
               <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
                 <p className="text-light text-lg">
-                  ¿Estás seguro de que deseas eliminar este evento?
+                  ¿Estás seguro de que deseás eliminar este evento?
                 </p>
                 <div className="mt-4 flex justify-center gap-16">
                   <button
@@ -394,6 +399,23 @@ function EditMyEvent() {
             </div>
           )}
         </div>
+        <Toaster
+          position="center-center"
+          toastOptions={{
+            success: {
+              style: {
+                background: "#232323",
+                color: "#FCFCFC",
+              },
+            },
+            error: {
+              style: {
+                background: "#232323",
+                color: "#FCFCFC",
+              },
+            },
+          }}
+        />
       </section>
     </main>
   );

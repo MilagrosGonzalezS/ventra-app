@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import { deleteMyEvent, getMyEvents } from "../../index.js";
+import { getMyEvents } from "../../index.js";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import Cookies from "js-cookie";
 
 function MyEvents() {
-  const { user } = useContext(AuthContext);
-  const userId = user.id;
+  const userId = Cookies.get("userId");
+  console.log("userId", userId);
   const navigation = useNavigate();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +31,7 @@ function MyEvents() {
 
   return (
     <>
-      <section className="min-h-screen flex-col items-center bg-pattern px-20 pt-12">
+      <section className="min-h-screen flex-col items-center bg-pattern px-10 py-12">
         <h1 className="font-accent text-3xl text-orange mb-8">Mis Eventos</h1>
         {isLoading ? (
           <PuffLoader
@@ -39,7 +39,7 @@ function MyEvents() {
             color="#04b290"
           />
         ) : (
-          <div className="flex gap-16 justify-start flex-wrap mt-4">
+          <div className="flex gap-16 justify-center flex-wrap mt-4">
             {events.length === 0 ? (
               <p className="font-accent text-center">
                 Aún no has creado ningún evento.

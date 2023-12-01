@@ -47,22 +47,29 @@ function BuyTicket() {
           color="#04b290"
         />
       ) : (
-        <section className="min-h-screen bg-opacity flex flex-col items-center justify-center">
-          <Link to={`/detalle/${event._id}`} className="hover:text-lightblue">
+        <section className="min-h-screen bg-opacity flex flex-col items-center justify-start p-10">
+          <Link
+            to={`/detalle/${event._id}`}
+            className="hover:text-lightblue mb-2"
+          >
             Volver
           </Link>
-          <article className="w-2/4 bg-dark mx-auto rounded-2xl border">
-            <div className="flex gap-4 bg-opacity p-4 rounded-t-2xl">
-              <h3 className="">{event.name}</h3>
-              <p>{event.category}</p>
+          <article className="w-full md:w-3/4 lg:w-2/4 bg-pattern mx-auto rounded-2xl border">
+            <div className="flex justify-between bg-opacity p-4 rounded-t-2xl">
+              <div>
+                <h3>{event.name}</h3>
+                <p>{event.category}</p>
+              </div>
               <p>{event.date ? event.date.slice(0, 10) : ""}</p>
             </div>
-            <div className="p-8">
+            <div className="p-6">
               <h4>Seleccioná tu entrada</h4>
-              <div className="flex items-center justify-between my-12 border border-lightblue rounded-2xl p-4">
-                <p>Entrada General</p>
-                <p>${event.price}</p>
-                <div className="bg-opacity py-2 px-4 rounded-xl">
+              <div className="flex items-center justify-between my-6 gap-2 bg-lightblue text-dark rounded-2xl p-4">
+                <div className="flex flex-col md:flex-row gap-4 font-bold">
+                  <p>Entrada General</p>
+                  <p>${event.price}</p>
+                </div>
+                <div className="bg-opacity py-2 px-4 rounded-xl  text-light">
                   <p>Cantidad</p>
                   <div className="flex justify-evenly">
                     <button onClick={handleSubstract}>-</button>
@@ -78,7 +85,7 @@ function BuyTicket() {
               {amount > 0 && (
                 <Link
                   to={`/detalle/comprar/${event._id}/checkout/${amount}`}
-                  className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600"
+                  className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600 text-dark font-medium"
                 >
                   Comprar
                 </Link>

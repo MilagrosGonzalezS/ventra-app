@@ -1,10 +1,11 @@
 // import React from 'react'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../index.js";
 import { PuffLoader } from "react-spinners";
 import { Button, Input } from "@nextui-org/react";
+import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
@@ -23,21 +24,21 @@ function Login() {
     setIsLoading(true);
     setError(null);
     try {
-      console.log(data);
       const response = await login(data);
-
       if (response.error) {
         setIsLoading(false);
-
-        setError(response.error);
+        toast.error("Error al loguearse");
       } else {
         // setToken(response.jwToken);
         console.log("data.token", response.jwToken);
         console.log("data", response);
         setIsLoading(false);
         reset();
-        navigate("/");
-        window.location.reload(true);
+        toast.success("¡Iniciaste sesión!");
+        setTimeout(() => {
+          navigate("/");
+          window.location.reload(true);
+        }, 1500);
       }
     } catch (error) {
       console.log(error);
@@ -47,7 +48,7 @@ function Login() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] bg-pattern">
+    <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent text-2xl text-green">Iniciar Sesión</h1>
@@ -101,6 +102,23 @@ function Login() {
               Iniciar Sesión
             </Button>
           )}
+          <Toaster
+            position="center-center"
+            toastOptions={{
+              success: {
+                style: {
+                  background: "#232323",
+                  color: "#FCFCFC",
+                },
+              },
+              error: {
+                style: {
+                  background: "#232323",
+                  color: "#FCFCFC",
+                },
+              },
+            }}
+          />
         </form>
       </div>
     </main>
