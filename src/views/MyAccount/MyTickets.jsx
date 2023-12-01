@@ -24,7 +24,7 @@ function MyTickets() {
   }, []);
   return (
     <>
-      <section className="flex-col items-center">
+      <section className="flex-col items-center min-h-screen">
         <h1 className="font-accent text-2xl text-center">Mis Tickets</h1>
         <h2 className="font-accent text-xl text-center">
           Acá podés encontrar la lista de todas tus entradas
