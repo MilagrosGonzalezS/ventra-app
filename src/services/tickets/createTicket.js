@@ -24,7 +24,6 @@ async function createTicket(data) {
       }
     )
     .then(async function (res) {
-      console.log(res.data);
       await updateEventTickets(data.eventId);
       return res.data;
     })

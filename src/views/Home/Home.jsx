@@ -76,7 +76,7 @@ function Home() {
   return (
     <main className="md:px-20 px-10 bodyBg bg-no-repeat">
       <section className="h-[90vh] flex flex-col justify-center">
-        <div className="flex justify-center flex-col md:flex-row items-center gap-8 mb-28 mt-20 md:mt-12">
+        <div className="flex justify-center flex-col md:flex-row items-center gap-8 mb-5 md:mb-28 mt-20 md:mt-12">
           <div className="md:w-6/12  flex flex-col">
             <h1 className="font-accent text-[1.8rem] font-semibold">
               Organizá <span className="text-orange">eventos</span> únicos,
@@ -120,7 +120,7 @@ function Home() {
       </section>
 
       {searchResults.length !== 0 && (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center my-4 gap-4">
           <div className="w-16">
             <img
               className="w-full"
@@ -128,7 +128,7 @@ function Home() {
               alt="recurso gráfico de colores"
             />
           </div>
-          <h2 className="text-2xl my-4 font-accent">
+          <h2 className="text-xl md:text-2xl my-4 font-accent">
             {selectedCategory && !selectedSearch
               ? `Categoría: ${selectedCategory}`
               : `Búsqueda: ${selectedSearch}`}

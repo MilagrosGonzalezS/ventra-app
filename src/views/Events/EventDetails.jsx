@@ -56,12 +56,18 @@ function EventDetails() {
           <p className="text-lg">${event.price}</p>
           <div className="flex gap-4">
             {!event.isFree ? (
-              <Link
-                className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark"
-                to={`/detalle/comprar/${event._id}`}
-              >
-                Comprar
-              </Link>
+              event.ticketCount === 0 ? (
+                <p className="rounded-2xl bg-red-700 py-2 px-4 my-4 w-fit text-light">
+                  Entradas Agotadas
+                </p>
+              ) : (
+                <Link
+                  className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark"
+                  to={`/detalle/comprar/${event._id}`}
+                >
+                  Comprar
+                </Link>
+              )
             ) : (
               <p className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark">
                 Evento Gratuito

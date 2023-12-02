@@ -100,7 +100,7 @@ function EditMyEvent() {
                 debes eliminar el evento y volver a crearlo.
               </p>
 
-              <div className="flex flex-col md:w-2/4 p-3">
+              <div className="flex flex-col w-full md:w-2/4 p-3">
                 <Input
                   label="Nombre del evento"
                   type="text"
@@ -117,7 +117,7 @@ function EditMyEvent() {
                   errorMessage={errors.name && errors.name.message}
                 />
               </div>
-              <div className="flex flex-col md:w-2/4 p-3">
+              <div className="flex flex-col w-full md:w-2/4 p-3">
                 <Input
                   type="text"
                   label="Lugar del evento"
@@ -135,11 +135,13 @@ function EditMyEvent() {
                 />
               </div>
 
-              <div className="flex flex-col md:w-2/6 p-3">
-                <label htmlFor="zone">Zona del evento</label>
-                <br />
+              <div className="flex flex-col w-full md:w-2/6 p-3">
+                <label className="text-sm" htmlFor="zone">
+                  Zona del evento
+                </label>
+
                 <select
-                  className="bg-opacity border-solid border-1 border-light mb-8 mt-1 px-2 rounded-md w-auto"
+                  className="bg-opacity border-solid border-1 border-gray-500 py-1.5 mb-8 mt-1 px-2 rounded-xl w-auto"
                   name="zone"
                   id="zone"
                   defaultValue={event.zone}
@@ -161,11 +163,13 @@ function EditMyEvent() {
                 )}
               </div>
 
-              <div className="flex flex-col md:w-2/6 p-3">
-                <label htmlFor="category">Categoría</label>
-                <br />
+              <div className="flex flex-col w-full md:w-2/6 p-3">
+                <label className="text-sm" htmlFor="category">
+                  Categoría
+                </label>
+
                 <select
-                  className="bg-opacity border-solid border-1 border-light mb-8 mt-1 px-2 rounded-md  w-auto"
+                  className="bg-opacity border-solid border-1 border-gray-500 mb-8 mt-1 px-2 py-1.5 rounded-xl  w-auto"
                   name="category"
                   id="category"
                   defaultValue={event.category}
@@ -197,26 +201,28 @@ function EditMyEvent() {
                   </span>
                 )}
               </div>
-              <div className="md:w-2/6 p-3">
-                <Input
-                  label="Precio"
-                  labelPlacement="outside"
-                  type="number"
-                  placeholder="0.00"
-                  id="price"
-                  name="price"
-                  variant="bordered"
-                  defaultValue={event.price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  {...register("price", {
-                    required: "Campo obligatorio.",
-                  })}
-                  isInvalid={!!errors.price}
-                  errorMessage={errors.price && errors.price.message}
-                />
-              </div>
+              {events[0].isFree ? null : (
+                <div className="w-full md:w-2/6 p-3">
+                  <Input
+                    label="Precio"
+                    labelPlacement="outside"
+                    type="number"
+                    placeholder="0.00"
+                    id="price"
+                    name="price"
+                    variant="bordered"
+                    defaultValue={event.price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    {...register("price", {
+                      required: "Campo obligatorio.",
+                    })}
+                    isInvalid={!!errors.price}
+                    errorMessage={errors.price && errors.price.message}
+                  />
+                </div>
+              )}
 
-              <div className="flex flex-col md:w-2/6 p-3">
+              <div className="flex flex-col w-full md:w-2/6 p-3">
                 <Input
                   label="Cantidad de tickets"
                   labelPlacement="outside"
@@ -314,7 +320,7 @@ function EditMyEvent() {
                 </RadioGroup>
               </div>
 
-              <div className="flex flex-col w-5/6 md:w-2/6 p-3">
+              <div className="flex flex-col w-full md:w-2/6 p-3">
                 <label htmlFor="cover">Portada del evento</label>
                 <br />
                 <input
@@ -367,8 +373,8 @@ function EditMyEvent() {
             </form>
           ))}
           {isDeleteModalOpen && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
-              <div className="bg-dark rounded-lg p-8 fixed bottom-1/2 right-1/3 m-4 border">
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center  bg-gray-800 bg-opacity-70 z-50">
+              <div className="bg-dark rounded-lg p-8 fixed A m-4 border">
                 <p className="text-light text-lg">
                   ¿Estás seguro de que deseás eliminar este evento?
                 </p>
@@ -382,7 +388,7 @@ function EditMyEvent() {
 
                       setIsDeleteModalOpen(false); // Cerrar el modal después de eliminar
                     }}
-                    className="bg-red-600 text-white px-4 py-2 rounded-md mr-4"
+                    className="bg-red-600 text-white px-4 py-2 rounded-xl mr-4"
                   >
                     Eliminar
                   </button>
@@ -390,7 +396,7 @@ function EditMyEvent() {
                     onClick={() => {
                       setIsDeleteModalOpen(false); // Cerrar el modal sin eliminar
                     }}
-                    className="bg-green text-dark px-4 py-2 rounded-md"
+                    className="bg-green text-dark px-4 py-2 rounded-xl"
                   >
                     Cancelar
                   </button>

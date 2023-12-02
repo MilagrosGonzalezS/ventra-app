@@ -51,9 +51,6 @@ function CreateEvent() {
     event.preventDefault();
     setIsCreatingEvent(true);
     data = price === 0 ? { ...data, cover, price } : { ...data, cover };
-    console.log(cover);
-    console.log("data", data);
-    console.log("price", price);
     try {
       await createEvent(data);
       setIsCreatingEvent(false);
@@ -77,12 +74,13 @@ function CreateEvent() {
   ) : tokenExists ? (
     <>
       <main className="h-auto bg-login">
+        <h1 className="font-accent text-2xl text-center">Creá tu evento</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
           className="flex flex-wrap bg-opacity p-10"
         >
-          <div className="flex flex-col  md:w-2/4 p-3">
+          <div className="flex flex-col   w-full md:w-2/4 p-3">
             <Input
               label="Nombre del evento"
               type="text"
@@ -99,7 +97,7 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col md:w-2/4 p-3">
+          <div className="flex flex-col  w-full md:w-2/4 p-3">
             <Input
               type="text"
               label="Lugar del evento"
@@ -116,7 +114,7 @@ function CreateEvent() {
             />
           </div>
 
-          <div className="flex flex-col md:w-2/6 p-3">
+          <div className="flex flex-col w-full md:w-2/6 p-3">
             <Select
               label="Zona del evento"
               labelPlacement="outside"
@@ -146,7 +144,7 @@ function CreateEvent() {
             </Select>
           </div>
 
-          <div className="flex flex-col md:w-2/6 p-3">
+          <div className="flex flex-col w-full md:w-2/6 p-3">
             <Select
               label="Categoría"
               labelPlacement="outside"
@@ -188,7 +186,7 @@ function CreateEvent() {
             </Select>
           </div>
 
-          <div className="flex flex-col md:w-2/6 p-2">
+          <div className="flex flex-col w-full md:w-2/6 p-2">
             <label htmlFor="isFree" className="mr-2 mb-2 text-sm">
               ¿Es un evento gratuito o pago?
             </label>
@@ -234,7 +232,7 @@ function CreateEvent() {
           </div>
 
           {!isFree && (
-            <div className="md:w-2/6 p-3">
+            <div className="w-full md:w-2/6 p-3">
               <Input
                 label="Precio"
                 labelPlacement="outside"
@@ -253,7 +251,7 @@ function CreateEvent() {
             </div>
           )}
 
-          <div className="flex flex-col md:w-2/6 p-3">
+          <div className="flex flex-col w-full md:w-2/6 p-3">
             <Input
               label="Cantidad de tickets"
               labelPlacement="outside"

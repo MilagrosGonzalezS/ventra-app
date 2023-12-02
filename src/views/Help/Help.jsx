@@ -30,7 +30,7 @@ function Help() {
               title="¿Dónde puedo ver los eventos que creé?"
             >
               Todos los eventos que hayas creado, sean públicos o privados,
-              podrás encontrarlos en "Mis Eventos", que se encuentra en el menú
+              podrás encontrarlos en "Mis eventos", que se encuentra en el menú
               desplegable de la derecha.
             </AccordionItem>
             <AccordionItem
@@ -39,7 +39,7 @@ function Help() {
               title="¿Dónde están las entradas que compré?"
             >
               Todas las entradas que hayas comprado, podrás encontrarlas en "Mis
-              Entradas", que se encuentra en el menú desplegable de la derecha.
+              entradas", que se encuentra en el menú desplegable de la derecha.
             </AccordionItem>
             <AccordionItem
               key="4"
@@ -47,10 +47,10 @@ function Help() {
               title="¿Puedo cambiar mi nombre de usuario?"
             >
               Para cambiar tu nombre de usuario solo tenés que acceder a "Mi
-              Perfil" que se encuentra en el menú desplegable de la derecha. Ahí
-              encontrarás tus datos y un botón que dice "Editar Mis Datos".
-              Luego solo tenés que cambiar lo que quieras y hacer click en
-              "Editar Datos" para ver los cambios.
+              perfil" que se encuentra en el menú desplegable de la derecha. Ahí
+              encontrarás tus datos y un botón que dice "Editar mis datos".
+              Luego, solo tenés que cambiar lo que quieras y hacer click en
+              "Editar datos" para ver los cambios.
             </AccordionItem>
           </Accordion>
         </div>

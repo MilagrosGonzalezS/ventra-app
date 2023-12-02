@@ -18,8 +18,8 @@ function MyAccount() {
   }, []);
 
   return (
-    <main className="min-h-[90vh] flex items-center justify-center bg-pattern">
-      <div className="text-center bg-opacity border p-6 rounded-xl w-[500px]">
+    <main className="min-h-[90vh] flex items-center justify-center bg-pattern px-10">
+      <div className="text-center bg-opacity border p-6  rounded-xl w-[500px]">
         <h1 className="mb-3 font-accent text-xl text-green">Mi Cuenta</h1>
         <hr />
         {isLoading ? (
