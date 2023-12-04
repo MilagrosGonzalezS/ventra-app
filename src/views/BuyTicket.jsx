@@ -74,10 +74,19 @@ function BuyTicket() {
                   <div className="flex justify-evenly">
                     <button onClick={handleSubstract}>-</button>
                     <p>{amount}</p>
-                    <button onClick={handleAdd}>+</button>
+                    {amount >= event.ticketCount ? (
+                      <p className="opacity-0">+</p>
+                    ) : (
+                      <button onClick={handleAdd}>+</button>
+                    )}
                   </div>
                 </div>
               </div>
+              {amount >= event.ticketCount ? (
+                <p className="text-red-500">
+                  Alcanzaste el límite de entradas que quedan para este evento.
+                </p>
+              ) : null}
             </div>
             <div className="flex items-center justify-end gap-6 bg-opacity p-4 rounded-b-2xl">
               <h4>Total:</h4>

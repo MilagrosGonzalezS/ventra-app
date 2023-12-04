@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-opacity border-t-1 md:h-[200px] flex flex-col h-[400px] py-12 md:py-0 md:flex md:flex-row justify-evenly items-center">
+    <footer className="bg-opacity border-t-1 md:h-[150px] flex flex-col h-[400px] py-12 md:py-0 md:flex md:flex-row justify-evenly items-center">
       <ul className="text-center md:text-left">
         <li className="hover:text-lightblue my-4 md:my-0">
           <Link to="/crear-evento">Crear evento</Link>
