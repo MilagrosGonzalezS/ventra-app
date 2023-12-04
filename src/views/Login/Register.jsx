@@ -50,7 +50,9 @@ function Register() {
     <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
-          <h1 className="font-accent text-2xl text-pink">Registrate</h1>
+          <h1 className="font-accent font-medium text-3xl text-pink">
+            Registrate
+          </h1>
           <div className="flex gap-1">
             <p className="text-sm">¿Ya tenés una cuenta?</p>
             <Link
@@ -105,6 +107,10 @@ function Register() {
             isInvalid={!!errors.password}
             errorMessage={errors.password && errors.password.message}
           />
+          <p className="text-xs mb-2">
+            La contraseña debe combinar mayúsculas, minúsculas, números y tener
+            al menos un caracter especial.
+          </p>
           <Input
             type="password"
             label="Confirmar contraseña"

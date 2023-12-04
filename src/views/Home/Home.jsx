@@ -22,6 +22,7 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSearch, setSelectedSearch] = useState(null);
+  // const [isResultsEmpty, setIsResultsEmpty] = useState(false);
 
   const navigation = useNavigate();
   const { auth } = useContext(AuthContext);
@@ -73,6 +74,14 @@ function Home() {
     setIsLoading(false);
   }, []);
 
+  // useEffect(() => {
+  //   if (searchResults.length == 0) {
+  //     setIsResultsEmpty(true);
+  //   } else {
+  //     setIsResultsEmpty(false);
+  //   }
+  // }, [searchResults]);
+
   return (
     <main className="md:px-20 px-10 bodyBg bg-no-repeat">
       <section className="h-[90vh] flex flex-col justify-center">
@@ -118,7 +127,7 @@ function Home() {
           />
         </div>
       </section>
-
+      {/* {isResultsEmpty && <p>No encontramos resultados</p>} */}
       {searchResults.length !== 0 && (
         <div className="flex items-center my-4 gap-4">
           <div className="w-16">

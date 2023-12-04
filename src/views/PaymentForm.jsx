@@ -86,7 +86,7 @@ function PaymentForm() {
   ) : tokenExists ? (
     <>
       <main className="h-[90vh] p-10">
-        <h1 className="font-accent md:text-center text-2xl text-light pt-8">
+        <h1 className="font-accent font-medium text-orange text-3xl ml-3 py-8">
           Realizar el pago
         </h1>
         <form
@@ -196,7 +196,7 @@ function PaymentForm() {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row w-full justify-start items-baseline gap-4 p-3">
+          <div className="flex flex-col w-full justify-start items-baseline gap-4 p-3">
             <p className="text-xl">{name}</p>
             <p>Cantidad de entradas: {amount} </p>
             <p>Costo total a pagar: ${amount * event.price} </p>

@@ -76,9 +76,9 @@ function EditMyEvent() {
   }, []);
 
   return (
-    <main className="h-auto bg-login">
-      <section className="flex-col items-center">
-        <h1 className="font-accent text-2xl text-center">
+    <main className="min-h-screen">
+      <section className="flex flex-col items-start px-10 mb-6">
+        <h1 className="font-accent font-medium text-orange text-3xl px-3 my-4">
           Administrá tu evento
         </h1>
         {isLoading && (
@@ -87,19 +87,14 @@ function EditMyEvent() {
             color="#04b290"
           />
         )}
-        <div className="">
+        <div>
           {events.map((event) => (
             <form
               onSubmit={handleSubmit(onSubmit)}
               key={event._id}
-              className="flex flex-wrap bg-opacity p-10"
+              className="flex flex-wrap bg-opacity"
               encType="multipart/form-data"
             >
-              <p className="text-red-500">
-                No es posible cambiar la modalidad de gratuito o pago, para ello
-                debes eliminar el evento y volver a crearlo.
-              </p>
-
               <div className="flex flex-col w-full md:w-2/4 p-3">
                 <Input
                   label="Nombre del evento"
@@ -355,17 +350,21 @@ function EditMyEvent() {
                   }
                 />
               </div>
-              <div className="flex w-full gap-2 p-3">
+              <div className="flex flex-col w-2/4 gap-2 p-3">
                 <Button
                   disabled={isCreatingEvent}
                   type="submit"
-                  className="bg-pink text-light w-full"
+                  className="bg-pink font-medium text-light w-1/3"
                 >
                   Editar evento
                 </Button>
+                <p className="px-3 my-4">
+                  Si deseás cambiar la modalidad gratuito/pago, debés eliminar
+                  el evento y volver a crearlo.
+                </p>
                 <Button
                   onClick={() => handleDeleteEvent(eventId)}
-                  className="bg-red-700 text-light w-full"
+                  className="bg-red-700 font-medium text-light w-1/3"
                 >
                   Eliminar evento
                 </Button>

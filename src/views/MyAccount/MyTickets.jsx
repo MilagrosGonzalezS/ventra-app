@@ -26,51 +26,51 @@ function MyTickets() {
   }, []);
   return (
     <>
-      <section className="flex-col items-center p-10">
-        <h1 className="font-accent text-2xl text-center">Tus entradas</h1>
+      <section className="min-h-screen flex flex-col pt-8 items-start bg-pattern py-12 px-10">
+        <h1 className="font-accent font-medium text-pink text-3xl text-center">
+          Mis entradas
+        </h1>
         {isLoading ? (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
             color="#04b290"
           />
         ) : (
-          <div className="flex flex-col items-center gap-16 flex-wrap mt-16">
+          <div className="flex flex-col items-center gap-8 mt-8 w-3/4">
             {tickets.length === 0 ? (
-              <p className="font-accent text-center">
-                Aún no tenés ninguna entrada comprada.
-              </p>
+              <p>Aún no tenés ninguna entrada comprada.</p>
             ) : (
               tickets.map((ticket) => (
                 <article
                   key={ticket._id}
-                  className="w-full md:w-2/3 bg-opacity rounded-xl border py-5 px-6"
+                  className="w-full bg-lightblue text-dark rounded-xl border py-5 px-6"
                 >
-                  <p className="text-gray-500">
+                  <p className="text-gray-700">
                     Órden número: {ticket._id.slice(0, 6)}
                   </p>
 
                   <div className="flex justify-between items-center mb-4">
-                    <strong className="text-xl ">{ticket.eventName}</strong>
+                    <strong className="text-2xl ">{ticket.eventName}</strong>
                     <p className="px-2 rounded-md">
                       {ticket.eventDate ? ticket.eventDate.slice(0, 10) : ""}
                     </p>
                     <p className="px-2 rounded-md">{ticket.eventTime}</p>
                   </div>
                   <div className="flex justify-between mb-4">
-                    <div>
+                    <div className="mt-4">
                       <p className="mb-4">{ticket.eventVenue}</p>
-                      <p>$ {ticket.eventPrice}</p>
+                      <p className="mb-4">$ {ticket.eventPrice}</p>
+                      <button className="bg-orange text-dark py-1 px-4 rounded-lg font-medium hover:bg-amber-700">
+                        Descargar Ticket
+                        <FontAwesomeIcon
+                          icon={faCircleChevronDown}
+                          color="#141414"
+                          className="ml-3"
+                        />
+                      </button>
                     </div>
                     <QRCode className="w-1/6 h-fit" value={ticket._id} />
                   </div>
-                  <button className="bg-orange text-dark py-1 px-4 rounded-lg font-medium hover:bg-amber-700">
-                    Descargar Ticket
-                    <FontAwesomeIcon
-                      icon={faCircleChevronDown}
-                      color="#141414"
-                      className="ml-3"
-                    />
-                  </button>
                 </article>
               ))
             )}

@@ -52,20 +52,17 @@ function EditProfile() {
 
   return (
     <>
-      <section className="flex-col items-center mt-4">
-        <h1 className="font-accent text-2xl text-center">
+      <section className="min-h-screen flex flex-col items-center justify-center mt-4 bg-pattern px-10">
+        <h1 className="font-accent font-medium text-3xl text-center text-green">
           Editar Datos Personales
         </h1>
-        <h2 className="font-accent text-xl text-center">
-          Acá podés editar tus datos
-        </h2>
         {isLoading ? (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
             color="#04b290"
           />
         ) : (
-          <div className="flex flex-col items-center gap-16 flex-wrap py-12">
+          <div className="flex flex-col items-center gap-16 flex-wrap py-8 w-full">
             <form
               onSubmit={handleSubmit(onSubmit)}
               key={user._id}
@@ -110,7 +107,10 @@ function EditProfile() {
                   errorMessage={errors.email && errors.email.message}
                 />
               </div>
-              <Button className="w-full bg-green text-black" type="submit">
+              <Button
+                className="w-full bg-green text-dark font-medium"
+                type="submit"
+              >
                 Editar Datos
               </Button>
             </form>

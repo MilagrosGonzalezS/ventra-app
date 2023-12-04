@@ -9,8 +9,6 @@ const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
-  const navigate = useNavigate();
-
   const auth = Cookies.get("token") || null;
 
   useEffect(() => {

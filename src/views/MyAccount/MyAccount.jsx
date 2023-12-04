@@ -20,7 +20,9 @@ function MyAccount() {
   return (
     <main className="min-h-[90vh] flex items-center justify-center bg-pattern px-10">
       <div className="text-center bg-opacity border p-6  rounded-xl w-[500px]">
-        <h1 className="mb-3 font-accent text-xl text-green">Mi Cuenta</h1>
+        <h1 className="mb-3 font-accent font-medium text-3xl text-green">
+          Mi cuenta
+        </h1>
         <hr />
         {isLoading ? (
           <PuffLoader className="mt-10" color="#04b290" />
@@ -35,7 +37,7 @@ function MyAccount() {
               {user.email}
             </p>
             <Button
-              className="w-full bg-green text-dark"
+              className="w-full bg-green text-dark font-medium"
               type="submit"
               onPress={() => {
                 navigation(`/mi-cuenta/${user.id}/editar-datos`);
@@ -43,11 +45,6 @@ function MyAccount() {
             >
               Editar Mis Datos
             </Button>
-            {/* <button className="bg-pink mt-4 px-2 rounded-md w-full">
-              <Link to={`/mi-cuenta/${user.id}/editar-datos`}>
-                Editar Mis Datos
-              </Link>
-            </button> */}
           </div>
         )}
       </div>

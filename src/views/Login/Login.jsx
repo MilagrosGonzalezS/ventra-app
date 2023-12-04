@@ -1,5 +1,5 @@
 // import React from 'react'
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../index.js";
@@ -51,7 +51,9 @@ function Login() {
     <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
-          <h1 className="font-accent text-2xl text-green">Iniciar Sesión</h1>
+          <h1 className="font-accent font-medium text-3xl text-green">
+            Iniciar Sesión
+          </h1>
           <div className="flex gap-1">
             <p className="text-sm">¿Nuevo en Ventra?</p>
             <Link
@@ -98,7 +100,10 @@ function Login() {
 
           {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
           {!isLoading && (
-            <Button className="w-full bg-green text-black" type="submit">
+            <Button
+              className="w-full bg-green text-black font-medium"
+              type="submit"
+            >
               Iniciar Sesión
             </Button>
           )}

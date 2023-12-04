@@ -33,13 +33,10 @@ const MyCard = () => {
           <div className="flex flex-col">
             <p className="text-tiny text-white/100">Estadio Monumental</p>
             <p className="text-tiny text-white/60">
-              Disfruta de lo mejor con Taylor Swift.
+              Disfrutá de lo mejor con Taylor Swift.
             </p>
           </div>
         </div>
-        {/* <Button radius="full" size="sm">
-          Ver Más
-        </Button> */}
       </CardFooter>
     </Card>
   );

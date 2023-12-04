@@ -22,40 +22,42 @@ function Wishlist() {
   }, []);
   return (
     <>
-      <section className="min-h-screen flex-col items-center bg-pattern px-10 pt-12">
-        <h1 className="font-accent text-3xl text-pink mb-8">
-          Tus eventos favoritos
-        </h1>
-        {isLoading ? (
-          <PuffLoader
-            className="absolute left-1/2 -translate-x-1/2 top-10"
-            color="#04b290"
-          />
-        ) : (
-          <div className="flex gap-16 justify-center flex-wrap mt-4 pb-20">
-            {wishlist.length === 0 ? (
-              <p className="font-accent text-center">
-                Aún no tenés ningun evento favorito.
-              </p>
-            ) : (
-              wishlist.map((item) => (
-                <article key={item._id}>
-                  <EventCard
-                    name={item.eventName}
-                    category={item.eventCategory}
-                    venue={item.eventVenue}
-                    date={item.eventDate}
-                    price={item.eventPrice}
-                    id={item.eventId}
-                    time={item.eventTime}
-                    cover={item.eventCover}
-                    favorite={true}
-                  />
-                </article>
-              ))
-            )}
-          </div>
-        )}
+      <section className="min-h-screen flex flex-col items-start bg-pattern pt-12">
+        <div className="px-10">
+          <h1 className="font-accent text-3xl font-medium text-pink mb-8">
+            Mis eventos favoritos
+          </h1>
+          {isLoading ? (
+            <PuffLoader
+              className="absolute left-1/2 -translate-x-1/2 top-10"
+              color="#04b290"
+            />
+          ) : (
+            <div className="flex gap-16 justify-center flex-wrap mt-4 pb-20">
+              {wishlist.length === 0 ? (
+                <p className="font-accent text-center">
+                  Aún no tenés ningun evento favorito.
+                </p>
+              ) : (
+                wishlist.map((item) => (
+                  <article key={item._id}>
+                    <EventCard
+                      name={item.eventName}
+                      category={item.eventCategory}
+                      venue={item.eventVenue}
+                      date={item.eventDate}
+                      price={item.eventPrice}
+                      id={item.eventId}
+                      time={item.eventTime}
+                      cover={item.eventCover}
+                      favorite={true}
+                    />
+                  </article>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       </section>
     </>
   );
