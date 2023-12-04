@@ -67,11 +67,13 @@ function Login() {
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Input
             type="email"
-            label="Email"
             id="email"
             name="email"
+            label="Email"
+            labelPlacement="outside"
+            placeholder="Email"
             variant="bordered"
-            className="mb-5"
+            className="mb-10"
             {...register("email", {
               required: "Campo obligatorio.",
               pattern: {
@@ -85,6 +87,8 @@ function Login() {
           <Input
             type="password"
             label="Contraseña"
+            labelPlacement="outside"
+            placeholder="Contraseña"
             id="password"
             name="password"
             variant="bordered"

@@ -24,7 +24,7 @@ const MyCard = () => {
       </CardHeader>
       <Image
         removeWrapper
-        alt="Relaxing app background"
+        alt="Evento destacado"
         className="z-0 w-full h-full object-cover"
         src="https://soombaradio.com/wp-content/uploads/2023/11/654a5bb6c1566.jpg"
       />

@@ -68,9 +68,11 @@ function Register() {
             type="text"
             label="Usuario"
             id="username"
+            labelPlacement="outside"
+            placeholder="Usuario"
             name="username"
             variant="bordered"
-            className="mb-5"
+            className="mb-10"
             {...register("username", {
               required: "Campo obligatorio.",
             })}
@@ -80,10 +82,12 @@ function Register() {
           <Input
             type="email"
             label="Email"
+            labelPlacement="outside"
+            placeholder="Email"
             id="email"
             name="email"
             variant="bordered"
-            className="mb-5"
+            className="mb-10"
             {...register("email", {
               required: "Campo obligatorio.",
               pattern: {
@@ -97,17 +101,19 @@ function Register() {
           <Input
             type="password"
             label="Contraseña"
+            labelPlacement="outside"
+            placeholder="Contraseña"
             id="password"
             name="password"
             variant="bordered"
-            className="mb-5"
+            className="mb-2"
             {...register("password", {
               required: "Campo obligatorio.",
             })}
             isInvalid={!!errors.password}
             errorMessage={errors.password && errors.password.message}
           />
-          <p className="text-xs mb-2">
+          <p className="text-xs mb-10 text-gray-400">
             La contraseña debe combinar mayúsculas, minúsculas, números y tener
             al menos un caracter especial.
           </p>
@@ -115,9 +121,11 @@ function Register() {
             type="password"
             label="Confirmar contraseña"
             id="password2"
+            labelPlacement="outside"
+            placeholder="Confirmar Contraseña"
             name="password2"
             variant="bordered"
-            className="mb-5"
+            className="mb-10"
             {...register("password2", {
               required: "Campo obligatorio.",
               validate: (value) =>

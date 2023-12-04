@@ -315,9 +315,10 @@ function EditMyEvent() {
                 </RadioGroup>
               </div>
 
-              <div className="flex flex-col w-full md:w-2/6 p-3">
-                <label htmlFor="cover">Portada del evento</label>
-                <br />
+              <div className="flex flex-col w-full  md:w-2/6 p-3">
+                <label htmlFor="cover" className="text-base mb-3">
+                  Portada del evento
+                </label>
                 <input
                   className="bg-opacity border-solid border-1  border-light mb-8 rounded-md w-auto"
                   type="file"
@@ -350,7 +351,7 @@ function EditMyEvent() {
                   }
                 />
               </div>
-              <div className="flex flex-col w-2/4 gap-2 p-3">
+              <div className="flex flex-col w-full md:w-2/4 gap-2 p-3">
                 <Button
                   disabled={isCreatingEvent}
                   type="submit"

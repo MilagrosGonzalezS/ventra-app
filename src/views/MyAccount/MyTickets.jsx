@@ -43,7 +43,7 @@ function MyTickets() {
               tickets.map((ticket) => (
                 <article
                   key={ticket._id}
-                  className="w-full bg-lightblue text-dark rounded-xl border py-5 px-6"
+                  className="w-full bg-dark text-light rounded-xl  py-5 px-6"
                 >
                   <p className="text-gray-700">
                     Órden número: {ticket._id.slice(0, 6)}
