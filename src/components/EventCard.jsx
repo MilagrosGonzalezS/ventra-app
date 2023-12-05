@@ -75,21 +75,29 @@ function EventCard(props) {
         <CardHeader className="absolute z-10 top-1 flex items-center justify-end">
           {token ? (
             isFavorite ? (
-              <Button isIconOnly color="danger" aria-label="Like">
+              <Button
+                isIconOnly
+                color="danger"
+                aria-label="Like"
+                onClick={handleDeleteFromWishlist}
+              >
                 <FontAwesomeIcon
                   className="cursor-pointer"
                   icon={fasFaHeart}
                   style={{ color: "#fcfcfc", fontSize: "20px" }}
-                  onClick={handleDeleteFromWishlist}
                 />
               </Button>
             ) : (
-              <Button isIconOnly color="danger" aria-label="Like"> 
+              <Button
+                isIconOnly
+                color="danger"
+                aria-label="Like"
+                onClick={handleAddToWishlist}
+              >
                 <FontAwesomeIcon
                   className="cursor-pointer"
                   icon={farFaHeart}
                   style={{ color: "#FCFCFC", fontSize: "20px" }}
-                  onClick={handleAddToWishlist}
                 />
               </Button>
             )
