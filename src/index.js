@@ -15,7 +15,7 @@ export { login } from "./services/users/login.js";
 export { userData } from "./services/users/userData.js";
 export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
-
+export { checkEventoToDelete } from "./services/tickets/checkEventoToDelete.js";
 //Components ->
 export { EventCard } from "./components/EventCard.jsx";
 export { Filter } from "./components/Filter.jsx";
@@ -24,6 +24,7 @@ export { NavBar } from "./components/NavBar.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Search } from "./components/Search.jsx";
 export { Footer } from "./components/Footer.jsx";
+export { TermsText } from "./components/TermsText.jsx";
 
 //Views ->
 export { Home } from "./views/Home/Home";

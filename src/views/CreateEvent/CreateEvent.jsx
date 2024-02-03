@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import { createEvent } from "../../index.js";
+import { createEvent, TermsText } from "../../index.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -13,14 +13,20 @@ import {
   Select,
   SelectItem,
   Textarea,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@nextui-org/react";
 function CreateEvent() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [tokenExists, setTokenExists] = useState(false);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -55,7 +61,6 @@ function CreateEvent() {
       await createEvent(data);
       setIsCreatingEvent(false);
       //MENSAJE
-      reset();
       toast.success("¡Evento Creado!");
       setTimeout(() => {
         navigate("/mis-eventos");
@@ -374,7 +379,9 @@ function CreateEvent() {
             </div>
 
             <div className="p-3">
-              <label htmlFor="termsAndConditions">Terminos y Condiciones</label>
+              <label htmlFor="termsAndConditions">
+                <button onClick={onOpen}>Términos y Condiciones</button>
+              </label>
               <br />
               <input
                 className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
@@ -390,6 +397,25 @@ function CreateEvent() {
                   {errors.termsAndConditions.message}
                 </span>
               )}
+              <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                  {(onClose) => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        Términos y condiciones.
+                      </ModalHeader>
+                      <ModalBody>
+                        <TermsText></TermsText>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="primary" onPress={onClose}>
+                          Entendido
+                        </Button>
+                      </ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
             </div>
             <div className="flex w-full justify-start p-3">
               <Button
