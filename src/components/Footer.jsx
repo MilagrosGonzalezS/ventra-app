@@ -8,13 +8,13 @@ function Footer() {
   return (
     <footer className="bg-opacity border-t-1 md:h-[150px] flex flex-col h-[400px] py-12 md:py-0 md:flex md:flex-row justify-evenly items-center">
       <ul className="text-center md:text-left">
-        <li className="hover:text-lightblue my-4 md:my-0">
+        <li className="hover:text-lightblue my-4 md:my-0 text-xs">
           <Link to="/crear-evento">Crear evento</Link>
         </li>
-        <li className="hover:text-lightblue my-4 md:my-0">
+        <li className="hover:text-lightblue my-4 md:my-0 text-xs">
           <Link to="/help">Preguntas frecuentes</Link>
         </li>
-        <li className="hover:text-lightblue my-4 md:my-0">
+        <li className="hover:text-lightblue my-4 md:my-0 text-xs">
           Términos y Condiciones
         </li>
       </ul>
@@ -29,7 +29,7 @@ function Footer() {
             style={{ fontSize: "20px" }}
             className="hover:text-lightblue"
           />
-          <p className="text-lg">ventra.ar</p>
+          <p className="text-xs">ventra.ar</p>
         </Link>
         <Link className="flex gap-2 items-center hover:text-lightblue" to="">
           <FontAwesomeIcon
@@ -37,7 +37,7 @@ function Footer() {
             style={{ fontSize: "20px" }}
             className="hover:text-lightblue"
           />
-          <p className="text-lg">info@ventra.com.ar</p>
+          <p className="text-xs">info@ventra.com.ar</p>
         </Link>
       </div>
     </footer>

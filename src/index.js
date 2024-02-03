@@ -17,9 +17,9 @@ export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
 
 //Components ->
+export { Featured } from "./components/Featured.jsx";
 export { EventCard } from "./components/EventCard.jsx";
 export { Filter } from "./components/Filter.jsx";
-export { MyCard } from "./components/MyCard.jsx";
 export { NavBar } from "./components/NavBar.jsx";
 export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Search } from "./components/Search.jsx";

@@ -4,6 +4,7 @@ import { PuffLoader } from "react-spinners";
 import { getMyEvents } from "../../index.js";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 import Cookies from "js-cookie";
+import colors from "../../assets/imgs/recurso-colores.png";
 
 function MyEvents() {
   const userId = Cookies.get("userId");
@@ -31,18 +32,25 @@ function MyEvents() {
 
   return (
     <>
-      <section className="min-h-screen flex flex-col justify-start pt-8 items-center bg-pattern py-12">
-        <div className="px-10">
-          <h1 className="font-accent text-3xl text-pink font-medium mb-8">
-            Mis Eventos
-          </h1>
+      <section className="min-h-screen flex flex-col items-start mt-8">
+        <div className="">
+          <div className="flex items-center gap-4">
+            <div className="w-16">
+              <img
+                className="w-full"
+                src={colors}
+                alt="recurso gráfico de colores"
+              />
+            </div>
+            <h2 className="text-xl md:text-2xl font-accent">Mis eventos</h2>
+          </div>
           {isLoading ? (
             <PuffLoader
               className="absolute left-1/2 -translate-x-1/2 top-10"
               color="#04b290"
             />
           ) : (
-            <div className="flex gap-16 justify-start flex-wrap mt-4">
+            <div className="flex gap-4 justify-start flex-wrap mt-4">
               {events.length === 0 ? (
                 <p className="font-accent text-center">
                   Aún no has creado ningún evento.
@@ -52,7 +60,7 @@ function MyEvents() {
                   <article key={event._id}>
                     <Card
                       isFooterBlurred
-                      className="w-[350px] h-[350px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
+                      className="w-[240px] h-[300px] col-span-12 sm:col-span-9 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
                     >
                       <Image
                         removeWrapper
