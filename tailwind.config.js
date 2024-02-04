@@ -13,6 +13,7 @@ const config = {
         light: "#FCFCFC",
         dark: "#141414",
         opacity: "rgba(0, 0, 0, 0.89)",
+        opacity2: "rgba(48, 48, 48, 0.58)",
         lightblue: "#04b290",
         green: "#bbff15",
         pink: "#e206f4",

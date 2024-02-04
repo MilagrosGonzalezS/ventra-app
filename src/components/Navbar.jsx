@@ -41,7 +41,7 @@ const NavBar = () => {
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-transparent"
+      className="bg-transparent fixed"
       classNames={{
         item: [
           "flex",
@@ -110,7 +110,7 @@ const NavBar = () => {
               >
                 Mi perfil
               </DropdownItem>
-              <DropdownItem
+              {/* <DropdownItem
                 key="mis_eventos"
                 onClick={() => {
                   navigation("/mis-eventos");
@@ -133,7 +133,7 @@ const NavBar = () => {
                 }}
               >
                 Favoritos
-              </DropdownItem>
+              </DropdownItem> */}
               <DropdownItem
                 key="logout"
                 color="danger"

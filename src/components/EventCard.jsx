@@ -70,7 +70,7 @@ function EventCard(props) {
     <>
       <Card
         isFooterBlurred
-        className="w-[350px] h-[450px] col-span-12 sm:col-span-7 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
+        className="w-[273px] h-[350px] col-span-12 sm:col-span-3 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
       >
         <CardHeader className="absolute z-10 top-1 flex items-center justify-end">
           {token ? (

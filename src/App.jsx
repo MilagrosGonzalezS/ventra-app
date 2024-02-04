@@ -10,12 +10,12 @@ import {
   Help,
   MyAccount,
   EditProfile,
-  MyEvents,
+  // MyEvents,
   EditMyEvent,
-  Wishlist,
+  // Wishlist,
   BuyTicket,
   Checkout,
-  MyTickets,
+  // MyTickets,
   EventDetails,
   PaymentForm,
   ProtectedRoute,
@@ -30,13 +30,13 @@ function App() {
       <Routes>
         {/* vistas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/favoritos" element={<Wishlist />} />
+          {/* <Route path="/favoritos" element={<Wishlist />} /> */}
           <Route path="/mi-cuenta" element={<MyAccount />} />
           <Route
             path="/mi-cuenta/:userId/editar-datos"
             element={<EditProfile />}
           />
-          <Route path="/mis-eventos" element={<MyEvents />} />
+          {/* <Route path="/mis-eventos" element={<MyEvents />} /> */}
           <Route
             path="/mis-eventos/:eventId/editar"
             element={<EditMyEvent />}
@@ -50,7 +50,7 @@ function App() {
             path="/detalle/comprar/pago/:name/:eventId/:amount"
             element={<PaymentForm />}
           />
-          <Route path="/mis-entradas" element={<MyTickets />} />
+          {/* <Route path="/mis-entradas" element={<MyTickets />} /> */}
         </Route>
         {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />
