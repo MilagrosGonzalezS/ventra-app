@@ -49,6 +49,7 @@ function EditMyEvent() {
     }
   };
   console.log(eventToDelete);
+  console.log(events);
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -187,7 +188,7 @@ function EditMyEvent() {
                 >
                   <option value="">Seleccioná una categoría</option>
                   {[
-                    "Concierto De Rock",
+                    "Concierto de Rock",
                     "Concierto De Pop",
                     "Fiesta Electrónica",
                     "Concierto De Rap",

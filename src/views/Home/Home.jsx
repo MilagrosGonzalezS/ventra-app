@@ -40,7 +40,6 @@ function Home() {
   const handleZoneSelect = (zone) => {
     setSelectedZone(zone);
     setSelectedSearch("");
-    console.log("zone padre", zone);
   };
 
   const handleSearchSelect = (search) => {

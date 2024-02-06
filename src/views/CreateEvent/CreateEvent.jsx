@@ -63,7 +63,7 @@ function CreateEvent() {
       //MENSAJE
       toast.success("¡Evento Creado!");
       setTimeout(() => {
-        navigate("/mis-eventos");
+        navigate("/mi-cuenta");
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -379,24 +379,32 @@ function CreateEvent() {
             </div>
 
             <div className="p-3">
-              <label htmlFor="termsAndConditions">
-                <button onClick={onOpen}>Términos y Condiciones</button>
-              </label>
-              <br />
-              <input
-                className="bg-gray-700 border-solid border-b-2 border-t-0 border-l-0 border-r-0 border-lightblue mb-8 mt-1 px-2 rounded-md w-auto"
-                type="checkbox"
-                name="termsAndConditions"
-                id="termsAndConditions"
-                {...register("termsAndConditions", {
-                  required: "Los términos y condiciones son obligatorios.",
-                })}
-              />
+              <label htmlFor="termsAndConditions">Términos y Condiciones</label>
+              <div className="flex gap-2 mt-2 mb-4">
+                <input
+                  type="checkbox"
+                  name="termsAndConditions"
+                  id="termsAndConditions"
+                  {...register("termsAndConditions", {
+                    required: "Los términos y condiciones son obligatorios.",
+                  })}
+                />
+                <p>
+                  Aceptar{" "}
+                  <span
+                    onClick={onOpen}
+                    className="text-lightblue cursor-pointer"
+                  >
+                    términos y condiciones
+                  </span>
+                </p>
+              </div>
               {errors.termsAndConditions && (
                 <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
                   {errors.termsAndConditions.message}
                 </span>
               )}
+
               <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                   {(onClose) => (

@@ -131,17 +131,17 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
               </SelectItem>
             ))}
           </Select> */}
-          <select
+          <Select
             placeholder="Zona"
             className="max-w-xs"
             onChange={(e) => handleZoneClick(e.target.value)}
           >
             {zones.map((zone) => (
-              <option key={zone} value={zone}>
+              <SelectItem key={zone} value={zone}>
                 {zone}
-              </option>
+              </SelectItem>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="my-6">
           <Slider
