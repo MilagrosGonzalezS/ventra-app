@@ -114,13 +114,13 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
       <div className="my-6">
         <div className="flex flex-wrap gap-6">
           {categories.map((category) => (
-            <button
-              className=" px-4 bg-light rounded-full text-base text-dark font-medium hover:bg-lightblue"
+            <Chip
+              className="cursor-pointer"
               key={category}
               onClick={() => handleCategoryClick(category)}
             >
               {category}
-            </button>
+            </Chip>
           ))}
         </div>
         <div className="my-6">
