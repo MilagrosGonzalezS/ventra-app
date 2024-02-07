@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import {
   Navbar,
@@ -21,7 +21,7 @@ import { AuthContext } from "../context/AuthContext.jsx";
 import VentraLogo from "../assets/imgs/logo-blanco.png";
 
 const NavBar = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigation = useNavigate();
   const [tokenExists, setTokenExists] = useState(false);
   const { auth, logout } = useContext(AuthContext);
@@ -31,6 +31,7 @@ const NavBar = () => {
     if (token) {
       setTokenExists(true);
     }
+    console.log(location);
   }, []);
 
   const handleLogout = () => {
@@ -38,8 +39,11 @@ const NavBar = () => {
     navigation("/");
   };
 
+  const location = useLocation();
+
   return (
     <Navbar
+      shouldHideOnScroll
       onMenuOpenChange={setIsMenuOpen}
       className="bg-transparent fixed"
       classNames={{
@@ -71,17 +75,17 @@ const NavBar = () => {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-11" justify="center">
-        <NavbarItem>
+        <NavbarItem isActive={location.pathname == "/"}>
           <Link color="foreground" to="/">
             Inicio
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={location.pathname == "/crear-evento"}>
           <Link color="foreground" to="/crear-evento">
             Crear evento
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={location.pathname == "/ayuda"}>
           <Link color="foreground" to="/ayuda">
             Ayuda
           </Link>
@@ -160,12 +164,12 @@ const NavBar = () => {
         </NavbarContent>
       )}
       <NavbarMenu>
-        <NavbarMenuItem>
+        <NavbarMenuItem isActive={location.pathname == "/"}>
           <Link color="text-bluelight" className="w-full" to="/" size="lg">
             Inicio
           </Link>
         </NavbarMenuItem>
-        <NavbarMenuItem>
+        <NavbarMenuItem isActive={location.pathname == "/crear-evento"}>
           <Link
             color="text-bluelight"
             className="w-full"
@@ -175,7 +179,7 @@ const NavBar = () => {
             Crear evento
           </Link>
         </NavbarMenuItem>
-        <NavbarMenuItem>
+        <NavbarMenuItem isActive={location.pathname == "/ayuda"}>
           <Link color="text-bluelight" className="w-full" to="/ayuda" size="lg">
             Ayuda
           </Link>

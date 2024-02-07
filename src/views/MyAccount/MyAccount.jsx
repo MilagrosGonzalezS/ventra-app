@@ -69,8 +69,8 @@ function MyAccount() {
         </Button>
       </aside>
       <section className="col-span-8 mt-[55vh]">
-        <div className="w-full flex justify-between items-center">
-          <button
+        <div className="w-full flex justify-start gap-4 items-center">
+          {/* <button
             onClick={() => handleView("eventos")}
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
           >
@@ -81,10 +81,10 @@ function MyAccount() {
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
           >
             Eventos privados
-          </button>
+          </button> */}
           <button
             onClick={() => handleView("favoritos")}
-            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
+            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border justify-self-end"
           >
             Favoritos
           </button>
@@ -94,9 +94,12 @@ function MyAccount() {
           >
             Mis tickets
           </button>
-          <button className="bg-green rounded-2xl py-2 px-6 text-sm text-dark ml-8 font-medium">
+          <Link
+            to="/crear-evento"
+            className="bg-green rounded-2xl py-2 px-6 text-sm text-dark ml-8 font-medium"
+          >
             Crear evento
-          </button>
+          </Link>
         </div>
         <div>
           {selectedView == "eventos" && <MyEvents />}

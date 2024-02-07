@@ -4,6 +4,7 @@ import { getMyTickets } from "../../index.js";
 import QRCode from "react-qr-code";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+import colors from "../../assets/imgs/recurso-colores.png";
 
 function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,53 +27,67 @@ function MyTickets() {
   }, []);
   return (
     <>
-      <section className="min-h-screen flex flex-col pt-8 items-start bg-pattern py-12 px-10">
-        <h1 className="font-accent font-medium text-pink text-3xl text-center">
-          Mis entradas
-        </h1>
+      <section className="flex flex-col items-start mt-8">
+        <div className="flex items-center gap-4">
+          <div className="w-16">
+            <img
+              className="w-full"
+              src={colors}
+              alt="recurso gráfico de colores"
+            />
+          </div>
+          <h2 className="text-xl md:text-2xl font-accent">Mis tickets</h2>
+        </div>
         {isLoading ? (
           <PuffLoader
             className="absolute left-1/2 -translate-x-1/2 top-10"
             color="#04b290"
           />
         ) : (
-          <div className="flex flex-col items-center gap-8 mt-8 w-3/4">
+          <div className="w-full my-8">
             {tickets.length === 0 ? (
               <p>Aún no tenés ninguna entrada comprada.</p>
             ) : (
-              tickets.map((ticket) => (
-                <article
-                  key={ticket._id}
-                  className="w-full bg-dark text-light rounded-xl  py-5 px-6"
-                >
-                  <p className="text-gray-700">
-                    Órden número: {ticket._id.slice(0, 6)}
-                  </p>
-
-                  <div className="flex justify-between items-center mb-4">
-                    <strong className="text-2xl ">{ticket.eventName}</strong>
-                    <p className="px-2 rounded-md">
-                      {ticket.eventDate ? ticket.eventDate.slice(0, 10) : ""}
-                    </p>
-                    <p className="px-2 rounded-md">{ticket.eventTime}</p>
-                  </div>
-                  <div className="flex justify-between mb-4">
-                    <div className="mt-4">
-                      <p className="mb-4">{ticket.eventVenue}</p>
-                      <p className="mb-4">$ {ticket.eventPrice}</p>
-                      <button className="bg-orange text-dark py-1 px-4 rounded-lg font-medium hover:bg-amber-700">
-                        Descargar Ticket
-                        <FontAwesomeIcon
-                          icon={faCircleChevronDown}
-                          color="#141414"
-                          className="ml-3"
-                        />
-                      </button>
-                    </div>
-                    <QRCode className="w-1/6 h-fit" value={ticket._id} />
-                  </div>
-                </article>
-              ))
+              <table className="w-full bg-dark text-light rounded-xl p-4 text-center text-sm">
+                <thead>
+                  <tr className=" divide-x divide-gray-500">
+                    <th className="py-4">Nro. Orden</th>
+                    <th className="py-4">Evento</th>
+                    <th className="py-4">Fecha</th>
+                    <th className="py-4">Hora</th>
+                    <th className="py-4">Lugar</th>
+                    <th className="py-4">Precio</th>
+                    <th className="py-4">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-500">
+                  {tickets.map((ticket) => (
+                    <tr
+                      key={ticket._id}
+                      className="my-4  divide-x divide-gray-500"
+                    >
+                      <td className="py-4">{ticket._id.slice(0, 6)}</td>
+                      <td className="py-4">{ticket.eventName}</td>
+                      <td className="py-4">
+                        {ticket.eventDate ? ticket.eventDate.slice(0, 10) : ""}
+                      </td>
+                      <td className="py-4">{ticket.eventTime}</td>
+                      <td className="py-4">{ticket.eventVenue}</td>
+                      <td className="py-4">$ {ticket.eventPrice}</td>
+                      <td className="py-4">
+                        <button className="bg-orange text-dark px-2 rounded-lg font-medium hover:bg-amber-700">
+                          Descargar Ticket
+                          <FontAwesomeIcon
+                            icon={faCircleChevronDown}
+                            color="#141414"
+                            className="ml-3"
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
         )}

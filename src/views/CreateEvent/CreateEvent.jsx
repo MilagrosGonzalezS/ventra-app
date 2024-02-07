@@ -73,8 +73,8 @@ function CreateEvent() {
     />
   ) : tokenExists ? (
     <>
-      <main className="min-h-screen flex flex-col justify-start pt-8 items-center">
-        <div className="px-10">
+      <main className="min-h-screen grid grid-cols-12 px-20">
+        <div className="mt-12 col-span-6">
           <h1 className="font-accent text-orange font-medium text-3xl ml-3">
             Creá tu evento
           </h1>

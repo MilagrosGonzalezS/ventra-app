@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { getMyWishlist, EventCard } from "../../index.js";
+import colors from "../../assets/imgs/recurso-colores.png";
 
 function Wishlist() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,18 +23,25 @@ function Wishlist() {
   }, []);
   return (
     <>
-      <section className="min-h-screen flex flex-col items-start bg-pattern pt-12">
-        <div className="px-10">
-          <h1 className="font-accent text-3xl font-medium text-pink mb-8">
-            Mis eventos favoritos
-          </h1>
+      <section className="flex flex-col items-start mt-8">
+        <div className="">
+          <div className="flex items-center gap-4">
+            <div className="w-16">
+              <img
+                className="w-full"
+                src={colors}
+                alt="recurso gráfico de colores"
+              />
+            </div>
+            <h2 className="text-xl md:text-2xl font-accent">Favoritos</h2>
+          </div>
           {isLoading ? (
             <PuffLoader
               className="absolute left-1/2 -translate-x-1/2 top-10"
               color="#04b290"
             />
           ) : (
-            <div className="flex gap-16 justify-center flex-wrap mt-4 pb-20">
+            <div className="flex gap-4 justify-start flex-wrap mt-4">
               {wishlist.length === 0 ? (
                 <p className="font-accent text-center">
                   Aún no tenés ningun evento favorito.

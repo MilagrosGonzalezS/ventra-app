@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 //   DropdownItem,
 //   Button,
 // } from "@nextui-org/react";
-import { Select, SelectItem, Slider } from "@nextui-org/react";
+import { Select, SelectItem, Slider, Chip } from "@nextui-org/react";
 import axios from "axios";
 import config from "../config.json";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
   const [selectedZone, setSelectedZone] = useState("");
 
   const categories = [
-    "Concierto de Rock",
+    "Rock",
     "Pop",
     "Electrónica",
     "Rap",
@@ -100,13 +100,13 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
     <div className="my-6">
       <div className="flex flex-wrap gap-6">
         {categories.map((category) => (
-          <button
-            className=" px-4 bg-light rounded-full text-base text-dark font-medium hover:bg-lightblue"
+          <Chip
+            className="cursor-pointer"
             key={category}
             onClick={() => handleCategoryClick(category)}
           >
             {category}
-          </button>
+          </Chip>
         ))}
       </div>
       <div className="my-6">
