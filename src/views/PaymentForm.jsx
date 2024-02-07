@@ -13,7 +13,6 @@ function PaymentForm() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -57,7 +56,6 @@ function PaymentForm() {
           });
       }
       toast.success("¡Compra finalizada!");
-      reset();
       setTimeout(() => {
         navigation("/mis-entradas");
       }, 1500);

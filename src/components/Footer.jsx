@@ -1,10 +1,21 @@
+import { TermsText } from "../index.js";
 import LogoVentra from "../assets/imgs/logo-blanco.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 
 function Footer() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   return (
     <footer className="bg-opacity border-t-1 md:h-[150px] flex flex-col h-[400px] py-12 md:py-0 md:flex md:flex-row justify-evenly items-center">
       <ul className="text-center md:text-left">
@@ -15,7 +26,26 @@ function Footer() {
           <Link to="/help">Preguntas frecuentes</Link>
         </li>
         <li className="hover:text-lightblue my-4 md:my-0 text-xs">
-          Términos y Condiciones
+          <button onClick={onOpen}>Términos y Condiciones</button>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Términos y condiciones.
+                  </ModalHeader>
+                  <ModalBody>
+                    <TermsText></TermsText>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onPress={onClose}>
+                      Entendido
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
         </li>
       </ul>
       <img src={LogoVentra} alt="logo ventra" className="w-40 my-8 md:my-0" />

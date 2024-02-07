@@ -7,6 +7,7 @@ import {
   getEventById,
   getEvents,
   deleteMyEvent,
+  checkEventoToDelete,
 } from "../../index.js";
 import { Button, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
@@ -17,7 +18,6 @@ function EditMyEvent() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -27,17 +27,29 @@ function EditMyEvent() {
   const [cover, setCover] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
+  const [hasTickets, sethasTickets] = useState(false);
 
   const handleFileChange = (event) => {
     setCover(event.target.files[0]);
   };
 
-  const handleDeleteEvent = (eventId) => {
-    console.log(eventId);
-    setEventToDelete(eventId); // Almacenar el ID del evento a eliminar
-    setIsDeleteModalOpen(true); // Abrir el modal de confirmación
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      if (hasTickets) {
+        alert(
+          "El evento no puede ser eliminado porque ya vendió una o más entradas"
+        );
+      } else {
+        setEventToDelete(eventId); // Almacenar el ID del evento a eliminar
+        setIsDeleteModalOpen(true); // Abrir el modal de confirmación;
+      }
+    } catch (error) {
+      console.error(error);
+      // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+    }
   };
   console.log(eventToDelete);
+  console.log(events);
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -46,7 +58,6 @@ function EditMyEvent() {
     try {
       await editMyEvent(eventData, eventId);
       setIsCreatingEvent(false);
-      reset();
       toast.success("Editaste tu evento con éxito");
       setTimeout(() => {
         navigate("/mis-eventos");
@@ -58,17 +69,20 @@ function EditMyEvent() {
     }
   };
 
-  const fetchEvents = () => {
-    setIsLoading(true);
-    getEventById(eventId)
-      .then((res) => {
-        setEvents(res.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
+  const fetchEvents = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getEventById(eventId);
+      setEvents(res.data);
+      setIsLoading(false);
+
+      // Verificar si hay tickets asociados al evento
+      const hasTicketsResponse = await checkEventoToDelete(eventId);
+      sethasTickets(hasTicketsResponse);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -174,7 +188,7 @@ function EditMyEvent() {
                 >
                   <option value="">Seleccioná una categoría</option>
                   {[
-                    "Concierto De Rock",
+                    "Concierto de Rock",
                     "Concierto De Pop",
                     "Fiesta Electrónica",
                     "Concierto De Rap",
@@ -213,7 +227,13 @@ function EditMyEvent() {
                     })}
                     isInvalid={!!errors.price}
                     errorMessage={errors.price && errors.price.message}
+                    disabled={hasTickets} // Deshabilitar el input si hasTickets es true
                   />
+                  {hasTickets && (
+                    <p className="text-red-500 text-sm mt-2">
+                      No se puede editar una vez vendidas las entradas.
+                    </p>
+                  )}
                 </div>
               )}
 

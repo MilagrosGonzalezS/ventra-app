@@ -14,7 +14,7 @@ function EventDetails() {
     let dataShare = {
       title: eventName,
       text: eventDescription,
-      url: `http://localhost:5173/#/detalle/${eventId}`,
+      url: `http://localhost/ventra-API/${eventId}`,
     };
     navigator.share(dataShare).then((res) => {
       console.log("compartir el evento");

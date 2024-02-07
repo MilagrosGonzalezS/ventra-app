@@ -13,7 +13,6 @@ function EditProfile() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -24,7 +23,6 @@ function EditProfile() {
     setIsEditingUser(true);
     try {
       await editMyProfile(data, userId);
-      reset();
       setIsEditingUser(false);
       toast.success("Editaste tus datos con éxito");
       setTimeout(() => {

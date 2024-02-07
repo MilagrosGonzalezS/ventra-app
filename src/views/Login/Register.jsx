@@ -12,7 +12,6 @@ function Register() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
     watch,
   } = useForm();
@@ -34,7 +33,6 @@ function Register() {
         const password = data.password;
         await login({ email, password });
         setIsLoading(false);
-        reset();
         toast.success("¡Te registraste!");
         setTimeout(() => {
           navigate("/");

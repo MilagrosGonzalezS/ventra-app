@@ -15,7 +15,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
@@ -33,7 +32,6 @@ function Login() {
         console.log("data.token", response.jwToken);
         console.log("data", response);
         setIsLoading(false);
-        reset();
         toast.success("¡Iniciaste sesión!");
         setTimeout(() => {
           navigate("/");

@@ -48,10 +48,6 @@ function Home() {
     setSelectedZone("");
   };
 
-  function resetFilter() {
-    setSearchResults([]);
-  }
-
   function handlePageChange(pageNumber) {
     if (token) {
       getMyWishlist().then((res) => {
@@ -157,10 +153,10 @@ function Home() {
             </div>
             <h2 className="text-2xl font-accent">Eventos</h2>
           </div>
-          <div className="flex items-center justify-between gap-4 mb-4">
+          {/* <div className="flex items-center justify-between gap-4 mb-4">
             <p>Filtros</p>
             <button onClick={resetFilter}>Borrar filtro</button>
-          </div>
+          </div> */}
           <Filter
             onSearchResultsUpdate={setSearchResults}
             onCategorySelect={handleCategorySelect}
@@ -185,9 +181,13 @@ function Home() {
                 />
               </div>
               <h2 className="text-xl md:text-2xl my-4 font-accent">
-                {selectedCategory && !selectedSearch
+                {selectedCategory && !selectedSearch && !selectedZone
                   ? `Categoría: ${selectedCategory}`
-                  : `Búsqueda: ${selectedSearch}`}
+                  : selectedSearch && !selectedCategory && !selectedZone
+                  ? `Búsqueda: ${selectedSearch}`
+                  : !selectedCategory && !selectedSearch && selectedZone
+                  ? `Ubicación: ${selectedZone}`
+                  : null}
               </h2>
             </div>
           )}
@@ -263,107 +263,6 @@ function Home() {
       <div className="col-span-12">
         <img classname="w-full" src={banner} alt="banner" />
       </div>
-
-      {/* {searchResults.length !== 0 && (
-        <div className="flex items-center my-4 gap-4">
-          <div className="w-16">
-            <img
-              className="w-full"
-              src={colors}
-              alt="recurso gráfico de colores"
-            />
-          </div>
-          <h2 className="text-xl md:text-2xl my-4 font-accent">
-            {selectedCategory && !selectedSearch
-              ? `Categoría: ${selectedCategory}`
-              : `Búsqueda: ${selectedSearch}`}
-          </h2>
-        </div>
-      )}
-      <section className="flex gap-16 justify-start flex-wrap my-4">
-        {isLoading && (
-          <PuffLoader
-            className="absolute left-1/2 -translate-x-1/2 top-10"
-            color="#04b290"
-          />
-        )}
-        {searchResults.map((event) => {
-          let isFavorite = false;
-          if (
-            wishlist.find(
-              (wishlistEvent) => wishlistEvent.eventId === event._id
-            )
-          ) {
-            isFavorite = true;
-          }
-          return (
-            <EventCard
-              key={event._id}
-              name={event.name}
-              category={event.category}
-              venue={event.venue}
-              date={event.date}
-              price={event.price}
-              id={event._id}
-              time={event.time}
-              cover={event.cover}
-              favorite={isFavorite}
-            />
-          );
-        })}
-      </section> */}
-      {/* <div className="flex items-center gap-4">
-        <div className="w-16">
-          <img
-            className="w-full"
-            src={colors}
-            alt="recurso grafico de colores"
-          />
-        </div>
-        <h2 className="text-2xl my-4 font-accent">Más recientes</h2>
-      </div>
-      <section className="flex gap-16 justify-center flex-wrap mt-4">
-        {isLoading && (
-          <PuffLoader
-            className="absolute left-1/2 -translate-x-1/2 top-10"
-            color="#04b290"
-          />
-        )}
-        {events.map((event) => {
-          let isFavorite = false;
-          if (
-            wishlist.find(
-              (wishlistEvent) => wishlistEvent.eventId === event._id
-            )
-          ) {
-            isFavorite = true;
-          }
-          return (
-            <EventCard
-              key={event._id}
-              name={event.name}
-              category={event.category}
-              venue={event.venue}
-              date={event.date}
-              price={event.price}
-              id={event._id}
-              time={event.time}
-              cover={event.cover}
-              favorite={isFavorite}
-            />
-          );
-        })}
-      </section>
-      <div className="w-fit mx-auto my-12">
-        <Pagination
-          isCompact
-          color="secondary"
-          showControls
-          total={Math.ceil(eventsLength / 6)}
-          initialPage={1}
-          onChange={handlePageChange}
-        />
-      </div> */}
     </main>
   );
 }
