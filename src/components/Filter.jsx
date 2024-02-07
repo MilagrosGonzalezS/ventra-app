@@ -85,26 +85,6 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
   };
 
   return (
-    // <Dropdown>
-    //   <DropdownTrigger>
-    //     <Button
-    //       variant="faded"
-    //       endContent={<FontAwesomeIcon icon={faFilter} />}
-    //     >
-    //       Filtros
-    //     </Button>
-    //   </DropdownTrigger>
-    //   <DropdownMenu aria-label="Static Actions">
-    // {categories.map((category) => (
-    //   <DropdownItem
-    //     key={category}
-    //     onClick={() => handleCategoryClick(category)}
-    //   >
-    //     {category}
-    //   </DropdownItem>
-    // ))}
-    //   </DropdownMenu>
-    // </Dropdown>
     <>
       {" "}
       <div className="flex items-center justify-between gap-4 mb-4">
