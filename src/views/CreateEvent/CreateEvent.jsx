@@ -122,6 +122,40 @@ function CreateEvent() {
               />
             </div>
 
+            <div className="flex flex-col  w-full md:w-2/4 p-3">
+              <Input
+                type="text"
+                label="Calle"
+                labelPlacement="outside"
+                placeholder="Lugar"
+                id="street"
+                name="street"
+                variant="bordered"
+                {...register("street", {
+                  required: "Campo obligatorio.",
+                })}
+                isInvalid={!!errors.street}
+                errorMessage={errors.street && errors.street.message}
+              />
+            </div>
+
+            <div className="flex flex-col  w-full md:w-2/4 p-3">
+              <Input
+                type="text"
+                label="Altura"
+                labelPlacement="outside"
+                placeholder="Lugar"
+                id="number"
+                name="number"
+                variant="bordered"
+                {...register("number", {
+                  required: "Campo obligatorio.",
+                })}
+                isInvalid={!!errors.number}
+                errorMessage={errors.number && errors.number.message}
+              />
+            </div>
+
             <div className="flex flex-col w-full md:w-2/6 p-3">
               <Select
                 label="Zona del evento"
@@ -168,19 +202,19 @@ function CreateEvent() {
                 errorMessage={errors.category && errors.category.message}
               >
                 <SelectItem key="Concierto de Rock" value="Concierto de Rock">
-                  Concierto de Rock
+                  Rock
                 </SelectItem>
                 <SelectItem key="Concierto De Pop" value="Concierto De Pop">
-                  Concierto De Pop
+                  Pop
                 </SelectItem>
                 <SelectItem key="Fiesta Electrónica" value="Fiesta Electrónica">
-                  Fiesta Electrónica
+                  Electrónica
                 </SelectItem>
                 <SelectItem key="Concierto De Rap" value="Concierto De Rap">
-                  Concierto De Rap
+                  Rap
                 </SelectItem>
                 <SelectItem key="Festival De Bandas" value="Festival De Bandas">
-                  Festival De Bandas
+                  Festival
                 </SelectItem>
                 <SelectItem key="Fiesta" value="Fiesta">
                   Fiesta

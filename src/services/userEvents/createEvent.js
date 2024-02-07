@@ -12,6 +12,10 @@ async function createEvent(data) {
       config.apiEvents,
       {
         ...data,
+        address: {
+          street: data.street,
+          number: data.number,
+        },
         status: true,
         userId: userId,
       },
