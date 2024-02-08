@@ -16,6 +16,7 @@ export { userData } from "./services/users/userData.js";
 export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
 export { checkEventoToDelete } from "./services/tickets/checkEventoToDelete.js";
+export { getCategories } from "./services/events/getCategories.js";
 //Components ->
 export { Featured } from "./components/Featured.jsx";
 export { EventCard } from "./components/EventCard.jsx";

@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import { createEvent, TermsText } from "../../index.js";
+import { createEvent, TermsText, getCategories } from "../../index.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -35,6 +35,7 @@ function CreateEvent() {
   const [isFree, setIsFree] = useState(true);
   const [price, setPrice] = useState(0);
   const [cover, setCover] = useState(null);
+  const [categories, setCategories] = useState([]);
   const { auth } = useContext(AuthContext);
   const token = auth;
 
@@ -51,6 +52,14 @@ function CreateEvent() {
     };
 
     checkToken();
+  }, []);
+
+  //TRAER CATEGORIAS PARA SELECT
+  useEffect(() => {
+    getCategories().then((data) => {
+      console.log("dataUseEffect", data);
+      setCategories(data);
+    });
   }, []);
 
   const onSubmit = async (data, event) => {
@@ -201,30 +210,9 @@ function CreateEvent() {
                 isInvalid={!!errors.category}
                 errorMessage={errors.category && errors.category.message}
               >
-                <SelectItem key="Concierto de Rock" value="Concierto de Rock">
-                  Rock
-                </SelectItem>
-                <SelectItem key="Concierto De Pop" value="Concierto De Pop">
-                  Pop
-                </SelectItem>
-                <SelectItem key="Fiesta Electrónica" value="Fiesta Electrónica">
-                  Electrónica
-                </SelectItem>
-                <SelectItem key="Concierto De Rap" value="Concierto De Rap">
-                  Rap
-                </SelectItem>
-                <SelectItem key="Festival De Bandas" value="Festival De Bandas">
-                  Festival
-                </SelectItem>
-                <SelectItem key="Fiesta" value="Fiesta">
-                  Fiesta
-                </SelectItem>
-                <SelectItem key="Cumpleaños" value="Cumpleaños">
-                  Cumpleaños
-                </SelectItem>
-                <SelectItem key="Reunión" value="Reunión">
-                  Reunión
-                </SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.name}>{category.name}</SelectItem>
+                ))}
               </Select>
             </div>
 

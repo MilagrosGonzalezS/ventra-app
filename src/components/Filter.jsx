@@ -1,35 +1,15 @@
 import React, { useState, useEffect } from "react";
-// import {
-//   Input,
-//   Dropdown,
-//   DropdownTrigger,
-//   DropdownMenu,
-//   DropdownItem,
-//   Button,
-// } from "@nextui-org/react";
+import { getCategories } from "../index.js";
 import { Select, SelectItem, Slider, Chip } from "@nextui-org/react";
 import axios from "axios";
 import config from "../config.json";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedZone, setSelectedZone] = useState("");
-
-  const categories = [
-    "Rock",
-    "Pop",
-    "Electrónica",
-    "Rap",
-    "Festival",
-    "Fiesta",
-    "Cumpleaños",
-    "Reunión",
-  ];
-
+  const [categories, setCategories] = useState([]);
+  console.log("Categories", categories);
   const zones = ["", "CABA", "Zona Norte", "Zona Oeste", "Zona Sur"];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,6 +46,14 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
     fetchData();
   }, [selectedZone, onSearchResultsUpdate]);
 
+  //TRAER CATEGORIAS PARA SELECT
+  useEffect(() => {
+    getCategories().then((data) => {
+      console.log("dataUseEffect", data);
+      setCategories(data);
+    });
+  }, []);
+
   function resetFilter() {
     onSearchResultsUpdate([]);
     setSelectedCategory("");
@@ -96,21 +84,14 @@ const Filter = ({ onSearchResultsUpdate, onCategorySelect, onZoneSelect }) => {
           {categories.map((category) => (
             <Chip
               className="cursor-pointer"
-              key={category}
-              onClick={() => handleCategoryClick(category)}
+              key={category.name}
+              onClick={() => handleCategoryClick(category.name)}
             >
-              {category}
+              {category.name}
             </Chip>
           ))}
         </div>
         <div className="my-6">
-          {/* <Select placeholder="Zona" className="max-w-xs">
-            {zones.map((zone) => (
-              <SelectItem key={zone} value={zone} onClick={handleZoneClick}>
-                {zone}
-              </SelectItem>
-            ))}
-          </Select> */}
           <Select
             placeholder="Zona"
             className="max-w-xs"
