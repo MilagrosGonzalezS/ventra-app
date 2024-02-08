@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getEventById } from "../../index.js";
 import { PuffLoader } from "react-spinners";
-
+import { Button } from "@nextui-org/react";
+import calendar from "../../assets/imgs/calendar-alt.png";
+import clock from "../../assets/imgs/clock.png";
+import mapMarker from "../../assets/imgs/map-marker-alt.png";
+import colors from "../../assets/imgs/recurso-colores.png";
+import ticket from "../../assets/imgs/ticket-alt.png";
 function EventDetails() {
   const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,57 +46,103 @@ function EventDetails() {
   return (
     <>
       {isLoading && <PuffLoader />}
-      <main className="min-h-screen bg-pattern flex items-center justify-center">
-        <section className="bg-dark flex flex-col md:flex-row gap-16 p-8 rounded-2xl mx-auto w-2/3">
-          <div className="w-full lg:w-1/3 rounded-2xl">
+      <main className="bg-eventdetail md:px-20 px-10 grid grid-cols-12 gap-10">
+        <div className="h-fit bg-dark rounded-3xl  col-span-4 mt-40 xl:mt-80 flex flex-col justify-evenly items-center mb-20">
+          <img
+            className="pb-2 w-full rounded-3xl "
+            src={`http://localhost/ventra-API/${event.cover}`}
+            alt={event.description}
+          />
+          <div className="flex w-3/4 gap-4 justify-start">
             <img
-              className="w-full rounded-xl"
-              src={`http://localhost/ventra-API/${event.cover}`}
-              alt={event.description}
+              className="w-auto h-auto object-none"
+              src={ticket}
+              alt="recurso ticket"
             />
+            <h2 className="text-xl md:text-2xl my-4 font-accent">Entradas</h2>
           </div>
-          <div className="flex flex-col text-xl gap-8">
-            <h1 className="text-5xl font-accent">{event.name}</h1>
-            <p>{event.venue}</p>
-            <p>{event.date ? event.date.slice(0, 10) : ""}</p>
-            <p className="text-lg">${event.price}</p>
-            <div className="flex gap-4">
-              {!event.isFree ? (
-                event.ticketCount === 0 ? (
-                  <p className="rounded-2xl bg-red-700 py-2 px-4 my-4 w-fit text-light">
-                    Entradas Agotadas
-                  </p>
-                ) : (
-                  <Link
-                    className="rounded-2xl font-medium text-sm bg-green py-2 px-8 my-4 w-fit text-dark"
-                    to={`/detalle/comprar/${event._id}`}
-                  >
-                    Comprar
-                  </Link>
-                )
-              ) : (
-                <p className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark">
-                  Evento Gratuito
-                </p>
-              )}
 
-              <button
-                onClick={() => {
-                  handleShare(event._id, event.name, event.description);
-                }}
-                className="rounded-2xl font-medium text-sm bg-orange py-2 px-8 my-4 w-fit text-dark"
-              >
-                Compartir
-              </button>
-            </div>
-            {event.visibility === "private" ? (
-              <p className="text-red-400">
-                Este es un evento privado, solo vos y quienes tengan el link
-                pueden verlo.
+          <p className="text-lg">${event.price}</p>
+          <p className="text-xs w-11/12">
+            Al valor indicado, se sumará el costo por servicio. En caso de
+            reembolso, dicho costo no será reintegrado.
+          </p>
+
+          <div className="flex gap-4">
+            <Button
+              onClick={() => {
+                handleShare(event._id, event.name, event.description);
+              }}
+              className="rounded-2xl font-medium text-sm  py-2 px-8 my-4 w-fit text-light"
+            >
+              Compartir
+            </Button>
+            {!event.isFree ? (
+              event.ticketCount === 0 ? (
+                <p className="rounded-2xl bg-red-700 py-2 px-4 my-4 w-fit text-light">
+                  Entradas Agotadas
+                </p>
+              ) : (
+                <Link
+                  className="rounded-2xl font-medium text-sm bg-green py-2 px-8 my-4 w-fit text-dark"
+                  to={`/detalle/comprar/${event._id}`}
+                >
+                  Comprar
+                </Link>
+              )
+            ) : (
+              <p className="rounded-2xl bg-green py-2 px-4 my-4 w-fit text-dark">
+                Evento Gratuito
               </p>
-            ) : null}
+            )}
           </div>
-        </section>
+        </div>
+        {/* Acá comienza el titulo y datos */}
+        <div className="col-span-8 mt-40 xl:mt-80 ">
+          <h1 className="text-5xl font-accent mb-4">{event.name}</h1>
+          <div className="flex gap-12 mb-8">
+            <div className="flex items-center gap-4">
+              <img className="w-6" src={calendar} alt="icono de calendario" />
+              <p>{event.date ? event.date.slice(0, 10) : ""}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <img className="w-6" src={clock} alt="icono de reloj" />
+              <p>{event.time}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 ">
+            <img
+              className="w-6"
+              src={mapMarker}
+              alt="icono de marcador en el mapa"
+            />
+            <p>
+              {event.venue} - {event.address.street} {event.address.number}
+            </p>
+          </div>
+
+          {event.visibility === "private" ? (
+            <p className="text-red-400">
+              Este es un evento privado, solo vos y quienes tengan el link
+              pueden verlo.
+            </p>
+          ) : null}
+          {/* DESCRIPCIÓN */}
+          <div className="mt-20">
+            <div className="flex flex-col mb-4">
+              <h2 className="text-xl md:text-2xl pb-2 font-accent">
+                Descripción
+              </h2>
+              <img
+                className="w-12"
+                src={colors}
+                alt="recurso flechas colores"
+              />
+            </div>
+
+            <p>{event.description}</p>
+          </div>
+        </div>
       </main>
     </>
   );
