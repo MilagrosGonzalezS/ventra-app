@@ -3,5 +3,6 @@
   "apiUsers": "http://localhost:3000/users",
   "apiAuth": "http://localhost:3000/auth",
   "apiTickets": "http://localhost:3000/tickets",
-  "apiWishlist": "http://localhost:3000/wishlist"
+  "apiWishlist": "http://localhost:3000/wishlist",
+  "apiCategories": "http://localhost:3000/categories"
 }

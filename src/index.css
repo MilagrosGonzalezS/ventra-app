@@ -39,3 +39,10 @@
   background-size: contain;
   background-position: top -150px center;
 }
+
+.bg-eventdetail {
+  background-image: url("./assets/imgs/bg-event-detail.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top -50px center;
+}

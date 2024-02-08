@@ -143,20 +143,6 @@ function Home() {
 
       <section className="grid grid-cols-12 gap-6 md:px-20 px-10">
         <div className="col-span-3">
-          {/* <div className="flex items-start gap-4 mb-4">
-            <div className="w-16 mt-3">
-              <img
-                className="w-full"
-                src={colors}
-                alt="recurso grafico de colores"
-              />
-            </div>
-            <h2 className="text-2xl font-accent">Eventos</h2>
-          </div> */}
-          {/* <div className="flex items-center justify-between gap-4 mb-4">
-            <p>Filtros</p>
-            <button onClick={resetFilter}>Borrar filtro</button>
-          </div> */}
           <Filter
             onSearchResultsUpdate={setSearchResults}
             onCategorySelect={handleCategorySelect}

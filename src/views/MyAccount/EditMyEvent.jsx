@@ -8,8 +8,17 @@ import {
   getEvents,
   deleteMyEvent,
   checkEventoToDelete,
+  getCategories,
 } from "../../index.js";
-import { Button, Input, Radio, RadioGroup, Textarea } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Radio,
+  RadioGroup,
+  Textarea,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
 
 function EditMyEvent() {
@@ -28,7 +37,7 @@ function EditMyEvent() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
   const [hasTickets, sethasTickets] = useState(false);
-
+  const [categories, setCategories] = useState([]);
   const handleFileChange = (event) => {
     setCover(event.target.files[0]);
   };
@@ -87,6 +96,13 @@ function EditMyEvent() {
 
   useEffect(() => {
     fetchEvents();
+  }, []);
+  //TRAER CATEGORIAS PARA SELECT
+  useEffect(() => {
+    getCategories().then((data) => {
+      console.log("dataUseEffect", data);
+      setCategories(data);
+    });
   }, []);
 
   return (
@@ -186,23 +202,16 @@ function EditMyEvent() {
                     required: "Campo obligatorio",
                   })}
                 >
-                  <option value="">Seleccioná una categoría</option>
-                  {[
-                    "Concierto de Rock",
-                    "Concierto De Pop",
-                    "Fiesta Electrónica",
-                    "Concierto De Rap",
-                    "Festival De Bandas",
-                    "Fiesta",
-                    "Cumpleaños",
-                    "Reunión",
-                  ]
-                    .sort()
-                    .map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
+                  {categories.sort().map((category) => (
+                    <option
+                      className="cursor-pointer"
+                      key={category.name}
+                      value={category.name}
+                      onClick={() => handleCategoryClick(category.name)}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
                 </select>
                 {errors.category && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
