@@ -12,6 +12,8 @@ const config = {
       colors: {
         light: "#FCFCFC",
         dark: "#141414",
+        graydarker: "#494949",
+        graylighter: "#6B6B6B",
         opacity: "rgba(0, 0, 0, 0.89)",
         opacity2: "rgba(48, 48, 48, 0.58)",
         lightblue: "#04b290",

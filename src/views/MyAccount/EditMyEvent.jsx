@@ -38,6 +38,8 @@ function EditMyEvent() {
   const [eventToDelete, setEventToDelete] = useState(null);
   const [hasTickets, sethasTickets] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState();
   const handleFileChange = (event) => {
     setCover(event.target.files[0]);
   };
@@ -69,7 +71,7 @@ function EditMyEvent() {
       setIsCreatingEvent(false);
       toast.success("Editaste tu evento con éxito");
       setTimeout(() => {
-        navigate("/mis-eventos");
+        navigate("/mi-cuenta");
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -159,27 +161,72 @@ function EditMyEvent() {
                   errorMessage={errors.venue && errors.venue.message}
                 />
               </div>
+              <div className="flex flex-col  w-full md:w-2/4 p-3">
+                <Input
+                  type="text"
+                  label="Calle"
+                  labelPlacement="outside"
+                  placeholder="Nombre"
+                  id="street"
+                  name="street"
+                  variant="bordered"
+                  defaultValue={event.address.street}
+                  {...register("street", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.street}
+                  errorMessage={errors.street && errors.street.message}
+                />
+              </div>
+
+              <div className="flex flex-col  w-full md:w-2/4 p-3">
+                <Input
+                  type="text"
+                  label="Número"
+                  labelPlacement="outside"
+                  placeholder="1234"
+                  id="number"
+                  name="number"
+                  variant="bordered"
+                  defaultValue={event.address.number}
+                  {...register("number", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.streetnumber}
+                  errorMessage={errors.number && errors.number.message}
+                />
+              </div>
 
               <div className="flex flex-col w-full md:w-2/6 p-3">
-                <label className="text-sm" htmlFor="zone">
-                  Zona del evento
-                </label>
-
-                <select
-                  className="bg-opacity border-solid border-1 border-gray-500 py-1.5 mb-8 mt-1 px-2 rounded-xl w-auto"
+                <Select
+                  label="Zona"
+                  labelPlacement="outside"
+                  placeholder="Zona"
                   name="zone"
                   id="zone"
-                  defaultValue={event.zone}
+                  variant="bordered"
+                  // defaultValue={event.zone}
+                  defaultSelectedKeys={[event.zone]}
                   {...register("zone", {
                     required: "Campo obligatorio",
                   })}
+                  isInvalid={!!errors.zone}
+                  errorMessage={errors.zone && errors.zone.message}
                 >
-                  <option value="">Seleccioná un lugar</option>
-                  <option value="CABA">CABA</option>
-                  <option value="Zona Norte">Zona Norte</option>
-                  <option value="Zona Oeste">Zona Oeste</option>
-                  <option value="Zona Sur">Zona Sur</option>
-                </select>
+                  <SelectItem value="">Seleccioná un lugar</SelectItem>
+                  <SelectItem key={"CABA"} value="CABA">
+                    CABA
+                  </SelectItem>
+                  <SelectItem key={"Zona Norte"} value="Zona Norte">
+                    Zona Norte
+                  </SelectItem>
+                  <SelectItem key={"Zona Oeste"} value="Zona Oeste">
+                    Zona Oeste
+                  </SelectItem>
+                  <SelectItem key={"Zona Sur"} value="Zona Sur">
+                    Zona Sur
+                  </SelectItem>
+                </Select>
 
                 {errors.zone && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
@@ -189,51 +236,53 @@ function EditMyEvent() {
               </div>
 
               <div className="flex flex-col w-full md:w-2/6 p-3">
-                <label className="text-sm" htmlFor="category">
-                  Categoría
-                </label>
-
-                <select
-                  className="bg-opacity border-solid border-1 border-gray-500 mb-8 mt-1 px-2 py-1.5 rounded-xl  w-auto"
+                <p>{console.log(event)}</p>
+                <Select
+                  label="Categoría"
+                  labelPlacement="outside"
+                  placeholder="Categoría"
                   name="category"
                   id="category"
-                  defaultValue={event.category}
+                  variant="bordered"
+                  defaultSelectedKeys={[event.category]}
                   {...register("category", {
                     required: "Campo obligatorio",
                   })}
+                  isInvalid={!!errors.category}
+                  errorMessage={errors.category && errors.category.message}
                 >
                   {categories.sort().map((category) => (
-                    <option
+                    <SelectItem
                       className="cursor-pointer"
                       key={category.name}
                       value={category.name}
-                      onClick={() => handleCategoryClick(category.name)}
                     >
                       {category.name}
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-                {errors.category && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
-                    {errors.category.message}
-                  </span>
-                )}
+                </Select>
               </div>
               {events[0].isFree ? null : (
                 <div className="w-full md:w-2/6 p-3">
                   <Input
                     label="Precio"
                     labelPlacement="outside"
-                    type="number"
+                    type="text"
                     placeholder="0.00"
                     id="price"
                     name="price"
                     variant="bordered"
                     defaultValue={event.price}
-                    onChange={(e) => setPrice(e.target.value)}
                     {...register("price", {
                       required: "Campo obligatorio.",
                     })}
+                    onChange={(e) => {
+                      const input = e.target.value;
+                      // Filtrar caracteres no numéricos
+                      const filteredInput = input.replace(/\D/g, "");
+                      setPrice(filteredInput);
+                    }}
+                    value={price}
                     isInvalid={!!errors.price}
                     errorMessage={errors.price && errors.price.message}
                     disabled={hasTickets} // Deshabilitar el input si hasTickets es true
@@ -251,18 +300,25 @@ function EditMyEvent() {
                   label="Cantidad de tickets"
                   labelPlacement="outside"
                   placeholder="0"
-                  type="number"
+                  type="text"
                   id="ticketCount"
                   name="ticketCount"
                   variant="bordered"
-                  defaultValue={event.ticketCount}
                   {...register("ticketCount", {
                     required: "Campo obligatorio.",
                   })}
+                  defaultValue={event.ticketCount}
                   isInvalid={!!errors.ticketCount}
                   errorMessage={
                     errors.ticketCount && errors.ticketCount.message
                   }
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    // Filtrar caracteres no numéricos
+                    const filteredInput = input.replace(/\D/g, "");
+                    setQuantity(filteredInput);
+                  }}
+                  value={quantity}
                 />
               </div>
 
@@ -412,7 +468,7 @@ function EditMyEvent() {
                     onClick={() => {
                       deleteMyEvent(eventToDelete).then(() => {
                         getEvents();
-                        navigate("/mis-eventos");
+                        navigate("/mi-cuenta");
                       });
 
                       setIsDeleteModalOpen(false); // Cerrar el modal después de eliminar

@@ -34,6 +34,7 @@ function CreateEvent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
   const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState();
   const [cover, setCover] = useState(null);
   const [categories, setCategories] = useState([]);
   const { auth } = useContext(AuthContext);
@@ -57,7 +58,6 @@ function CreateEvent() {
   //TRAER CATEGORIAS PARA SELECT
   useEffect(() => {
     getCategories().then((data) => {
-      console.log("dataUseEffect", data);
       setCategories(data);
     });
   }, []);
@@ -136,7 +136,7 @@ function CreateEvent() {
                 type="text"
                 label="Calle"
                 labelPlacement="outside"
-                placeholder="Lugar"
+                placeholder="Nombre"
                 id="street"
                 name="street"
                 variant="bordered"
@@ -151,9 +151,9 @@ function CreateEvent() {
             <div className="flex flex-col  w-full md:w-2/4 p-3">
               <Input
                 type="text"
-                label="Altura"
+                label="Número"
                 labelPlacement="outside"
-                placeholder="Lugar"
+                placeholder="1234"
                 id="number"
                 name="number"
                 variant="bordered"
@@ -266,17 +266,23 @@ function CreateEvent() {
                 <Input
                   label="Precio"
                   labelPlacement="outside"
-                  type="number"
+                  type="text"
                   placeholder="0.00"
                   id="price"
                   name="price"
                   variant="bordered"
-                  onChange={(e) => setPrice(e.target.value)}
                   {...register("price", {
                     required: "Campo obligatorio.",
                   })}
                   isInvalid={!!errors.price}
                   errorMessage={errors.price && errors.price.message}
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    // Filtrar caracteres no numéricos
+                    const filteredInput = input.replace(/\D/g, "");
+                    setPrice(filteredInput);
+                  }}
+                  value={price}
                 />
               </div>
             )}
@@ -286,7 +292,7 @@ function CreateEvent() {
                 label="Cantidad de tickets"
                 labelPlacement="outside"
                 placeholder="0"
-                type="number"
+                type="text"
                 id="ticketCount"
                 name="ticketCount"
                 variant="bordered"
@@ -295,6 +301,13 @@ function CreateEvent() {
                 })}
                 isInvalid={!!errors.ticketCount}
                 errorMessage={errors.ticketCount && errors.ticketCount.message}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  // Filtrar caracteres no numéricos
+                  const filteredInput = input.replace(/\D/g, "");
+                  setQuantity(filteredInput);
+                }}
+                value={quantity}
               />
             </div>
 
@@ -319,7 +332,7 @@ function CreateEvent() {
               <Input
                 label="Hora"
                 labelPlacement="outside"
-                placeholder=" "
+                placeholder="21:00"
                 type="time"
                 id="time"
                 name="time"

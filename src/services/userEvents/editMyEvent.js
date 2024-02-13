@@ -13,6 +13,10 @@ async function editMyEvent(data, eventId) {
       `${config.apiEvents}/${eventId}`,
       {
         ...data,
+        address: {
+          street: data.street,
+          number: data.number,
+        },
         status: true,
         userId: userId,
       },

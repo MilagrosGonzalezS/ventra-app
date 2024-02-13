@@ -11,9 +11,11 @@ import ticket from "../../assets/imgs/ticket-alt.png";
 function EventDetails() {
   const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [amount, setAmount] = useState(0);
   const { eventId } = useParams();
+  const [clickedBuy, setClickedBuy] = useState(false);
 
+  console.log("click", clickedBuy);
   const handleShare = (eventId, eventName, eventDescription) => {
     console.log(eventId);
     let dataShare = {
@@ -25,6 +27,20 @@ function EventDetails() {
       console.log("compartir el evento");
     });
   };
+
+  function handleSubstract() {
+    if (amount > 0) {
+      setAmount(amount - 1);
+    }
+  }
+
+  function handleAdd() {
+    if (amount < 10) {
+      setAmount(amount + 1);
+    }
+  }
+
+  const ticketsPrice = event.price * amount;
 
   useEffect(() => {
     const getEvent = () => {
@@ -59,14 +75,45 @@ function EventDetails() {
               src={ticket}
               alt="recurso ticket"
             />
-            <h2 className="text-xl md:text-2xl my-4 font-accent">Entradas</h2>
+            <h2 className="text-xl md:text-2xl my-2 font-accent">Entradas</h2>
           </div>
 
-          <p className="text-lg">${event.price}</p>
-          <p className="text-xs w-11/12">
-            Al valor indicado, se sumará el costo por servicio. En caso de
-            reembolso, dicho costo no será reintegrado.
+          <div className="flex items-center justify-between my-4 gap-2 bg-graydarker text-dark rounded-2xl ps-4 w-11/12">
+            <div className="flex flex-col md:flex-row gap-4 text-light">
+              <p>${event.price}</p>
+              <p>Cantidad</p>
+            </div>
+            <div className="bg-graylighter py-2 px-4 rounded-xl  text-light">
+              <div className="flex justify-evenly">
+                <button className="me-2" onClick={handleSubstract}>
+                  -
+                </button>
+                <p>{amount}</p>
+                {amount >= event.ticketCount ? (
+                  <p className="opacity-0">+</p>
+                ) : (
+                  <button className="ms-2" onClick={handleAdd}>
+                    +
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+          {amount >= event.ticketCount && event.ticketCount !== 0 ? (
+            <p className="text-red-500 w-11/12 text-sm mb-2">
+              Alcanzaste el límite de entradas que quedan para este evento.
+            </p>
+          ) : null}
+          <p className="text-xs w-11/12 text-justify">
+            Al valor indicado, se sumará el costo por servicio. <br /> En caso
+            de reembolso, dicho costo no será reintegrado.
           </p>
+          {amount > 0 && (
+            <div className="flex gap-4 mt-2">
+              <h4>Total:</h4>
+              <p>${ticketsPrice}</p>
+            </div>
+          )}
 
           <div className="flex gap-4">
             <Button
@@ -84,8 +131,14 @@ function EventDetails() {
                 </p>
               ) : (
                 <Link
-                  className="rounded-2xl font-medium text-sm bg-green py-2 px-8 my-4 w-fit text-dark"
-                  to={`/detalle/comprar/${event._id}`}
+                  to={
+                    amount > 0
+                      ? `/detalle/comprar/${event._id}/checkout/${amount}`
+                      : "#"
+                  }
+                  className={`rounded-2xl font-medium text-sm bg-green py-2 px-8 my-4 w-fit text-dark ${
+                    amount === 0 ? "pointer-events-none bg-graydarker" : ""
+                  }`}
                 >
                   Comprar
                 </Link>
@@ -117,7 +170,8 @@ function EventDetails() {
               alt="icono de marcador en el mapa"
             />
             <p>
-              {event.venue} - {event.address.street} {event.address.number}
+              {event.venue} - {event.address?.street} {event.address?.number} -
+              ({event.zone})
             </p>
           </div>
 
