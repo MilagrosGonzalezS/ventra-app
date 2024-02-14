@@ -68,9 +68,9 @@ function MyAccount() {
           Cerrar sesión
         </Button>
       </aside>
-      <section className="col-span-8 mt-[55vh]">
+      <section className="col-span-8 mt-60">
         <div className="w-full flex justify-start gap-4 items-center">
-          {/* <button
+          <button
             onClick={() => handleView("eventos")}
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
           >
@@ -81,7 +81,7 @@ function MyAccount() {
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
           >
             Eventos privados
-          </button> */}
+          </button>
           <button
             onClick={() => handleView("favoritos")}
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border justify-self-end"

@@ -14,4 +14,12 @@ async function getEvents(page) {
   return res;
 }
 
-export { getEvents };
+async function getFilteredEvents(page, category, zone, minPrice, maxPrice) {
+  console.log("funcion filtrado");
+  const res = await axios.get(
+    `${config.apiEvents}?page=${page}&amount=6&category=${category}&zone=${zone}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+  );
+  return res;
+}
+
+export { getEvents, getFilteredEvents };

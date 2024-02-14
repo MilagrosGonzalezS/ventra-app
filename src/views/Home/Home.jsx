@@ -1,5 +1,6 @@
 import {
   getEvents,
+  getFilteredEvents,
   getAllEvents,
   getMyWishlist,
   Search,
@@ -23,8 +24,10 @@ function Home() {
   const [wishlist, setWishlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedZone, setSelectedZone] = useState(null);
+  // const [selectedCategory, setSelectedCategory] = useState(null);
+  // const [selectedZone, setSelectedZone] = useState(null);
+  // const [selectedMinPrice, setSelectedMinPrice] = useState(0);
+  // const [selectedmaxPrice, setSelectedMaxPrice] = useState(0);
   const [selectedSearch, setSelectedSearch] = useState(null);
   const [isResultsEmpty, setIsResultsEmpty] = useState(false);
 
@@ -32,13 +35,29 @@ function Home() {
   const { auth } = useContext(AuthContext);
   const token = auth;
 
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-    setSelectedSearch("");
-  };
+  // const handleCategorySelect = (category) => {
+  //   setSelectedCategory(category);
+  //   setSelectedSearch("");
+  // };
 
-  const handleZoneSelect = (zone) => {
-    setSelectedZone(zone);
+  // const handleZoneSelect = (zone) => {
+  //   setSelectedZone(zone);
+  //   setSelectedSearch("");
+  // };
+
+  // const handlePriceSelect = (minPrice, maxPrice) => {
+  //   setSelectedMinPrice(minPrice);
+  //   setSelectedMaxPrice(maxPrice);
+  // };
+
+  const onFilterSelect = (category, zone, price) => {
+    getFilteredEvents(1, category, zone, price[0], price[1])
+      .then((res) => {
+        setSearchResults(res.data);
+      })
+      .catch((error) => {
+        console.log("filtered events" + error);
+      });
     setSelectedSearch("");
   };
 
@@ -76,7 +95,7 @@ function Home() {
       });
     }
     getEvents(1).then((res) => {
-      setEvents(res.data);
+      setEvents(res.data["events"]);
     });
     getAllEvents().then((res) => {
       setEventsLength(res.data.events.length);
@@ -145,8 +164,10 @@ function Home() {
         <div className="col-span-3">
           <Filter
             onSearchResultsUpdate={setSearchResults}
-            onCategorySelect={handleCategorySelect}
-            onZoneSelect={handleZoneSelect}
+            // onCategorySelect={handleCategorySelect}
+            // onZoneSelect={handleZoneSelect}
+            // onPriceSelect={handlePriceSelect}
+            onFilterSelect={onFilterSelect}
           />
         </div>
         <div className="col-span-9">
@@ -167,13 +188,14 @@ function Home() {
                 />
               </div>
               <h2 className="text-xl md:text-2xl my-4 font-accent">
-                {selectedCategory && !selectedSearch && !selectedZone
+                {/* {selectedCategory && !selectedSearch && !selectedZone
                   ? `Categoría: ${selectedCategory}`
                   : selectedSearch && !selectedCategory && !selectedZone
                   ? `Búsqueda: ${selectedSearch}`
                   : !selectedCategory && !selectedSearch && selectedZone
                   ? `Ubicación: ${selectedZone}`
-                  : null}
+                  : null} */}
+                Resultado:
               </h2>
             </div>
           )}
@@ -247,7 +269,7 @@ function Home() {
         </div>
       </section>
       <div className="col-span-12">
-        <img classname="w-full" src={banner} alt="banner" />
+        <img className="w-full" src={banner} alt="banner" />
       </div>
     </main>
   );

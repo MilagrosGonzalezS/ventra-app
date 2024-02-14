@@ -3,7 +3,11 @@ import { PuffLoader } from "react-spinners";
 import { getMyTickets } from "../../index.js";
 import QRCode from "react-qr-code";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+// import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import colors from "../../assets/imgs/recurso-colores.png";
 
 function MyTickets() {
@@ -48,7 +52,65 @@ function MyTickets() {
             {tickets.length === 0 ? (
               <p>Aún no tenés ninguna entrada comprada.</p>
             ) : (
-              <table className="w-full bg-dark text-light rounded-xl p-4 text-center text-sm">
+              <div className="w-4/5">
+                {tickets.map((ticket) => (
+                  <div
+                    key={ticket._id}
+                    className="w-full mb-8 rounded-3xl bg-dark flex gap-12"
+                  >
+                    <div className="bg-lightblue rounded-3xl p-3 w-fit">
+                      <div className="bg-light rounded-2xl p-3">
+                        <QRCode
+                          value={ticket._id}
+                          className="w-32 h-32 rounded-xl"
+                        />
+                      </div>
+                    </div>
+                    <div className="my-4 w-full pr-16">
+                      <h3 className="text-light text-2xl font-accent font-medium tracking-wider">
+                        {ticket.eventName}
+                      </h3>
+                      <div className="flex mt-4 justify-between">
+                        <div className="flex gap-2 items-center my-2">
+                          <FontAwesomeIcon
+                            icon={faCalendarAlt}
+                            className="text-lightblue"
+                          />
+                          <p>
+                            {ticket.eventDate
+                              ? ticket.eventDate.slice(0, 10)
+                              : ""}
+                          </p>
+                        </div>
+                        <div className="flex gap-2 items-center my-2">
+                          <FontAwesomeIcon
+                            icon={faClock}
+                            className="text-lightblue"
+                          />
+                          <p>{ticket.eventTime}</p>
+                        </div>
+                      </div>
+                      <div className="flex mt-4 justify-between">
+                        <div className="flex gap-2 items-center my-2">
+                          <FontAwesomeIcon
+                            icon={faLocationPin}
+                            className="text-lightblue"
+                          />
+                          <p>{ticket.eventVenue}</p>
+                        </div>
+                        <div className="flex gap-2 items-center my-2">
+                          <FontAwesomeIcon
+                            icon={faDownload}
+                            className="text-lightblue"
+                          />
+                          <p>Descargar</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              /* <table className="w-full bg-dark text-light rounded-xl p-4 text-center text-sm">
                 <thead>
                   <tr className=" divide-x divide-gray-500">
                     <th className="py-4">Nro. Orden</th>
@@ -87,7 +149,7 @@ function MyTickets() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table> */
             )}
           </div>
         )}

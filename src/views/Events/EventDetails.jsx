@@ -117,7 +117,7 @@ function EventDetails() {
               alt="icono de marcador en el mapa"
             />
             <p>
-              {event.venue} - {event.address.street} {event.address.number}
+              {/* {event.venue} - {event.address.street} {event.address.number} */}
             </p>
           </div>
 

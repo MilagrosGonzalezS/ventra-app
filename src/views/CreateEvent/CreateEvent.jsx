@@ -168,7 +168,7 @@ function CreateEvent() {
                 </Select>
               </div>
 
-              <div className="flex flex-col w-full md:w-2/6 p-3">
+              <div className="flex flex-col w-5/12 my-2">
                 <Select
                   label="Categoría"
                   labelPlacement="outside"

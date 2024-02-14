@@ -46,3 +46,7 @@
   background-size: contain;
   background-position: top -50px center;
 }
+
+.chip-active {
+  background-color: green;
+}
