@@ -179,7 +179,7 @@ function PaymentForm() {
               label="Código"
               labelPlacement="outside"
               placeholder="0"
-              type="number"
+              type="text"
               id="securitycode"
               name="securitycode"
               variant="bordered"

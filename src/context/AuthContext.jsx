@@ -14,7 +14,6 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (auth) {
       const decoded = jwtDecode(auth);
-      console.log("decoded", decoded.user._id);
       setUser({
         email: decoded.user.email,
         id: decoded.user._id,
@@ -22,9 +21,7 @@ const AuthContextProvider = ({ children }) => {
     }
   }, [auth]);
 
-  useEffect(() => {
-    console.log("user", user);
-  }, [user]);
+  useEffect(() => {}, [user]);
 
   const logout = () => {
     Cookies.remove("token");

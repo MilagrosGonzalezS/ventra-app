@@ -36,6 +36,7 @@ function CreateEvent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
   const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState();
   const [cover, setCover] = useState(null);
   const [categories, setCategories] = useState([]);
   const { auth } = useContext(AuthContext);
@@ -59,7 +60,6 @@ function CreateEvent() {
   //TRAER CATEGORIAS PARA SELECT
   useEffect(() => {
     getCategories().then((data) => {
-      console.log("dataUseEffect", data);
       setCategories(data);
     });
   }, []);
@@ -244,7 +244,7 @@ function CreateEvent() {
                 <Input
                   label="Hora"
                   labelPlacement="outside"
-                  placeholder=" "
+                  placeholder="21:00"
                   type="time"
                   id="time"
                   name="time"

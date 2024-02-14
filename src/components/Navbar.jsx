@@ -31,7 +31,6 @@ const NavBar = () => {
     if (token) {
       setTokenExists(true);
     }
-    console.log(location);
   }, []);
 
   const handleLogout = () => {
