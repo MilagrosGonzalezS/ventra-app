@@ -57,7 +57,7 @@ function PaymentForm() {
       }
       toast.success("¡Compra finalizada!");
       setTimeout(() => {
-        navigation("/mis-entradas");
+        navigation("/mi-cuenta");
       }, 1500);
     } catch (error) {}
   };

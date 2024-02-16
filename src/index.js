@@ -27,6 +27,10 @@ export { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 export { Search } from "./components/Search.jsx";
 export { Footer } from "./components/Footer.jsx";
 export { TermsText } from "./components/TermsText.jsx";
+export { EventsTable } from "./components/EventsTable.jsx";
+export { EventsTickets } from "./components/EventsTickets.jsx";
+export { Analytics } from "./components/Analytics.jsx";
+export { Planification } from "./components/Planification.jsx";
 
 //Views ->
 export { Home } from "./views/Home/Home";
@@ -44,3 +48,4 @@ export { Checkout } from "./views/Checkout";
 export { PaymentForm } from "./views/PaymentForm";
 export { MyTickets } from "./views/MyAccount/MyTickets";
 export { EventDetails } from "./views/Events/EventDetails";
+export { DashboardMyEvents } from "./views/MyAccount/DashboardMyEvents";

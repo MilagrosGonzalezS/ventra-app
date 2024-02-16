@@ -21,6 +21,7 @@ import {
   ProtectedRoute,
   NavBar,
   Footer,
+  DashboardMyEvents,
 } from "./index.js";
 
 function App() {
@@ -51,6 +52,10 @@ function App() {
             element={<PaymentForm />}
           />
           {/* <Route path="/mis-entradas" element={<MyTickets />} /> */}
+          <Route
+            path="/mi-cuenta/panel-administrador"
+            element={<DashboardMyEvents />}
+          />
         </Route>
         {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />

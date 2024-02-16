@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { getMyTickets } from "../../index.js";
 import QRCode from "react-qr-code";
@@ -9,6 +9,14 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import colors from "../../assets/imgs/recurso-colores.png";
+// import {
+//   Document,
+//   Page,
+//   Text,
+//   View,
+//   StyleSheet,
+//   ReactPDF,
+// } from "@react-pdf/renderer";
 
 function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +37,36 @@ function MyTickets() {
         setIsLoading(false);
       });
   }, []);
+
+  // // Create styles
+  // const styles = StyleSheet.create({
+  //   page: {
+  //     flexDirection: "row",
+  //     backgroundColor: "#E4E4E4",
+  //   },
+  //   section: {
+  //     margin: 10,
+  //     padding: 10,
+  //     flexGrow: 1,
+  //   },
+  // });
+
+  // // Create Document Component
+  // const MyDocument = () => (
+  //   <Document>
+  //     <Page size="A4" style={styles.page}>
+  //       <View style={styles.section}>
+  //         <Text>Section #1</Text>
+  //       </View>
+  //       <View style={styles.section}>
+  //         <Text>Section #2</Text>
+  //       </View>
+  //     </Page>
+  //   </Document>
+  // );
+
+  // ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`);
+
   return (
     <>
       <section className="flex flex-col items-start mt-8">

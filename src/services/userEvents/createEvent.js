@@ -27,9 +27,12 @@ async function createEvent(data) {
       }
     )
     .then(function (res) {
+      console.log("evento creado " + res.data);
       return res.data;
     })
     .catch(function (error) {
+      console.log("evento no creado ");
+
       throw error;
     });
 }

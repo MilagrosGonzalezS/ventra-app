@@ -33,6 +33,13 @@
   background-position: top -100px center;
 }
 
+.bg-dashboard {
+  background-image: url("./assets/imgs/bg-dashboard.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top center;
+}
+
 .createEvent-bg {
   background-image: url("./assets/imgs/createEvent-bg.png");
   background-repeat: no-repeat;
@@ -48,5 +55,7 @@
 }
 
 .chip-active {
-  background-color: green;
+  background-color: #04b290;
+  color: #232323;
+  font-weight: 900;
 }

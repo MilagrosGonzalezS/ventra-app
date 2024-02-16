@@ -1,15 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { MyEvents, Wishlist, MyTickets, userData } from "../../index.js";
 // import { PuffLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@nextui-org/react";
 import profilepic from "../../assets/imgs/profilepic.png";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 function MyAccount() {
   const navigation = useNavigate();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedView, setSelectedView] = useState("eventos");
+  const [selectedView, setSelectedView] = useState("tickets");
+
+  const { logout } = useContext(AuthContext);
+
   useEffect(() => {
     setIsLoading(true);
     const data = userData();
@@ -32,6 +36,11 @@ function MyAccount() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigation("/");
+  };
+
   return (
     <main className="bg-myaccount md:px-20 px-10 grid grid-cols-12 gap-10">
       <aside className="h-fit bg-dark rounded-3xl py-6 px-12 col-span-4 mt-60 flex flex-col justify-evenly items-center mb-20">
@@ -46,9 +55,12 @@ function MyAccount() {
         >
           Editar perfil
         </Button>
-        <Button className="my-2 w-full" color="default" variant="faded">
-          Herramienta de gestión
-        </Button>
+        <Link
+          to="/mi-cuenta/panel-administrador"
+          className="my-2 w-full text-xs bg-opacity border-3 border-graylighter py-3 rounded-xl text-center"
+        >
+          Panel administrador
+        </Link>
         <hr className="my-4 bg-light w-full"></hr>
         <div className="my-4 flex justify-between w-full">
           <ul>
@@ -64,12 +76,24 @@ function MyAccount() {
             <li className="mt-2 text-sm">2</li>
           </ul>
         </div>
-        <Button className="mt-10 w-full" color="danger">
+        <Button className="mt-10 w-full" color="danger" onClick={handleLogout}>
           Cerrar sesión
         </Button>
       </aside>
       <section className="col-span-8 mt-60">
         <div className="w-full flex justify-start gap-4 items-center">
+          <button
+            onClick={() => handleView("tickets")}
+            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
+          >
+            Mis tickets
+          </button>
+          <button
+            onClick={() => handleView("favoritos")}
+            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border justify-self-end"
+          >
+            Favoritos
+          </button>
           <button
             onClick={() => handleView("eventos")}
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
@@ -81,18 +105,6 @@ function MyAccount() {
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
           >
             Eventos privados
-          </button>
-          <button
-            onClick={() => handleView("favoritos")}
-            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border justify-self-end"
-          >
-            Favoritos
-          </button>
-          <button
-            onClick={() => handleView("tickets")}
-            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
-          >
-            Mis tickets
           </button>
           <Link
             to="/crear-evento"

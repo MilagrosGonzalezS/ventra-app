@@ -5,50 +5,14 @@ import axios from "axios";
 import config from "../config.json";
 
 const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedZone, setSelectedZone] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedZone, setSelectedZone] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState([0, 200000]);
   const [categories, setCategories] = useState([]);
 
   // console.log(selectedZone);
 
   const zones = ["CABA", "Zona Norte", "Zona Oeste", "Zona Sur"];
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (!selectedCategory) {
-  //         onSearchResultsUpdate([]);
-  //         return;
-  //       }
-  //       const apiUrl = `${config.apiEvents}/category/${selectedCategory}`;
-  //       const response = await axios.get(apiUrl);
-  //       onSearchResultsUpdate(response.data);
-  //     } catch (error) {
-  //       console.error("Error al buscar por categoría:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [selectedCategory, onSearchResultsUpdate]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (!selectedZone) {
-  //         onSearchResultsUpdate([]);
-  //         return;
-  //       }
-  //       const apiUrl = `${config.apiEvents}/zone/${selectedZone}`;
-  //       const response = await axios.get(apiUrl);
-  //       onSearchResultsUpdate(response.data);
-  //     } catch (error) {
-  //       console.error("Error al buscar por categoría:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [selectedZone, onSearchResultsUpdate]);
 
   //TRAER CATEGORIAS PARA SELECT
   useEffect(() => {
@@ -59,28 +23,17 @@ const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
 
   function resetFilter() {
     onSearchResultsUpdate([]);
-    setSelectedCategory("");
-    setSelectedZone("");
+    setSelectedCategory(null);
+    setSelectedZone(null);
+    setSelectedPrice([0, 200000]);
   }
 
-  // const handleCategoryClick = (category) => {
-  //   setSelectedCategory(category);
-  //   onCategorySelect(category);
-  //   onZoneSelect(null);
-  // };
-
-  // const handleZoneClick = (zone) => {
-  //   setSelectedZone(zone);
-  //   onZoneSelect(zone);
-  //   onCategorySelect(null);
-  // };
-
-  // const handlePriceChange = (value) => {
-  //   console.log(value);
-  // };
-
   const handleFilterSubmit = () => {
-    onFilterSelect(selectedCategory, selectedZone.target.value, selectedPrice);
+    onFilterSelect(
+      selectedCategory,
+      selectedZone ? selectedZone.target.value : selectedZone,
+      selectedPrice
+    );
   };
 
   return (
@@ -107,11 +60,7 @@ const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
           ))}
         </div>
         <div className="my-6">
-          <Select
-            placeholder="Zona"
-            className="max-w-xs"
-            onChange={setSelectedZone}
-          >
+          <Select label="Zona" className="max-w-xs" onChange={setSelectedZone}>
             {zones.map((zone) => (
               <SelectItem key={zone} value={zone}>
                 {zone}

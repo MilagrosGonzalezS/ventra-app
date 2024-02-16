@@ -11,7 +11,7 @@ const config = {
     extend: {
       colors: {
         light: "#FCFCFC",
-        dark: "#141414",
+        dark: "#181818",
         graydarker: "#494949",
         graylighter: "#6B6B6B",
         opacity: "rgba(0, 0, 0, 0.89)",
