@@ -5,6 +5,7 @@ import { getMyEvents } from "../../index.js";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import colors from "../../assets/imgs/recurso-colores.png";
+import { format } from "date-fns";
 
 function MyEvents() {
   const userId = Cookies.get("userId");
@@ -12,6 +13,12 @@ function MyEvents() {
   const navigation = useNavigate();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
 
   const getEvents = () => {
     setIsLoading(true);
@@ -78,7 +85,7 @@ function MyEvents() {
                               {event.venue}
                             </p>
                             <p className="text-xs text-white/60">
-                              {event.date ? event.date.slice(0, 10) : ""}
+                              {formatDate(event.date)}
                             </p>
                           </div>
                         </div>

@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getEventById, createTicket } from "../index.js";
 import { PuffLoader } from "react-spinners";
+import { format } from "date-fns";
 
 function Checkout() {
   const { eventId, amount } = useParams();
@@ -37,6 +38,11 @@ function Checkout() {
     eventDate: event.date,
     eventTime: event.time,
     eventPrice: event.price,
+  };
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
   };
 
   const handleCreateTicket = async () => {
@@ -74,7 +80,7 @@ function Checkout() {
                 <h3>{event.name}</h3>
                 <p>{event.category}</p>
               </div>
-              <p>{event.date ? event.date.slice(0, 10) : ""}</p>
+              <p>{formatDate(event.date)}</p>
             </div>
             <div className="p-6">
               <h4>Resumen de compra</h4>

@@ -117,7 +117,7 @@ function Register() {
           />
           <p className="text-xs mb-10 text-gray-400">
             La contraseña debe tener al menos 6 caracteres, una letra mayúsucula
-            y un numero.
+            y un número.
           </p>
           <Input
             type="password"

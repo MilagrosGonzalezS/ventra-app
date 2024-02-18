@@ -20,6 +20,7 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import toast, { Toaster } from "react-hot-toast";
+import { format } from "date-fns";
 
 function EditMyEvent() {
   const { eventId } = useParams();
@@ -59,8 +60,12 @@ function EditMyEvent() {
       // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
     }
   };
-  console.log(eventToDelete);
-  console.log(events);
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -330,7 +335,7 @@ function EditMyEvent() {
                   type="date"
                   id="date"
                   name="date"
-                  defaultValue={event.date ? event.date.slice(0, 10) : ""}
+                  defaultValue={formatDate(event.date)}
                   variant="bordered"
                   {...register("date", {
                     required: "Campo obligatorio.",

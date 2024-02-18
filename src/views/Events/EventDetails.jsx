@@ -8,6 +8,7 @@ import clock from "../../assets/imgs/clock.png";
 import mapMarker from "../../assets/imgs/map-marker-alt.png";
 import colors from "../../assets/imgs/recurso-colores.png";
 import ticket from "../../assets/imgs/ticket-alt.png";
+import { format } from "date-fns";
 function EventDetails() {
   const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,12 @@ function EventDetails() {
       setAmount(amount + 1);
     }
   }
+
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
 
   const ticketsPrice = event.price * amount;
 
@@ -156,7 +163,9 @@ function EventDetails() {
           <div className="flex gap-12 mb-8">
             <div className="flex items-center gap-4">
               <img className="w-6" src={calendar} alt="icono de calendario" />
-              <p>{event.date ? event.date.slice(0, 10) : ""}</p>
+              <p>
+                <div>{formatDate(event.date)}</div>
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <img className="w-6" src={clock} alt="icono de reloj" />

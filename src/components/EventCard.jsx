@@ -9,7 +9,7 @@ import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
 import { addToWishlist, deleteFromWishlist } from "../index.js";
 import { AuthContext } from "../context/AuthContext.jsx";
 import toast, { Toaster } from "react-hot-toast";
-
+import { format } from "date-fns";
 function EventCard(props) {
   const navigation = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -66,6 +66,12 @@ function EventCard(props) {
       });
   };
 
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
+
   return (
     <>
       <Card
@@ -117,7 +123,7 @@ function EventCard(props) {
               </h4>
               <p className="text-sm text-white/100 truncate">{props.venue}</p>
               <p className="text-xs text-white/60 truncate">
-                {props.date ? props.date.slice(0, 10) : ""}
+                {formatDate(props.date)}
               </p>
             </div>
           </div>

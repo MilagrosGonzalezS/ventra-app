@@ -9,6 +9,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import colors from "../../assets/imgs/recurso-colores.png";
+import { format } from "date-fns";
 // import {
 //   Document,
 //   Page,
@@ -37,6 +38,11 @@ function MyTickets() {
         setIsLoading(false);
       });
   }, []);
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
 
   // // Create styles
   // const styles = StyleSheet.create({
@@ -114,11 +120,7 @@ function MyTickets() {
                             icon={faCalendarAlt}
                             className="text-lightblue"
                           />
-                          <p>
-                            {ticket.eventDate
-                              ? ticket.eventDate.slice(0, 10)
-                              : ""}
-                          </p>
+                          <p>{formatDate(ticket.eventDate)}</p>
                         </div>
                         <div className="flex gap-2 items-center my-2">
                           <FontAwesomeIcon

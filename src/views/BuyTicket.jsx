@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getEventById } from "../index.js";
 import { PuffLoader } from "react-spinners";
+import { format } from "date-fns";
 
 function BuyTicket() {
   const { eventId } = useParams();
@@ -38,7 +39,11 @@ function BuyTicket() {
       setAmount(amount + 1);
     }
   }
-
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
   return (
     <>
       {isLoading ? (
@@ -60,7 +65,7 @@ function BuyTicket() {
                 <h3>{event.name}</h3>
                 <p>{event.category}</p>
               </div>
-              <p>{event.date ? event.date.slice(0, 10) : ""}</p>
+              <p>{formatDate(event.date)}</p>
             </div>
             <div className="p-6">
               <h4>Seleccioná tu entrada</h4>
