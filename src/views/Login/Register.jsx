@@ -26,7 +26,7 @@ function Register() {
       const res = await createUser(data);
       if (res.error) {
         console.log(res.error);
-        toast.error("Error al registrarse");
+        toast.error(res.error.response.data.error);
         setIsLoading(false);
       } else {
         const email = res.email;
@@ -45,7 +45,7 @@ function Register() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
+    <main className="flex items-center justify-center h-[90vh] bg-pattern p-10 mt-20">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent font-medium text-3xl text-pink">
@@ -73,6 +73,10 @@ function Register() {
             className="mb-10"
             {...register("username", {
               required: "Campo obligatorio.",
+              minLength: {
+                value: 3,
+                message: "El usuario debe tener al menos 3 caracteres",
+              },
             })}
             isInvalid={!!errors.username}
             errorMessage={errors.username && errors.username.message}
@@ -112,8 +116,8 @@ function Register() {
             errorMessage={errors.password && errors.password.message}
           />
           <p className="text-xs mb-10 text-gray-400">
-            La contraseña debe combinar mayúsculas, minúsculas, números y tener
-            al menos un caracter especial.
+            La contraseña debe tener al menos 6 caracteres, una letra mayúsucula
+            y un numero.
           </p>
           <Input
             type="password"

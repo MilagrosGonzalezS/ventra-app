@@ -401,7 +401,7 @@ function CreateEvent() {
     </>
   ) : (
     <section className="min-h-screen flex flex-col justify-start mt-12">
-      <h1 className="font-accent text-center text-2xl">
+      <h1 className="font-accent text-center mt-32 text-2xl">
         Para poder crear un evento, por favor iniciá sesión
       </h1>
       <Link

@@ -11,6 +11,7 @@ async function createUser(data) {
     console.log("resjs", response.data.value); // Log aquí si es necesario
     return response.data.value;
   } catch (error) {
+    console.log("error back", error.response.data.error);
     return { error: error };
   }
 }

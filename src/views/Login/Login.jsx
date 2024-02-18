@@ -26,7 +26,7 @@ function Login() {
       const response = await login(data);
       if (response.error) {
         setIsLoading(false);
-        toast.error("Error al loguearse");
+        toast.error(response.error);
       } else {
         // setToken(response.jwToken);
         console.log("data.token", response.jwToken);
@@ -102,14 +102,23 @@ function Login() {
 
           {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
           {!isLoading && (
-            <Button
-              className="w-full bg-green text-black font-medium"
-              type="submit"
-            >
-              Iniciar Sesión
-            </Button>
+            <div className="flex flex-col items-center">
+              <Button
+                className="w-full bg-green text-black font-medium"
+                type="submit"
+              >
+                Iniciar Sesión
+              </Button>
+
+              <Link to="/restaurar-contraseña" className="text-xs mt-2">
+                Olvidé mi contraseña
+              </Link>
+            </div>
           )}
           <Toaster
+            containerStyle={{
+              marginBottom: "8rem",
+            }}
             position="center-center"
             toastOptions={{
               success: {

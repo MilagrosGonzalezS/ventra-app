@@ -402,8 +402,13 @@ function EditMyEvent() {
 
               <div className="flex flex-col w-full  md:w-2/6 p-3">
                 <label htmlFor="cover" className="text-base mb-3">
-                  Portada del evento
+                  Portada actual del evento
                 </label>
+                <img
+                  className="pb-2 w-full rounded-3xl "
+                  src={`http://localhost/ventra-API/${event.cover}`}
+                  alt={event.description}
+                />
                 <input
                   className="bg-opacity border-solid border-1  border-light mb-8 rounded-md w-auto"
                   type="file"

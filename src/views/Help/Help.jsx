@@ -5,7 +5,7 @@ function Help() {
   return (
     <main className="min-h-screen flex flex-col justify-start pt-8 items-center bg-pattern">
       <div className="px-10 md:w-3/5">
-        <h1 className="font-accent text-3xl font-medium mb-8 text-green">
+        <h1 className="font-accent text-3xl mt-32 font-medium mb-8 text-green">
           Preguntas frecuentes
         </h1>
         <div className="flex justify-center items-center w-full bg-opacity">
