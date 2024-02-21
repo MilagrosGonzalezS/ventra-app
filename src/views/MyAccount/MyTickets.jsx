@@ -19,6 +19,8 @@ import { format } from "date-fns";
 //   ReactPDF,
 // } from "@react-pdf/renderer";
 
+import { jsPDF } from "jspdf";
+
 function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
@@ -44,34 +46,6 @@ function MyTickets() {
     return format(new Date(date), "dd-MM-yyyy");
   };
 
-  // // Create styles
-  // const styles = StyleSheet.create({
-  //   page: {
-  //     flexDirection: "row",
-  //     backgroundColor: "#E4E4E4",
-  //   },
-  //   section: {
-  //     margin: 10,
-  //     padding: 10,
-  //     flexGrow: 1,
-  //   },
-  // });
-
-  // // Create Document Component
-  // const MyDocument = () => (
-  //   <Document>
-  //     <Page size="A4" style={styles.page}>
-  //       <View style={styles.section}>
-  //         <Text>Section #1</Text>
-  //       </View>
-  //       <View style={styles.section}>
-  //         <Text>Section #2</Text>
-  //       </View>
-  //     </Page>
-  //   </Document>
-  // );
-
-  // ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`);
 
   return (
     <>
@@ -150,46 +124,6 @@ function MyTickets() {
                   </div>
                 ))}
               </div>
-              /* <table className="w-full bg-dark text-light rounded-xl p-4 text-center text-sm">
-                <thead>
-                  <tr className=" divide-x divide-gray-500">
-                    <th className="py-4">Nro. Orden</th>
-                    <th className="py-4">Evento</th>
-                    <th className="py-4">Fecha</th>
-                    <th className="py-4">Hora</th>
-                    <th className="py-4">Lugar</th>
-                    <th className="py-4">Precio</th>
-                    <th className="py-4">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-500">
-                  {tickets.map((ticket) => (
-                    <tr
-                      key={ticket._id}
-                      className="my-4  divide-x divide-gray-500"
-                    >
-                      <td className="py-4">{ticket._id.slice(0, 6)}</td>
-                      <td className="py-4">{ticket.eventName}</td>
-                      <td className="py-4">
-                        {ticket.eventDate ? ticket.eventDate.slice(0, 10) : ""}
-                      </td>
-                      <td className="py-4">{ticket.eventTime}</td>
-                      <td className="py-4">{ticket.eventVenue}</td>
-                      <td className="py-4">$ {ticket.eventPrice}</td>
-                      <td className="py-4">
-                        <button className="bg-orange text-dark px-2 rounded-lg font-medium hover:bg-amber-700">
-                          Descargar Ticket
-                          <FontAwesomeIcon
-                            icon={faCircleChevronDown}
-                            color="#141414"
-                            className="ml-3"
-                          />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table> */
             )}
           </div>
         )}

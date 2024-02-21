@@ -36,7 +36,9 @@ function CreateEvent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState();
+  const [quantity, setQuantity] = useState(0);
+  const [nextView, setNextView] = useState(false);
+  const [dataCreateEvent, setDataCreateEvent] = useState({});
   const [cover, setCover] = useState(null);
   const [categories, setCategories] = useState([]);
   const { auth } = useContext(AuthContext);
@@ -64,6 +66,21 @@ function CreateEvent() {
     });
   }, []);
 
+  const handleNextView = (data, event) => {
+    event.preventDefault();
+    setNextView(true);
+    setDataCreateEvent(data);
+  };
+
+  const handlePrevView = () => {
+    setNextView(false);
+  };
+
+  const handleFullForm = (data, event) => {
+    let dataEvent = { ...dataCreateEvent, data };
+    onSubmit(dataEvent, event);
+  };
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -87,7 +104,7 @@ function CreateEvent() {
       className="absolute left-1/2 -translate-x-1/2 top-10"
       color="#04b290"
     />
-  ) : tokenExists ? (
+  ) : tokenExists && !nextView ? (
     <>
       <main className="createEvent-bg md:px-20 px-10 grid grid-cols-12 gap-x-10">
         <h1 className="font-accent font-medium text-3xl mx-auto col-span-full mt-32 mb-4">
@@ -100,7 +117,7 @@ function CreateEvent() {
           <div className="col-span-6 w-6/12 px-6">
             <h2 className="mb-8 text-xl">¡Ingresá los datos de tu evento!</h2>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(handleNextView)}
               encType="multipart/form-data"
               className="flex flex-wrap bg-opacity w-full "
             >
@@ -118,6 +135,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.name}
                   errorMessage={errors.name && errors.name.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.name : undefined
+                  }
                 />
               </div>
 
@@ -135,6 +155,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.venue}
                   errorMessage={errors.venue && errors.venue.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.venue : undefined
+                  }
                 />
               </div>
 
@@ -152,6 +175,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.zone}
                   errorMessage={errors.zone && errors.zone.message}
+                  defaultSelectedKeys={[
+                    dataCreateEvent ? dataCreateEvent.zone : undefined,
+                  ]}
                 >
                   <SelectItem key="CABA" value="CABA">
                     CABA
@@ -182,6 +208,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.category}
                   errorMessage={errors.category && errors.category.message}
+                  defaultSelectedKeys={[
+                    dataCreateEvent ? dataCreateEvent.category : undefined,
+                  ]}
                 >
                   {categories.map((category) => (
                     <SelectItem key={category.name}>{category.name}</SelectItem>
@@ -191,9 +220,9 @@ function CreateEvent() {
 
               <div className="flex flex-col w-5/12 mr-10 my-2">
                 <Input
-                  type="text"
                   label="Calle"
                   labelPlacement="outside"
+                  type="text"
                   placeholder="Lugar"
                   id="street"
                   name="street"
@@ -203,6 +232,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.street}
                   errorMessage={errors.street && errors.street.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.street : undefined
+                  }
                 />
               </div>
 
@@ -211,7 +243,7 @@ function CreateEvent() {
                   type="text"
                   label="Altura"
                   labelPlacement="outside"
-                  placeholder="Lugar"
+                  placeholder="Número"
                   id="number"
                   name="number"
                   variant="bordered"
@@ -220,6 +252,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.number}
                   errorMessage={errors.number && errors.number.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.number : undefined
+                  }
                 />
               </div>
 
@@ -237,6 +272,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.date}
                   errorMessage={errors.date && errors.date.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.date : undefined
+                  }
                 />
               </div>
 
@@ -254,6 +292,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.time}
                   errorMessage={errors.time && errors.time.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.time : undefined
+                  }
                 />
               </div>
 
@@ -266,6 +307,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.visibility}
                   errorMessage={errors.visibility && errors.visibility.message}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.visibility : undefined
+                  }
                 >
                   <Radio
                     id="private"
@@ -276,6 +320,11 @@ function CreateEvent() {
                     })}
                     errorMessage={
                       errors.visibility && errors.visibility.message
+                    }
+                    defaultChecked={
+                      dataCreateEvent
+                        ? dataCreateEvent.visibility === "private"
+                        : undefined
                     }
                   >
                     Privado
@@ -289,6 +338,11 @@ function CreateEvent() {
                     })}
                     errorMessage={
                       errors.visibility && errors.visibility.message
+                    }
+                    defaultChecked={
+                      dataCreateEvent
+                        ? dataCreateEvent.visibility === "public"
+                        : undefined
                     }
                   >
                     Público
@@ -305,6 +359,9 @@ function CreateEvent() {
                   name="cover"
                   id="cover"
                   onChange={handleFileChange}
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.cover : undefined
+                  }
                 />
                 {errors.cover && (
                   <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
@@ -328,9 +385,142 @@ function CreateEvent() {
                   errorMessage={
                     errors.description && errors.description.message
                   }
+                  defaultValue={
+                    dataCreateEvent ? dataCreateEvent.description : undefined
+                  }
                 />
               </div>
 
+              <div className="flex w-full justify-start my-2">
+                <Button
+                  type="submit"
+                  className="bg-green text-dark w-5/12 font-medium"
+                >
+                  Continuar
+                </Button>
+              </div>
+              <Toaster position="center-center"></Toaster>
+            </form>
+          </div>
+          <div className="col-span-6 w-6/12">
+            <img className="w-10/12 mx-auto" src={formpic}></img>
+          </div>
+        </div>
+      </main>
+    </>
+  ) : tokenExists && nextView ? (
+    <>
+      <main className="createEvent-bg md:px-20 px-10 grid grid-cols-12 gap-x-10">
+        <h1 className="font-accent font-medium text-3xl mx-auto col-span-full mt-32 mb-4">
+          Crear evento
+        </h1>
+        <div className="col-span-full mx-auto">
+          <img src={colors} />
+        </div>
+        <div className="mt-36 col-span-full flex mb-20">
+          <div className="col-span-6 w-6/12 px-6">
+            <h2 className="mb-8 text-xl">¡Ingresá los datos de tu evento!</h2>
+            <form
+              onSubmit={handleSubmit(handleFullForm)}
+              encType="multipart/form-data"
+              className="flex flex-wrap bg-opacity w-full "
+            >
+              <h2 className="mb-8 text-xl">¡Ingresá los datos de tu evento!</h2>
+              <div className="flex flex-col w-full md:w-2/6 p-2">
+                <label htmlFor="isFree" className="mr-2 mb-2 text-sm">
+                  ¿Es un evento gratuito o pago?
+                </label>
+                <div>
+                  <input
+                    type="radio"
+                    id="freeEvent"
+                    name="isFree"
+                    value="true"
+                    {...register("isFree", {
+                      required: "Seleccioná la visibilidad del evento",
+                    })}
+                    onChange={() => {
+                      setIsFree(true);
+                      setPrice(0);
+                    }}
+                  />
+                  <label htmlFor="freeEvent" className="mr-2 mx-2">
+                    Gratuito
+                  </label>
+                  <input
+                    type="radio"
+                    id="payEvent"
+                    name="isFree"
+                    value="false"
+                    {...register("isFree", {
+                      required: "Seleccioná la visibilidad del evento",
+                    })}
+                    onChange={() => {
+                      setIsFree(false);
+                      setPrice();
+                    }}
+                  />
+                  <label htmlFor="payEvent" className="mr-2 mx-2">
+                    Pago
+                  </label>
+                  {errors.isFree && (
+                    <span className="text-xs xl:text-base block text-left -translate-y-4 mt-4 text-red-500">
+                      {errors.isFree.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              ;
+              {!isFree && (
+                <div className="w-full md:w-2/6 p-3">
+                  <Input
+                    label="Precio"
+                    labelPlacement="outside"
+                    type="text"
+                    placeholder="0.00"
+                    id="price"
+                    name="price"
+                    variant="bordered"
+                    {...register("price", {
+                      required: "Campo obligatorio.",
+                    })}
+                    isInvalid={!!errors.price}
+                    errorMessage={errors.price && errors.price.message}
+                    onChange={(e) => {
+                      const input = e.target.value;
+                      // Filtrar caracteres no numéricos
+                      const filteredInput = input.replace(/\D/g, "");
+                      setPrice(filteredInput);
+                    }}
+                    value={price}
+                  />
+                </div>
+              )}
+              <div className="flex flex-col w-full md:w-2/6 p-3">
+                <Input
+                  label="Cantidad de tickets"
+                  labelPlacement="outside"
+                  placeholder="0"
+                  type="text"
+                  id="ticketCount"
+                  name="ticketCount"
+                  variant="bordered"
+                  {...register("ticketCount", {
+                    required: "Campo obligatorio.",
+                  })}
+                  isInvalid={!!errors.ticketCount}
+                  errorMessage={
+                    errors.ticketCount && errors.ticketCount.message
+                  }
+                  onChange={(e) => {
+                    const inputQ = e.target.value;
+                    // Filtrar caracteres no numéricos
+                    const filteredInput = inputQ.replace(/\D/g, "");
+                    setQuantity(filteredInput);
+                  }}
+                  value={quantity}
+                />
+              </div>
               <div className="my-2">
                 <label htmlFor="termsAndConditions">
                   Términos y Condiciones
@@ -355,7 +545,7 @@ function CreateEvent() {
                   </p>
                 </div>
                 {errors.termsAndConditions && (
-                  <span className="text-xs xl:text-base text-light block text-left -translate-y-4">
+                  <span className="text-xs xl:text-base text-red-500 block text-left -translate-y-4">
                     {errors.termsAndConditions.message}
                   </span>
                 )}
@@ -380,8 +570,17 @@ function CreateEvent() {
                   </ModalContent>
                 </Modal>
               </div>
-
-              <div className="flex w-full justify-start my-2">
+              <div className="flex w-full justify-start my-2 gap-2">
+                <button
+                  disabled={isCreatingEvent}
+                  onClick={() => {
+                    handlePrevView();
+                  }}
+                  className="bg-graydarker text-white w-5/12 font-medium"
+                  type="button"
+                >
+                  Volver
+                </button>
                 <Button
                   disabled={isCreatingEvent}
                   type="submit"
@@ -390,14 +589,11 @@ function CreateEvent() {
                   Crear evento
                 </Button>
               </div>
-              <Toaster position="center-center"></Toaster>
             </form>
-          </div>
-          <div className="col-span-6 w-6/12">
-            <img className="w-10/12 mx-auto" src={formpic}></img>
           </div>
         </div>
       </main>
+      ;
     </>
   ) : (
     <section className="min-h-screen flex flex-col justify-start mt-12">
