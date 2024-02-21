@@ -8,6 +8,7 @@ const userId = Cookies.get("userId");
 
 //CREAR EVENTO
 async function createTicket(data) {
+  console.log(data);
   axios
     .post(
       config.apiTickets,

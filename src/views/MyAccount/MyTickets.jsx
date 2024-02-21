@@ -23,6 +23,8 @@ function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
 
+  console.log(tickets.length);
+
   useEffect(() => {
     setIsLoading(true);
     getMyTickets()

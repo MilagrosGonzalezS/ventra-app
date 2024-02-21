@@ -1,23 +1,62 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getEventById, createTicket } from "../index.js";
+import { getEventById, createTicket, createPreference } from "../index.js";
 import { PuffLoader } from "react-spinners";
 import { format } from "date-fns";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarAlt,
+  faClock,
+  faLocationPin,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Checkout() {
   const { eventId, amount } = useParams();
   const [event, setEvent] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [preferenceId, setPreferenceId] = useState(null);
 
-  const navigation = useNavigate();
+  initMercadoPago("TEST-6936f287-7882-4e48-bbec-96cf610d2a63", {
+    locale: "es-AR",
+  });
 
   const ticketsPrice = event.price * amount;
+  const ticketTotal = event.price + (event.price * 10) / 100;
   const servicePrice = (ticketsPrice * 10) / 100;
   const totalPrice = ticketsPrice + servicePrice;
 
+  const preferenceData = {
+    title: event.name,
+    quantity: parseInt(amount),
+    price: ticketTotal,
+    eventId: event._id,
+    amount: amount,
+    name: event.name,
+  };
+
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
+
+  const customization = {
+    checkout: {
+      theme: {
+        elementsColor: "#04b290",
+        headerColor: "#4287F5",
+      },
+    },
+    visual: {
+      buttonBackground: "white",
+      borderRadius: "18px",
+    },
+  };
+
   useEffect(() => {
+    setIsLoading(true);
     const getEvent = () => {
-      setIsLoading(true);
       getEventById(eventId)
         .then((res) => {
           setEvent(res.data[0]);
@@ -25,38 +64,71 @@ function Checkout() {
         })
         .catch((error) => {
           console.error(error);
-          setIsLoading(false);
         });
     };
     getEvent();
   }, []);
 
-  const ticketData = {
-    eventId: event._id,
-    eventName: event.name,
-    eventVenue: event.venue,
-    eventDate: event.date,
-    eventTime: event.time,
-    eventPrice: event.price,
-  };
-  // Función para formatear la fecha en dd-mm-yyyy
-  const formatDate = (date) => {
-    if (!date) return "";
-    return format(new Date(date), "dd-MM-yyyy");
-  };
+  useEffect(() => {
+    const handleCreatePreference = async () => {
+      await createPreference(preferenceData).then((res) => {
+        console.log(res.id);
+        const id = res.id;
+        if (id) {
+          setPreferenceId(id);
+          console.log(preferenceId);
+        }
+      });
+    };
 
-  const handleCreateTicket = async () => {
-    console.log(ticketData);
+    handleCreatePreference();
+    setIsLoading(false);
+  }, [event]);
+
+  const showEvent = () => {
+    const eventDetail = [];
     for (let i = 0; i < amount; i++) {
-      await createTicket(ticketData)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      eventDetail.push(
+        <div
+          key={i}
+          className="h-fit bg-dark rounded-3xl w-full xl:mt-80 flex justify-between items-center mb-4 gap-10"
+        >
+          <img
+            className="w-1/4 rounded-3xl "
+            src={`http://localhost/ventra-API/${event.cover}`}
+            alt={event.description}
+          />
+          <div className="my-4 w-full pr-16">
+            <h3 className="text-light text-2xl font-accent font-medium tracking-wider">
+              {event.name} x1
+            </h3>
+            <div className="flex mt-4 justify-between">
+              <div className="flex gap-2 items-center my-2">
+                <FontAwesomeIcon
+                  icon={faCalendarAlt}
+                  className="text-lightblue"
+                />
+                <p>{formatDate(event.date)}</p>
+              </div>
+              <div className="flex gap-2 items-center my-2">
+                <FontAwesomeIcon icon={faClock} className="text-lightblue" />
+                <p>{event.time}</p>
+              </div>
+            </div>
+            <div className="flex mt-4 justify-between">
+              <div className="flex gap-2 items-center my-2">
+                <FontAwesomeIcon
+                  icon={faLocationPin}
+                  className="text-lightblue"
+                />
+                <p>{event.venue}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
     }
-    navigation("/mis-entradas");
+    return eventDetail;
   };
 
   return (
@@ -67,46 +139,36 @@ function Checkout() {
           color="#04b290"
         />
       ) : (
-        <section className="min-h-screen bg-opacity flex flex-col items-center justify-start p-10">
-          <Link
-            to={`/detalle/comprar/${event._id}`}
-            className="hover:text-lightblue mb-2"
-          >
-            Volver
-          </Link>
-          <article className="w-full md:w-3/4 lg:w-2/4 bg-pattern mx-auto rounded-2xl border">
-            <div className="flex justify-between bg-opacity p-4 rounded-t-2xl">
-              <div>
-                <h3>{event.name}</h3>
-                <p>{event.category}</p>
+        <main className="min-h-screen bg-eventdetail md:px-20 px-10 grid grid-cols-12 gap-10">
+          <div className="col-span-7 mt-40">{showEvent()}</div>
+          <div className="col-span-5 ">
+            <div className="flex flex-col justify-evenly gap-8 bg-dark rounded-3xl h-fit mt-40 ml-16 py-10 px-12 text-center">
+              <h2 className="font-accent text-xl">Resumen de compra:</h2>
+              <div className="flex justify-between">
+                <p>Entrada general x{amount}</p>
+                <p>${ticketsPrice}</p>
               </div>
-              <p>{formatDate(event.date)}</p>
-            </div>
-            <div className="p-6">
-              <h4>Resumen de compra</h4>
-              <div className="my-6 bg-lightblue text-dark rounded-2xl p-4 font-bold">
-                <div className="flex items-center justify-between">
-                  <p>Entrada General x{amount}</p>
-                  <p>${ticketsPrice}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p>Cargo por servicio</p>
-                  <p>${servicePrice}</p>
-                </div>
+              <div className="flex justify-between">
+                <p>Cargo por servicio</p>
+                <p>${servicePrice}</p>
+              </div>
+              <hr></hr>
+              <div className="flex justify-between">
+                <p>Total</p>
+                <p>${totalPrice}</p>
               </div>
             </div>
-            <div className="flex items-center justify-end gap-6 bg-opacity p-4 rounded-b-2xl">
-              <h4>Total:</h4>
-              <p>${totalPrice}</p>
-              <Link
-                to={`/detalle/comprar/pago/${event.name}/${event._id}/${amount}`}
-                className="bg-lightblue py-2 px-4 rounded-xl hover:bg-emerald-600 text-dark font-medium"
-              >
-                Ir a pagar
-              </Link>
+
+            <div className="ml-16 mt-4">
+              {preferenceId && (
+                <Wallet
+                  initialization={{ preferenceId: preferenceId }}
+                  customization={customization}
+                />
+              )}
             </div>
-          </article>
-        </section>
+          </div>
+        </main>
       )}
     </>
   );

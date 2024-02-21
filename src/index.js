@@ -18,6 +18,7 @@ export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
 export { checkEventoToDelete } from "./services/tickets/checkEventoToDelete.js";
 export { getCategories } from "./services/events/getCategories.js";
+export { createPreference } from "./services/mercadopago/mercadopago.js";
 //Components ->
 export { Featured } from "./components/Featured.jsx";
 export { EventCard } from "./components/EventCard.jsx";
@@ -45,7 +46,7 @@ export { EditMyEvent } from "./views/MyAccount/EditMyEvent";
 export { Wishlist } from "./views/Wishlist/Wishlist";
 export { BuyTicket } from "./views/BuyTicket";
 export { Checkout } from "./views/Checkout";
-export { PaymentForm } from "./views/PaymentForm";
+export { PaymentSuccess } from "./views/PaymentSuccess.jsx";
 export { MyTickets } from "./views/MyAccount/MyTickets";
 export { EventDetails } from "./views/Events/EventDetails";
 export { DashboardMyEvents } from "./views/MyAccount/DashboardMyEvents";

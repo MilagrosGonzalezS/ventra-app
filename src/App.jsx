@@ -1,5 +1,4 @@
 import "./App.css";
-// import ReactDOM from "react-dom/client";
 import { Routes, Route } from "react-router-dom";
 //** COMPONENTES PRINCIPALES **//
 import {
@@ -10,14 +9,11 @@ import {
   Help,
   MyAccount,
   EditProfile,
-  // MyEvents,
   EditMyEvent,
-  // Wishlist,
   BuyTicket,
   Checkout,
-  // MyTickets,
   EventDetails,
-  PaymentForm,
+  PaymentSuccess,
   ProtectedRoute,
   NavBar,
   Footer,
@@ -31,13 +27,11 @@ function App() {
       <Routes>
         {/* vistas protegidas */}
         <Route element={<ProtectedRoute />}>
-          {/* <Route path="/favoritos" element={<Wishlist />} /> */}
           <Route path="/mi-cuenta" element={<MyAccount />} />
           <Route
             path="/mi-cuenta/:userId/editar-datos"
             element={<EditProfile />}
           />
-          {/* <Route path="/mis-eventos" element={<MyEvents />} /> */}
           <Route
             path="/mis-eventos/:eventId/editar"
             element={<EditMyEvent />}
@@ -48,10 +42,9 @@ function App() {
             element={<Checkout />}
           />
           <Route
-            path="/detalle/comprar/pago/:name/:eventId/:amount"
-            element={<PaymentForm />}
+            path="/detalle/comprar/pago/:name/:eventId/:amount/:timestamp"
+            element={<PaymentSuccess />}
           />
-          {/* <Route path="/mis-entradas" element={<MyTickets />} /> */}
           <Route
             path="/mi-cuenta/panel-administrador"
             element={<DashboardMyEvents />}

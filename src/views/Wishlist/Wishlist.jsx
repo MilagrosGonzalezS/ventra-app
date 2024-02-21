@@ -11,9 +11,7 @@ function Wishlist() {
     setIsLoading(true);
     getMyWishlist()
       .then((wishlistData) => {
-        console.log("wishlistData", wishlistData);
         setWishlist(wishlistData.data);
-        console.log(wishlistData);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -21,6 +19,7 @@ function Wishlist() {
         setIsLoading(false);
       });
   }, []);
+
   return (
     <>
       <section className="flex flex-col items-start mt-8">

@@ -1,5 +1,13 @@
 import { useState, useEffect, useContext } from "react";
-import { MyEvents, Wishlist, MyTickets, userData } from "../../index.js";
+import {
+  MyEvents,
+  Wishlist,
+  MyTickets,
+  userData,
+  getMyTickets,
+  getMyWishlist,
+  getMyEvents,
+} from "../../index.js";
 // import { PuffLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@nextui-org/react";
@@ -11,6 +19,9 @@ function MyAccount() {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [selectedView, setSelectedView] = useState("tickets");
+  const [tickets, setTickets] = useState(0);
+  const [wishlist, setWishlist] = useState(0);
+  const [events, setEvents] = useState(0);
 
   const { logout } = useContext(AuthContext);
 
@@ -21,10 +32,30 @@ function MyAccount() {
       setUser(data);
       setIsLoading(false);
     });
+    getMyTickets()
+      .then((ticketsData) => {
+        setTickets(ticketsData.data.length);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    getMyWishlist()
+      .then((wishlistData) => {
+        setWishlist(wishlistData.data.length);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    getMyEvents(user.id)
+      .then((eventsData) => {
+        setEvents(eventsData.data.length);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const handleView = (view) => {
-    console.log(view);
     if (view == "eventos") {
       setSelectedView(view);
     } else if (view == "privados") {
@@ -70,10 +101,10 @@ function MyAccount() {
             <li className="mt-2 text-sm">Tickets comprados</li>
           </ul>
           <ul>
-            <li className="mt-2 text-sm">6</li>
-            <li className="mt-2 text-sm">2</li>
-            <li className="mt-2 text-sm">4</li>
-            <li className="mt-2 text-sm">2</li>
+            <li className="mt-2 text-sm">0</li>
+            <li className="mt-2 text-sm">0</li>
+            <li className="mt-2 text-sm">{wishlist}</li>
+            <li className="mt-2 text-sm">{tickets}</li>
           </ul>
         </div>
         <Button className="mt-10 w-full" color="danger" onClick={handleLogout}>

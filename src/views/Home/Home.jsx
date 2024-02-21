@@ -106,7 +106,7 @@ function Home() {
         <div className="flex justify-center flex-col md:flex-row items-center">
           <div className="md:w-8/12  flex flex-col">
             <p className="text-base font-light text-white/60">
-              Fácil, rápido y sencillo.
+              Fácil, rápido y seguro.
             </p>
             <h1 className="font-accent text-4xl font-semibold my-4 leading-normal">
               Organizá <span className="text-orange">eventos</span> únicos,

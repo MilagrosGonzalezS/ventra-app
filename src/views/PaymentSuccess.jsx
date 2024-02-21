@@ -1,23 +1,22 @@
 import { useState, useEffect, useContext } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+// import { useForm } from "react-hook-form";
+import { Link, useParams } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { createTicket, getEventById } from "../index.js";
-import { Input } from "@nextui-org/react";
-import toast, { Toaster } from "react-hot-toast";
-function PaymentForm() {
-  const [tokenExists, setTokenExists] = useState(false);
-  const navigation = useNavigate();
-  const { name, eventId, amount } = useParams();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
+function PaymentSuccess() {
+  // const navigation = useNavigate();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
+  const [tokenExists, setTokenExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [event, setEvent] = useState([]);
+
+  const { name, eventId, amount, timestamp } = useParams();
   const { auth } = useContext(AuthContext);
   const token = auth;
 
@@ -28,39 +27,40 @@ function PaymentForm() {
     eventDate: event.date,
     eventTime: event.time,
     eventPrice: event.price,
+    timestamp: timestamp,
   };
 
-  const handleSecurityCodeChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Eliminar caracteres no numéricos
-    if (value.length > 4) {
-      value = value.slice(0, 4); // Limitar a 4 caracteres
-    }
-    if (value.length > 2) {
-      // Insertar una barra después del segundo carácter
-      value = value.slice(0, 2) + "/" + value.slice(2);
-    }
+  // const handleSecurityCodeChange = (e) => {
+  //   let value = e.target.value.replace(/\D/g, ""); // Eliminar caracteres no numéricos
+  //   if (value.length > 4) {
+  //     value = value.slice(0, 4); // Limitar a 4 caracteres
+  //   }
+  //   if (value.length > 2) {
+  //     // Insertar una barra después del segundo carácter
+  //     value = value.slice(0, 2) + "/" + value.slice(2);
+  //   }
 
-    e.target.value = value; // Actualizar el valor del campo
-  };
+  //   e.target.value = value; // Actualizar el valor del campo
+  // };
 
-  const onSubmit = async (data, event) => {
-    event.preventDefault();
-    try {
-      for (let i = 0; i < amount; i++) {
-        await createTicket(ticketData)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-      toast.success("¡Compra finalizada!");
-      setTimeout(() => {
-        navigation("/mi-cuenta");
-      }, 1500);
-    } catch (error) {}
-  };
+  // const onSubmit = async (data, event) => {
+  //   event.preventDefault();
+  //   try {
+  //     for (let i = 0; i < amount; i++) {
+  //       await createTicket(ticketData)
+  //         .then((res) => {
+  //           console.log(res);
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //         });
+  //     }
+  //     toast.success("¡Compra finalizada!");
+  //     setTimeout(() => {
+  //       navigation("/mi-cuenta");
+  //     }, 1500);
+  //   } catch (error) {}
+  // };
 
   useEffect(() => {
     const checkToken = async () => {
@@ -76,6 +76,28 @@ function PaymentForm() {
     checkToken();
   }, []);
 
+  useEffect(() => {
+    const ticketCreation = async () => {
+      try {
+        for (let i = 0; i < amount; i++) {
+          await createTicket(ticketData)
+            .then((res) => {
+              console.log(res);
+              // toast.success("¡Compra finalizada!");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        // setTimeout(() => {
+        //   navigation("/mi-cuenta");
+        // }, 1500);
+      } catch (error) {}
+    };
+
+    ticketCreation();
+  }, [event]);
+
   return isLoading ? (
     <PuffLoader
       className="absolute left-1/2 -translate-x-1/2 top-10"
@@ -84,10 +106,18 @@ function PaymentForm() {
   ) : tokenExists ? (
     <>
       <main className="h-[90vh] p-10">
-        <h1 className="font-accent font-medium text-orange text-3xl ml-3 py-8">
+        <h1 className="mt-24">Tu compra:</h1>
+        <h2>
+          {name}x{amount}
+        </h2>
+        <p>
+          Total: ${event.price * amount + (event.price * amount * 10) / 100}{" "}
+        </p>
+        <Link to="/mi-cuenta">Ver mis Tickets</Link>
+        {/* <h1 className="font-accent font-medium text-orange text-3xl ml-3 py-8">
           Realizar el pago
-        </h1>
-        <form
+        </h1> */}
+        {/* <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
           className="flex flex-wrap bg-opacity"
@@ -204,19 +234,20 @@ function PaymentForm() {
             >
               Finalizar Compra
             </button>
-            <Toaster
-              position="center-center"
-              toastOptions={{
-                success: {
-                  style: {
-                    background: "#141414",
-                    color: "#FCFCFC",
-                  },
-                },
-              }}
-            />
+            
           </div>
-        </form>
+        </form> */}
+        {/* <Toaster
+          position="center-center"
+          toastOptions={{
+            success: {
+              style: {
+                background: "#141414",
+                color: "#FCFCFC",
+              },
+            },
+          }}
+        /> */}
       </main>
     </>
   ) : (
@@ -228,4 +259,4 @@ function PaymentForm() {
   );
 }
 
-export { PaymentForm };
+export { PaymentSuccess };
