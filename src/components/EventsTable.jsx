@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -22,6 +23,7 @@ import { SearchIcon } from "./SearchIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
 import { columns, users, statusOptions } from "../data";
 import { capitalize } from "../utils";
+import { getMyEvents, userData } from "../index";
 
 const statusColorMap = {
   active: "success",
@@ -316,20 +318,41 @@ function EventsTable() {
     []
   );
 
+  const [events, setEvents] = useState([]);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const data = userData();
+    data.then((data) => {
+      setUser(data);
+    });
+    getMyEvents(user.id)
+      .then((eventsData) => {
+        setEvents(eventsData.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <section className="w-full">
       <div className="w-full mt-36 grid grid-cols-12 gap-10">
         <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">4</p>
+          <p className="text-5xl mb-4">{events.length}</p>
           <p>Eventos</p>
-        </div>
-        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">1</p>
-          <p>Borradores</p>
         </div>
         <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
           <p className="text-5xl mb-4">3</p>
           <p>Publicados</p>
+        </div>
+        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+          <p className="text-5xl mb-4">1</p>
+          <p>No Publicados</p>
+        </div>
+        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+          <p className="text-5xl mb-4">0</p>
+          <p>Finalizados</p>
         </div>
       </div>
       <Table
