@@ -150,36 +150,6 @@ function MyAccount() {
           {selectedView == "tickets" && <MyTickets />}
         </div>
       </section>
-      {/* <div className=" h-[60vh]"></div> */}
-      {/* <div className="text-center bg-opacity border p-6  rounded-xl w-[500px]">
-        <h1 className="mb-3 font-accent font-medium text-3xl text-green">
-          Mi cuenta
-        </h1>
-        <hr />
-        {isLoading ? (
-          <PuffLoader className="mt-10" color="#04b290" />
-        ) : (
-          <div className="text-start mt-4">
-            <p className="mb-2 font-primary text-sm">
-              <span className="me-2 font-accent text-base">Nombre:</span>
-              {user.username}
-            </p>
-            <p className="mb-5 font-primary text-sm">
-              <span className="me-2 font-accent text-base">Email:</span>
-              {user.email}
-            </p>
-            <Button
-              className="w-full bg-green text-dark font-medium"
-              type="submit"
-              onPress={() => {
-                navigation(`/mi-cuenta/${user.id}/editar-datos`);
-              }}
-            >
-              Editar Mis Datos
-            </Button>
-          </div>
-        )}
-      </div> */}
     </main>
   );
 }

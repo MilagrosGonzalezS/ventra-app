@@ -118,13 +118,11 @@ function EventCard(props) {
         <CardFooter className="absolute h-[100px] bg-black/40 bottom-0 z-10 border-t-1 border-default-600 white:border-default-100">
           <div className="flex flex-grow gap-2 items-center">
             <div className="flex flex-col">
-              <h4 className="text-white/90 font-medium text-xl truncate">
+              <h4 className="text-white/90 font-medium text-xl ">
                 {props.name}
               </h4>
-              <p className="text-sm text-white/100 truncate">{props.venue}</p>
-              <p className="text-xs text-white/60 truncate">
-                {formatDate(props.date)}
-              </p>
+              <p className="text-sm text-white/100 ">{props.venue}</p>
+              <p className="text-xs text-white/60 ">{formatDate(props.date)}</p>
             </div>
           </div>
 

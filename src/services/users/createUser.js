@@ -12,7 +12,7 @@ async function createUser(data) {
     return response.data.value;
   } catch (error) {
     console.log("error back", error.response.data.error);
-    return { error: error };
+    return { error: error.response.data.error };
   }
 }
 
