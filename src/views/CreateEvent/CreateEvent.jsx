@@ -35,10 +35,11 @@ function CreateEvent() {
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
-  const [isFreeSelect, setIsFreeSelect] = useState("true");
+  const [isFreeSelect, setIsFreeSelect] = useState(null);
 
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [venue, setVenue] = useState("");
   const [nextView, setNextView] = useState(false);
   const [dataCreateEvent, setDataCreateEvent] = useState({});
   const [cover, setCover] = useState(null);
@@ -162,6 +163,10 @@ function CreateEvent() {
                   defaultValue={
                     dataCreateEvent ? dataCreateEvent.venue : undefined
                   }
+                  onChange={(e) => {
+                    setVenue(e.target.value);
+                  }}
+                  value={venue}
                 />
               </div>
 
@@ -444,19 +449,14 @@ function CreateEvent() {
                       required: "Campo obligatorio.",
                     })}
                     onChange={(e) => {
-                      console.log("DATAcREATE", dataCreateEvent);
-                      setIsFree(e.target.value === "true" ? true : false);
                       setIsFreeSelect(
                         e.target.value === "true" ? "true" : "false"
                       );
                       setPrice(e.target.value === "true" ? 0 : undefined);
-                      console.log(e.target.value);
-                      console.log(isFree);
-                      console.log("isFreeSelect", isFreeSelect);
+
+                      setIsFree(e.target.value === "true" ? true : false);
                     }}
-                    defaultSelectedKeys={[
-                      isFreeSelect ? isFreeSelect : undefined,
-                    ]}
+                    defaultSelectedKeys={[isFreeSelect ? isFreeSelect : null]}
                     isInvalid={!!errors.isFree}
                     errorMessage={errors.isFree && errors.isFree.message}
                   >
