@@ -101,7 +101,7 @@ function MyAccount() {
             <li className="mt-2 text-sm">Tickets comprados</li>
           </ul>
           <ul>
-            <li className="mt-2 text-sm">0</li>
+            <li className="mt-2 text-sm">{events}</li>
             <li className="mt-2 text-sm">0</li>
             <li className="mt-2 text-sm">{wishlist}</li>
             <li className="mt-2 text-sm">{tickets}</li>

@@ -63,7 +63,7 @@ function EditMyEvent() {
   // Función para formatear la fecha en dd-mm-yyyy
   const formatDate = (date) => {
     if (!date) return "";
-    return format(new Date(date), "dd-MM-yyyy");
+    return format(new Date(date), "yyyy-MM-dd");
   };
 
   const onSubmit = async (data, event) => {
@@ -335,13 +335,13 @@ function EditMyEvent() {
                   type="date"
                   id="date"
                   name="date"
-                  defaultValue={formatDate(event.date)}
                   variant="bordered"
                   {...register("date", {
                     required: "Campo obligatorio.",
                   })}
                   isInvalid={!!errors.date}
                   errorMessage={errors.date && errors.date.message}
+                  defaultValue={formatDate(event.date)}
                 />
               </div>
 

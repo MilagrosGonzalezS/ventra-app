@@ -35,8 +35,11 @@ function CreateEvent() {
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
+  const [isFreeSelect, setIsFreeSelect] = useState(null);
+
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [venue, setVenue] = useState("");
   const [nextView, setNextView] = useState(false);
   const [dataCreateEvent, setDataCreateEvent] = useState({});
   const [cover, setCover] = useState(null);
@@ -74,10 +77,11 @@ function CreateEvent() {
 
   const handlePrevView = () => {
     setNextView(false);
+    console.log(dataCreateEvent);
   };
 
   const handleFullForm = (data, event) => {
-    let dataEvent = { ...dataCreateEvent, data };
+    let dataEvent = { ...data };
     onSubmit(dataEvent, event);
   };
 
@@ -89,6 +93,7 @@ function CreateEvent() {
       await createEvent(data);
       setIsCreatingEvent(false);
       //MENSAJE
+      console.log(data);
       toast.success("¡Evento Creado!");
       setTimeout(() => {
         navigate("/mi-cuenta");
@@ -158,6 +163,10 @@ function CreateEvent() {
                   defaultValue={
                     dataCreateEvent ? dataCreateEvent.venue : undefined
                   }
+                  onChange={(e) => {
+                    setVenue(e.target.value);
+                  }}
+                  value={venue}
                 />
               </div>
 
@@ -419,60 +428,50 @@ function CreateEvent() {
         </div>
         <div className="mt-36 col-span-full flex mb-20">
           <div className="col-span-6 w-6/12 px-6">
-            <h2 className="mb-8 text-xl">¡Ingresá los datos de tu evento!</h2>
+            <h2 className="mb-8 text-xl">
+              Entradas para {dataCreateEvent.name}
+            </h2>
             <form
               onSubmit={handleSubmit(handleFullForm)}
               encType="multipart/form-data"
               className="flex flex-wrap bg-opacity w-full "
             >
-              <h2 className="mb-8 text-xl">¡Ingresá los datos de tu evento!</h2>
-              <div className="flex flex-col w-full md:w-2/6 p-2">
-                <label htmlFor="isFree" className="mr-2 mb-2 text-sm">
-                  ¿Es un evento gratuito o pago?
-                </label>
+              <div className="flex flex-col w-11/12 my-2">
                 <div>
-                  <input
-                    type="radio"
-                    id="freeEvent"
+                  <Select
+                    label="¿Querés vender entradas?"
+                    labelPlacement="outside"
+                    className="w-full"
+                    variant="bordered"
                     name="isFree"
-                    value="true"
+                    id="isFree"
                     {...register("isFree", {
-                      required: "Seleccioná la visibilidad del evento",
+                      required: "Campo obligatorio.",
                     })}
-                    onChange={() => {
-                      setIsFree(true);
-                      setPrice(0);
+                    onChange={(e) => {
+                      setIsFreeSelect(
+                        e.target.value === "true" ? "true" : "false"
+                      );
+                      setPrice(e.target.value === "true" ? 0 : undefined);
+
+                      setIsFree(e.target.value === "true" ? true : false);
                     }}
-                  />
-                  <label htmlFor="freeEvent" className="mr-2 mx-2">
-                    Gratuito
-                  </label>
-                  <input
-                    type="radio"
-                    id="payEvent"
-                    name="isFree"
-                    value="false"
-                    {...register("isFree", {
-                      required: "Seleccioná la visibilidad del evento",
-                    })}
-                    onChange={() => {
-                      setIsFree(false);
-                      setPrice();
-                    }}
-                  />
-                  <label htmlFor="payEvent" className="mr-2 mx-2">
-                    Pago
-                  </label>
-                  {errors.isFree && (
-                    <span className="text-xs xl:text-base block text-left -translate-y-4 mt-4 text-red-500">
-                      {errors.isFree.message}
-                    </span>
-                  )}
+                    defaultSelectedKeys={[isFreeSelect ? isFreeSelect : null]}
+                    isInvalid={!!errors.isFree}
+                    errorMessage={errors.isFree && errors.isFree.message}
+                  >
+                    <SelectItem key={"false"} value="false">
+                      Sí, deseo vender entradas
+                    </SelectItem>
+                    <SelectItem key={"true"} value="true">
+                      No, no deseo vender entradas
+                    </SelectItem>
+                  </Select>
                 </div>
               </div>
-              ;
+
               {!isFree && (
-                <div className="w-full md:w-2/6 p-3">
+                <div className="flex flex-col w-11/12 my-2">
                   <Input
                     label="Precio"
                     labelPlacement="outside"
@@ -496,7 +495,7 @@ function CreateEvent() {
                   />
                 </div>
               )}
-              <div className="flex flex-col w-full md:w-2/6 p-3">
+              <div className="flex flex-col w-11/12 my-2">
                 <Input
                   label="Cantidad de tickets"
                   labelPlacement="outside"
@@ -521,6 +520,7 @@ function CreateEvent() {
                   value={quantity}
                 />
               </div>
+
               <div className="my-2">
                 <label htmlFor="termsAndConditions">
                   Términos y Condiciones
@@ -590,6 +590,9 @@ function CreateEvent() {
                 </Button>
               </div>
             </form>
+          </div>
+          <div className="col-span-6 w-6/12">
+            <img className="w-10/12 mx-auto" src={formpic}></img>
           </div>
         </div>
       </main>
