@@ -1,31 +1,92 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import { getMyTickets } from "../../index.js";
 import QRCode from "react-qr-code";
+import qrCode from "qrcode";
+import logoVentra from "../../assets/imgs/logo-blanco.png";
+import calendar from "../../assets/imgs/calendar-alt.png";
+import clock from "../../assets/imgs/clock.png";
+import mapMarker from "../../assets/imgs/map-marker-alt.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendarAlt,
+  faClock,
+  faLocationPin,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
 import colors from "../../assets/imgs/recurso-colores.png";
 import { format } from "date-fns";
-// import {
-//   Document,
-//   Page,
-//   Text,
-//   View,
-//   StyleSheet,
-//   ReactPDF,
-// } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  PDFDownloadLink,
+  Image,
+} from "@react-pdf/renderer";
 
-import { jsPDF } from "jspdf";
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: "column",
+    padding: 20,
+  },
+  container: {
+    backgroundColor: "#181818",
+    padding: "15px 20px 0px 20px",
+    borderRadius: "10px",
+  },
+  ticketContainer: {
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  qrCode: {
+    marginRight: 20,
+    width: 120,
+    height: 120,
+    borderRadius: "10px",
+  },
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    verticalAlign: "center",
+    gap: "10px",
+    marginBottom: 15,
+  },
+  icon: {
+    width: 15,
+    height: 15,
+  },
+  ventraContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    gap: "15px",
+  },
+  colors: {
+    width: 40,
+  },
+  logo: {
+    width: 90,
+  },
+  text: {
+    fontSize: 12,
+    color: "#FCFCFC",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#FCFCFC",
+  },
+});
 
 function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
-
-  console.log(tickets.length);
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,12 +103,83 @@ function MyTickets() {
         setIsLoading(false);
       });
   }, []);
-  // Función para formatear la fecha en dd-mm-yyyy
+
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd-MM-yyyy");
   };
+  const generateQRCode = async (value) => {
+    try {
+      // Genera el código QR como una imagen en formato base64
+      const qrDataUrl = await qrCode.toDataURL(value);
+      return qrDataUrl;
+    } catch (error) {
+      console.error("Error al generar el código QR:", error);
+      return null;
+    }
+  };
 
+  const TicketDocument = ({ ticket }) => {
+    const qrDataUrl = generateQRCode(ticket._id);
+
+    return (
+      <Document>
+        <Page size="A4" style={styles.page}>
+          <View style={styles.container}>
+            <View style={styles.ventraContainer}>
+              <Image
+                style={styles.colors}
+                src={colors}
+                alt="recurso gráfico de colores"
+              ></Image>
+              <Image
+                style={styles.logo}
+                src={logoVentra}
+                alt="logo Ventra"
+              ></Image>
+            </View>
+
+            <View style={styles.ticketContainer}>
+              {qrDataUrl && <Image src={qrDataUrl} style={styles.qrCode} />}
+              <View>
+                <Text style={styles.title}>{ticket.eventName}</Text>
+                <View style={styles.iconContainer}>
+                  <Image
+                    style={styles.icon}
+                    src={calendar}
+                    alt="icono de calendario"
+                  ></Image>
+                  <Text style={styles.text}>
+                    {formatDate(ticket.eventDate)}
+                  </Text>
+                </View>
+                <View style={styles.iconContainer}>
+                  <Image
+                    style={styles.icon}
+                    src={clock}
+                    alt="icono de reloj"
+                  ></Image>
+                  <Text style={styles.text}>
+                    <Text style={styles.text}> {ticket.eventTime}</Text>
+                  </Text>
+                </View>
+                <View style={styles.iconContainer}>
+                  <Image
+                    style={styles.icon}
+                    src={mapMarker}
+                    alt="icono de marcador en el mapa"
+                  ></Image>
+                  <Text style={styles.text}>
+                    <Text style={styles.text}>{ticket.eventVenue}</Text>
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Page>
+      </Document>
+    );
+  };
 
   return (
     <>
@@ -114,13 +246,26 @@ function MyTickets() {
                           />
                           <p>{ticket.eventVenue}</p>
                         </div>
-                        <div className="flex gap-2 items-center my-2">
-                          <FontAwesomeIcon
-                            icon={faDownload}
-                            className="text-lightblue"
-                          />
-                          <p>Descargar</p>
-                        </div>
+
+                        <PDFDownloadLink
+                          document={<TicketDocument ticket={ticket} />}
+                          fileName={`ticket_${ticket.eventName}_${ticket._id}.pdf`}
+                        >
+                          {({ loading }) =>
+                            loading ? (
+                              <span>Descargando...</span>
+                            ) : (
+                              <div className="flex gap-2 items-center my-2">
+                                <FontAwesomeIcon
+                                  icon={faDownload}
+                                  className="text-lightblue"
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <p>Descargar</p>
+                              </div>
+                            )
+                          }
+                        </PDFDownloadLink>
                       </div>
                     </div>
                   </div>

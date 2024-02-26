@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { PuffLoader } from "react-spinners";
 import {
   editMyEvent,
@@ -27,6 +27,7 @@ function EditMyEvent() {
   const navigate = useNavigate();
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -241,31 +242,34 @@ function EditMyEvent() {
               </div>
 
               <div className="flex flex-col w-full md:w-2/6 p-3">
-                <p>{console.log(event)}</p>
-                <Select
-                  label="Categoría"
-                  labelPlacement="outside"
-                  placeholder="Categoría"
+                <Controller
                   name="category"
-                  id="category"
-                  variant="bordered"
-                  defaultSelectedKeys={[event.category]}
-                  {...register("category", {
-                    required: "Campo obligatorio",
-                  })}
-                  isInvalid={!!errors.category}
-                  errorMessage={errors.category && errors.category.message}
-                >
-                  {categories.sort().map((category) => (
-                    <SelectItem
-                      className="cursor-pointer"
-                      key={category.name}
-                      value={category.name}
+                  control={control}
+                  rules={{ required: "Campo obligatorio" }}
+                  defaultValue={event.category} // Asegúrate de proporcionar un valor predeterminado válido
+                  render={({ field }) => (
+                    <Select
+                      label="Categoría"
+                      labelPlacement="outside"
+                      placeholder="Categoría"
+                      variant="bordered"
+                      defaultSelectedKeys={[event.category]}
+                      {...field}
+                      isInvalid={!!errors.category}
+                      errorMessage={errors.category && errors.category.message}
                     >
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </Select>
+                      {categories.sort().map((category) => (
+                        <SelectItem
+                          className="cursor-pointer"
+                          key={category.name}
+                          value={category.name}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
+                />
               </div>
               {events[0].isFree ? null : (
                 <div className="w-full md:w-2/6 p-3">

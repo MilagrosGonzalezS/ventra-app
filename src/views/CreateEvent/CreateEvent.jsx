@@ -38,7 +38,7 @@ function CreateEvent() {
   const [isFreeSelect, setIsFreeSelect] = useState(null);
 
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState("");
   const [venue, setVenue] = useState("");
   const [nextView, setNextView] = useState(false);
   const [dataCreateEvent, setDataCreateEvent] = useState({});
@@ -88,7 +88,10 @@ function CreateEvent() {
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
-    data = price === 0 ? { ...data, cover, price } : { ...data, cover };
+    data =
+      price === 0
+        ? { ...data, cover, isFree, price }
+        : { ...data, isFree, cover };
     try {
       await createEvent(data);
       setIsCreatingEvent(false);
@@ -408,7 +411,6 @@ function CreateEvent() {
                   Continuar
                 </Button>
               </div>
-              <Toaster position="center-center"></Toaster>
             </form>
           </div>
           <div className="col-span-6 w-6/12">
@@ -438,35 +440,61 @@ function CreateEvent() {
             >
               <div className="flex flex-col w-11/12 my-2">
                 <div>
-                  <Select
+                  <RadioGroup
                     label="¿Querés vender entradas?"
-                    labelPlacement="outside"
-                    className="w-full"
-                    variant="bordered"
-                    name="isFree"
-                    id="isFree"
+                    orientation="horizontal"
                     {...register("isFree", {
-                      required: "Campo obligatorio.",
+                      required: "Seleccioná si deseas vender entradas o no.",
                     })}
-                    onChange={(e) => {
-                      setIsFreeSelect(
-                        e.target.value === "true" ? "true" : "false"
-                      );
-                      setPrice(e.target.value === "true" ? 0 : undefined);
-
-                      setIsFree(e.target.value === "true" ? true : false);
-                    }}
-                    defaultSelectedKeys={[isFreeSelect ? isFreeSelect : null]}
                     isInvalid={!!errors.isFree}
                     errorMessage={errors.isFree && errors.isFree.message}
+                    defaultValue={
+                      dataCreateEvent ? dataCreateEvent.isFree : undefined
+                    }
                   >
-                    <SelectItem key={"false"} value="false">
+                    <Radio
+                      id="false"
+                      name="isFree"
+                      value="false"
+                      {...register("isFree", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.isFree && errors.isFree.message}
+                      defaultChecked={
+                        dataCreateEvent
+                          ? dataCreateEvent.isFree === "false"
+                          : undefined
+                      }
+                      onChange={(e) => {
+                        setPrice(e.target.value === "true" ? 0 : undefined);
+
+                        setIsFree(e.target.value === "true" ? true : false);
+                      }}
+                    >
                       Sí, deseo vender entradas
-                    </SelectItem>
-                    <SelectItem key={"true"} value="true">
+                    </Radio>
+                    <Radio
+                      id="true"
+                      name="isFree"
+                      value="true"
+                      {...register("isFree", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.isFree && errors.isFree.message}
+                      defaultChecked={
+                        dataCreateEvent
+                          ? dataCreateEvent.isFree === "true"
+                          : undefined
+                      }
+                      onChange={(e) => {
+                        setPrice(e.target.value === "false" ? 0 : undefined);
+
+                        setIsFree(e.target.value === "false" ? false : true);
+                      }}
+                    >
                       No, no deseo vender entradas
-                    </SelectItem>
-                  </Select>
+                    </Radio>
+                  </RadioGroup>
                 </div>
               </div>
 
@@ -588,6 +616,7 @@ function CreateEvent() {
                 >
                   Crear evento
                 </Button>
+                <Toaster position="center-center"></Toaster>
               </div>
             </form>
           </div>
