@@ -6,6 +6,7 @@ import {
   Login,
   Register,
   CreateEvent,
+  CreatorData,
   Help,
   MyAccount,
   EditProfile,
@@ -49,6 +50,7 @@ function App() {
             path="/mi-cuenta/panel-administrador"
             element={<DashboardMyEvents />}
           />
+          <Route path="/mi-cuenta/datos-creador" element={<CreatorData />} />
         </Route>
         {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />

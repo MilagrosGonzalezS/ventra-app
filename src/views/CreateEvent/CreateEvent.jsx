@@ -23,7 +23,16 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 function CreateEvent() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenModalTerms,
+    onOpen: onOpenModalTerms,
+    onOpenChange: onOpenChangeModalTerms,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenModalCreated,
+    onOpen: onOpenModalCreated,
+    onOpenChange: onOpenChangeModalCreated,
+  } = useDisclosure();
   const [tokenExists, setTokenExists] = useState(false);
   const navigate = useNavigate();
   const {
@@ -35,7 +44,6 @@ function CreateEvent() {
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
-  const [isFreeSelect, setIsFreeSelect] = useState(null);
 
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState("");
@@ -99,7 +107,7 @@ function CreateEvent() {
       console.log(data);
       toast.success("¡Evento Creado!");
       setTimeout(() => {
-        navigate("/mi-cuenta");
+        onOpenModalCreated();
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -187,9 +195,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.zone}
                   errorMessage={errors.zone && errors.zone.message}
-                  defaultSelectedKeys={[
-                    dataCreateEvent ? dataCreateEvent.zone : undefined,
-                  ]}
+                  {...(Object.keys(dataCreateEvent).length > 0 && {
+                    defaultSelectedKeys: [dataCreateEvent.zone],
+                  })}
                 >
                   <SelectItem key="CABA" value="CABA">
                     CABA
@@ -220,9 +228,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.category}
                   errorMessage={errors.category && errors.category.message}
-                  defaultSelectedKeys={[
-                    dataCreateEvent ? dataCreateEvent.category : undefined,
-                  ]}
+                  {...(Object.keys(dataCreateEvent).length > 0 && {
+                    defaultSelectedKeys: [dataCreateEvent.category],
+                  })}
                 >
                   {categories.map((category) => (
                     <SelectItem key={category.name}>{category.name}</SelectItem>
@@ -565,7 +573,7 @@ function CreateEvent() {
                   <p>
                     Aceptar{" "}
                     <span
-                      onClick={onOpen}
+                      onClick={onOpenModalTerms}
                       className="text-lightblue cursor-pointer"
                     >
                       términos y condiciones
@@ -578,7 +586,10 @@ function CreateEvent() {
                   </span>
                 )}
 
-                <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <Modal
+                  isOpen={isOpenModalTerms}
+                  onOpenChange={onOpenChangeModalTerms}
+                >
                   <ModalContent>
                     {(onClose) => (
                       <>
@@ -624,6 +635,35 @@ function CreateEvent() {
             <img className="w-10/12 mx-auto" src={formpic}></img>
           </div>
         </div>
+        <Modal isOpen={isOpenModalCreated}>
+          <ModalContent>
+            <ModalHeader>Evento Creado</ModalHeader>
+            <ModalBody>
+              <p>Tu evento se ha creado exitosamente.</p>
+              <p>
+                Para poder publicarlo deberás completar tus datos como creador
+                del evento.
+              </p>
+              <p>
+                Puedes hacerlo luego pero es necesario para que Ventra apruebe
+                tu evento, de otra manera no podrás publicarlo.
+              </p>
+              <p>Una vez aprobado podrás elegir cuando se publica.</p>
+            </ModalBody>
+            <ModalFooter>
+              <Link to="/mi-cuenta">
+                <Button color="default" onPress={onOpenChangeModalCreated}>
+                  Completar datos luego
+                </Button>
+              </Link>
+              <Link to="/mi-cuenta/datos-creador">
+                <Button color="primary" onPress={onOpenChangeModalCreated}>
+                  Completar datos ahora
+                </Button>
+              </Link>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </main>
       ;
     </>

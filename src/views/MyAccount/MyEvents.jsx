@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import colors from "../../assets/imgs/recurso-colores.png";
 import { format } from "date-fns";
 
-function MyEvents() {
+function MyEvents({ user }) {
   const userId = Cookies.get("userId");
   console.log("userId", userId);
   const navigation = useNavigate();
@@ -32,7 +32,6 @@ function MyEvents() {
         setIsLoading(false);
       });
   };
-
   useEffect(() => {
     getEvents();
   }, []);
@@ -50,6 +49,17 @@ function MyEvents() {
               />
             </div>
             <h2 className="text-xl md:text-2xl font-accent">Mis eventos</h2>
+            {!user.completeData && (
+              <Link to="/mi-cuenta/datos-creador">
+                <p className="font-accent text-center bg-dark p-1 rounded-xl">
+                  Tenés que{" "}
+                  <span className="text-lightblue cursor-pointer">
+                    completar tus datos
+                  </span>{" "}
+                  para poder publicar tus eventos.
+                </p>
+              </Link>
+            )}
           </div>
           {isLoading ? (
             <PuffLoader
@@ -69,6 +79,17 @@ function MyEvents() {
                       isFooterBlurred
                       className="w-[240px] h-[300px] col-span-12 sm:col-span-9 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
                     >
+                      {!event.approve ? (
+                        <p className="absolute z-20 right-0 pl-1 pr-4  py-1 rounded-bl-md bg-dark text-xs">
+                          Evento no aprobado
+                          <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-red-700 rounded-full"></span>
+                        </p>
+                      ) : (
+                        <p className="absolute z-20 right-0 pl-1 pr-4  py-1 rounded-bl-md bg-dark text-xs">
+                          Evento aprobado
+                          <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-green rounded-full"></span>
+                        </p>
+                      )}
                       <Image
                         removeWrapper
                         alt={event.name}
