@@ -7,6 +7,11 @@ async function userData() {
   const id = Cookies.get("userId");
   let username;
   let email;
+  let nameOwner;
+  let cuitCuil;
+  let cbuCvu;
+  let bank;
+  let completeData;
 
   if (id) {
     try {
@@ -20,8 +25,14 @@ async function userData() {
       // Verifica el estado de la respuesta
       if (res.status === 200) {
         const data = res.data;
+        console.log(data[0].bank);
         username = data[0].username;
         email = data[0].email;
+        nameOwner = data[0].nameOwner;
+        cuitCuil = data[0].cuitCuil;
+        cbuCvu = data[0].cbuCvu;
+        bank = data[0].bank;
+        completeData = data[0].completeData;
       } else {
         console.error("Error al obtener los datos del usuario:", res.status);
       }
@@ -35,6 +46,11 @@ async function userData() {
     id: id,
     username: username,
     email: email,
+    nameOwner: nameOwner,
+    cuitCuil: cuitCuil,
+    cbuCvu: cbuCvu,
+    bank: bank,
+    completeData: completeData,
   };
 
   return user;

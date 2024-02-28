@@ -145,7 +145,7 @@ function MyAccount() {
           </Link>
         </div>
         <div>
-          {selectedView == "eventos" && <MyEvents />}
+          {selectedView == "eventos" && <MyEvents user={user} />}
           {selectedView == "favoritos" && <Wishlist />}
           {selectedView == "tickets" && <MyTickets />}
         </div>

@@ -23,7 +23,16 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 function CreateEvent() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenModalTerms,
+    onOpen: onOpenModalTerms,
+    onOpenChange: onOpenChangeModalTerms,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenModalCreated,
+    onOpen: onOpenModalCreated,
+    onOpenChange: onOpenChangeModalCreated,
+  } = useDisclosure();
   const [tokenExists, setTokenExists] = useState(false);
   const navigate = useNavigate();
   const {
@@ -35,10 +44,9 @@ function CreateEvent() {
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
-  const [isFreeSelect, setIsFreeSelect] = useState(null);
 
   const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState("");
   const [venue, setVenue] = useState("");
   const [nextView, setNextView] = useState(false);
   const [dataCreateEvent, setDataCreateEvent] = useState({});
@@ -88,7 +96,10 @@ function CreateEvent() {
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
-    data = price === 0 ? { ...data, cover, price } : { ...data, cover };
+    data =
+      price === 0
+        ? { ...data, cover, isFree, price }
+        : { ...data, isFree, cover };
     try {
       await createEvent(data);
       setIsCreatingEvent(false);
@@ -96,7 +107,7 @@ function CreateEvent() {
       console.log(data);
       toast.success("¡Evento Creado!");
       setTimeout(() => {
-        navigate("/mi-cuenta");
+        onOpenModalCreated();
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -184,9 +195,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.zone}
                   errorMessage={errors.zone && errors.zone.message}
-                  defaultSelectedKeys={[
-                    dataCreateEvent ? dataCreateEvent.zone : undefined,
-                  ]}
+                  {...(Object.keys(dataCreateEvent).length > 0 && {
+                    defaultSelectedKeys: [dataCreateEvent.zone],
+                  })}
                 >
                   <SelectItem key="CABA" value="CABA">
                     CABA
@@ -217,9 +228,9 @@ function CreateEvent() {
                   })}
                   isInvalid={!!errors.category}
                   errorMessage={errors.category && errors.category.message}
-                  defaultSelectedKeys={[
-                    dataCreateEvent ? dataCreateEvent.category : undefined,
-                  ]}
+                  {...(Object.keys(dataCreateEvent).length > 0 && {
+                    defaultSelectedKeys: [dataCreateEvent.category],
+                  })}
                 >
                   {categories.map((category) => (
                     <SelectItem key={category.name}>{category.name}</SelectItem>
@@ -408,7 +419,6 @@ function CreateEvent() {
                   Continuar
                 </Button>
               </div>
-              <Toaster position="center-center"></Toaster>
             </form>
           </div>
           <div className="col-span-6 w-6/12">
@@ -438,35 +448,61 @@ function CreateEvent() {
             >
               <div className="flex flex-col w-11/12 my-2">
                 <div>
-                  <Select
+                  <RadioGroup
                     label="¿Querés vender entradas?"
-                    labelPlacement="outside"
-                    className="w-full"
-                    variant="bordered"
-                    name="isFree"
-                    id="isFree"
+                    orientation="horizontal"
                     {...register("isFree", {
-                      required: "Campo obligatorio.",
+                      required: "Seleccioná si deseas vender entradas o no.",
                     })}
-                    onChange={(e) => {
-                      setIsFreeSelect(
-                        e.target.value === "true" ? "true" : "false"
-                      );
-                      setPrice(e.target.value === "true" ? 0 : undefined);
-
-                      setIsFree(e.target.value === "true" ? true : false);
-                    }}
-                    defaultSelectedKeys={[isFreeSelect ? isFreeSelect : null]}
                     isInvalid={!!errors.isFree}
                     errorMessage={errors.isFree && errors.isFree.message}
+                    defaultValue={
+                      dataCreateEvent ? dataCreateEvent.isFree : undefined
+                    }
                   >
-                    <SelectItem key={"false"} value="false">
+                    <Radio
+                      id="false"
+                      name="isFree"
+                      value="false"
+                      {...register("isFree", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.isFree && errors.isFree.message}
+                      defaultChecked={
+                        dataCreateEvent
+                          ? dataCreateEvent.isFree === "false"
+                          : undefined
+                      }
+                      onChange={(e) => {
+                        setPrice(e.target.value === "true" ? 0 : undefined);
+
+                        setIsFree(e.target.value === "true" ? true : false);
+                      }}
+                    >
                       Sí, deseo vender entradas
-                    </SelectItem>
-                    <SelectItem key={"true"} value="true">
+                    </Radio>
+                    <Radio
+                      id="true"
+                      name="isFree"
+                      value="true"
+                      {...register("isFree", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.isFree && errors.isFree.message}
+                      defaultChecked={
+                        dataCreateEvent
+                          ? dataCreateEvent.isFree === "true"
+                          : undefined
+                      }
+                      onChange={(e) => {
+                        setPrice(e.target.value === "false" ? 0 : undefined);
+
+                        setIsFree(e.target.value === "false" ? false : true);
+                      }}
+                    >
                       No, no deseo vender entradas
-                    </SelectItem>
-                  </Select>
+                    </Radio>
+                  </RadioGroup>
                 </div>
               </div>
 
@@ -537,7 +573,7 @@ function CreateEvent() {
                   <p>
                     Aceptar{" "}
                     <span
-                      onClick={onOpen}
+                      onClick={onOpenModalTerms}
                       className="text-lightblue cursor-pointer"
                     >
                       términos y condiciones
@@ -550,7 +586,10 @@ function CreateEvent() {
                   </span>
                 )}
 
-                <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <Modal
+                  isOpen={isOpenModalTerms}
+                  onOpenChange={onOpenChangeModalTerms}
+                >
                   <ModalContent>
                     {(onClose) => (
                       <>
@@ -588,6 +627,7 @@ function CreateEvent() {
                 >
                   Crear evento
                 </Button>
+                <Toaster position="center-center"></Toaster>
               </div>
             </form>
           </div>
@@ -595,6 +635,35 @@ function CreateEvent() {
             <img className="w-10/12 mx-auto" src={formpic}></img>
           </div>
         </div>
+        <Modal isOpen={isOpenModalCreated}>
+          <ModalContent>
+            <ModalHeader>Evento Creado</ModalHeader>
+            <ModalBody>
+              <p>Tu evento se ha creado exitosamente.</p>
+              <p>
+                Para poder publicarlo deberás completar tus datos como creador
+                del evento.
+              </p>
+              <p>
+                Puedes hacerlo luego pero es necesario para que Ventra apruebe
+                tu evento, de otra manera no podrás publicarlo.
+              </p>
+              <p>Una vez aprobado podrás elegir cuando se publica.</p>
+            </ModalBody>
+            <ModalFooter>
+              <Link to="/mi-cuenta">
+                <Button color="default" onPress={onOpenChangeModalCreated}>
+                  Completar datos luego
+                </Button>
+              </Link>
+              <Link to="/mi-cuenta/datos-creador">
+                <Button color="primary" onPress={onOpenChangeModalCreated}>
+                  Completar datos ahora
+                </Button>
+              </Link>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </main>
       ;
     </>
