@@ -122,18 +122,18 @@ function EventDetails() {
             </div>
           )}
 
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <Button
               onClick={() => {
                 handleShare(event._id, event.name, event.description);
               }}
-              className="rounded-2xl font-medium text-sm  py-2 px-8 my-4 w-fit text-light"
+              className="rounded-2xl font-medium text-sm  py-2 px-8 mt-4 w-fit text-light"
             >
               Compartir
             </Button>
             {!event.isFree ? (
               event.ticketCount === 0 ? (
-                <p className="rounded-2xl bg-red-700 py-2 px-4 my-4 w-fit text-light">
+                <p className="rounded-2xl bg-red-700 py-2 px-4 mt-4 w-fit text-light">
                   Entradas Agotadas
                 </p>
               ) : (
@@ -155,6 +155,12 @@ function EventDetails() {
                 Evento Gratuito
               </p>
             )}
+            <Link
+              to={`/reventa/${event._id}`}
+              className="bg-opacity2 rounded-2xl py-2 px-4 mb-4 text-xs border"
+            >
+              Comprar de reventa
+            </Link>
           </div>
         </div>
         {/* Acá comienza el titulo y datos */}

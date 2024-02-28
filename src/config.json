@@ -5,5 +5,7 @@
   "apiTickets": "http://localhost:3000/tickets",
   "apiWishlist": "http://localhost:3000/wishlist",
   "apiCategories": "http://localhost:3000/categories",
-  "apiMP": "http://localhost:3000/mercadopago"
+  "apiMP": "http://localhost:3000/mercadopago",
+  "apiMPResell": "http://localhost:3000/mercadopago/resell",
+  "apiResell": "http://localhost:3000/resell"
 }

@@ -2,15 +2,20 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { AuthContext } from "../context/AuthContext.jsx";
-import { createTicket, getEventById } from "../index.js";
+import {
+  createTicketFromResell,
+  deleteFromResell,
+  deleteTicket,
+  getEventById,
+} from "../index.js";
 import colors from "../assets/imgs/recurso-colores.png";
 
-function PaymentSuccess() {
+function ResellPaymentSuccess() {
   const [tokenExists, setTokenExists] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [event, setEvent] = useState([]);
 
-  const { name, eventId, amount, timestamp } = useParams();
+  const { name, eventId, ticketId, resellId, timestamp } = useParams();
   const { auth } = useContext(AuthContext);
   const token = auth;
 
@@ -23,19 +28,6 @@ function PaymentSuccess() {
     eventPrice: event.price,
     timestamp: timestamp,
   };
-
-  // const handleSecurityCodeChange = (e) => {
-  //   let value = e.target.value.replace(/\D/g, ""); // Eliminar caracteres no numéricos
-  //   if (value.length > 4) {
-  //     value = value.slice(0, 4); // Limitar a 4 caracteres
-  //   }
-  //   if (value.length > 2) {
-  //     // Insertar una barra después del segundo carácter
-  //     value = value.slice(0, 2) + "/" + value.slice(2);
-  //   }
-
-  //   e.target.value = value; // Actualizar el valor del campo
-  // };
 
   useEffect(() => {
     const checkToken = async () => {
@@ -54,16 +46,22 @@ function PaymentSuccess() {
   useEffect(() => {
     const ticketCreation = async () => {
       try {
-        for (let i = 0; i < amount; i++) {
-          await createTicket(ticketData)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      } catch (error) {}
+        await createTicketFromResell(ticketData).then((res) => {
+          console.log(res + "se creo el nuevo ticket");
+        });
+        await deleteTicket(ticketId).then((res) => {
+          console.log(res + "se elimino el ticket viejo");
+        });
+        await deleteFromResell(resellId)
+          .then((res) => {
+            console.log(res + "Se quitó el ticket de la lista de reventa");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error + "error al crear y borrar tickets");
+      }
     };
 
     ticketCreation();
@@ -80,11 +78,7 @@ function PaymentSuccess() {
         <div className="py-16 h-fit px-24 rounded-3xl bg-dark flex flex-col gap-6 col-span-8 m-auto items-center justify-center text-center">
           <h1 className="text-5xl font-accent">¡Pago exitoso!</h1>
           <img src={colors} alt="recurso de colores" />
-          <p>
-            {" "}
-            Compraste {amount +
-              (amount == 1 ? " entrada" : " entradas")} para {name}.
-          </p>
+          <p> Compraste 1 entrada para {name}.</p>
           <p className="text-xs">
             Muchas gracias por confiar en Ventra, ¡esperamos que disfrutes tu
             compra! Si tenés alguna pregunta, no dudes en contactarnos.
@@ -102,4 +96,4 @@ function PaymentSuccess() {
   );
 }
 
-export { PaymentSuccess };
+export { ResellPaymentSuccess };

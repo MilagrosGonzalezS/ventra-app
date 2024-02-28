@@ -18,6 +18,9 @@ import {
   NavBar,
   Footer,
   DashboardMyEvents,
+  ResellList,
+  ResellCheckout,
+  ResellPaymentSuccess,
 } from "./index.js";
 
 function App() {
@@ -42,13 +45,22 @@ function App() {
             element={<Checkout />}
           />
           <Route
+            path="/reventa/comprar/:eventId/checkout/:amount/:price/:ticketId/:resellId"
+            element={<ResellCheckout />}
+          />
+          <Route
             path="/detalle/comprar/pago/:name/:eventId/:amount/:timestamp"
             element={<PaymentSuccess />}
+          />
+          <Route
+            path="/reventa/comprar/:name/:eventId/:ticketId/:resellId/:timestamp"
+            element={<ResellPaymentSuccess />}
           />
           <Route
             path="/mi-cuenta/panel-administrador"
             element={<DashboardMyEvents />}
           />
+          <Route path="/reventa/:eventId" element={<ResellList />} />
         </Route>
         {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />

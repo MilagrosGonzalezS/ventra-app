@@ -32,6 +32,7 @@ function Home() {
   const token = auth;
 
   const onFilterSelect = (category, zone, price) => {
+    console.log(zone, typeof zone);
     getFilteredEvents(1, category, zone, price[0], price[1])
       .then((res) => {
         setSearchResults(res.data);

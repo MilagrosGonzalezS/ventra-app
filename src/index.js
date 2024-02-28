@@ -19,6 +19,11 @@ export { getMyTickets } from "./services/tickets/getMyTickets.js";
 export { checkEventoToDelete } from "./services/tickets/checkEventoToDelete.js";
 export { getCategories } from "./services/events/getCategories.js";
 export { createPreference } from "./services/mercadopago/mercadopago.js";
+export { createPreferenceResell } from "./services/mercadopago/mercadopagoResell.js";
+export { getResellList } from "./services/resell/getResellList.js";
+export { createTicketFromResell } from "./services/resell/createTicketFromResell.js";
+export { deleteFromResell } from "./services/resell/deleteFromResell.js";
+export { deleteTicket } from "./services/resell/deleteTicket.js";
 //Components ->
 export { Featured } from "./components/Featured.jsx";
 export { EventCard } from "./components/EventCard.jsx";
@@ -50,3 +55,6 @@ export { PaymentSuccess } from "./views/PaymentSuccess.jsx";
 export { MyTickets } from "./views/MyAccount/MyTickets";
 export { EventDetails } from "./views/Events/EventDetails";
 export { DashboardMyEvents } from "./views/MyAccount/DashboardMyEvents";
+export { ResellList } from "./views/MyAccount/ResellList.jsx";
+export { ResellCheckout } from "./views/ResellCheckout.jsx";
+export { ResellPaymentSuccess } from "./views/ResellPaymentSuccess.jsx";

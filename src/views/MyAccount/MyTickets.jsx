@@ -10,22 +10,24 @@ import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import colors from "../../assets/imgs/recurso-colores.png";
 import { format } from "date-fns";
-// import {
-//   Document,
-//   Page,
-//   Text,
-//   View,
-//   StyleSheet,
-//   ReactPDF,
-// } from "@react-pdf/renderer";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+  Radio,
+  RadioGroup,
+} from "@nextui-org/react";
 
 import { jsPDF } from "jspdf";
 
 function MyTickets() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
-
-  console.log(tickets.length);
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,7 +49,6 @@ function MyTickets() {
     if (!date) return "";
     return format(new Date(date), "dd-MM-yyyy");
   };
-
 
   return (
     <>
@@ -87,9 +88,77 @@ function MyTickets() {
                       </div>
                     </div>
                     <div className="my-4 w-full pr-16">
-                      <h3 className="text-light text-2xl font-accent font-medium tracking-wider">
-                        {ticket.eventName}
-                      </h3>
+                      <div className="flex justify-between">
+                        <h3 className="text-light text-2xl font-accent font-medium tracking-wider">
+                          {ticket.eventName}
+                        </h3>
+                        {ticket.state == "published" ? (
+                          <p className="bg-lightblue border py-2 px-4 text-xs rounded-2xl text-dark font-medium">
+                            Publicado en reventa
+                          </p>
+                        ) : (
+                          <>
+                            <Button
+                              className="bg-opacity2 border py-2 px-4 text-xs rounded-3xl"
+                              onPress={onOpen}
+                            >
+                              Publicar en reventa
+                            </Button>
+                            <Modal
+                              size="xl"
+                              backdrop="opaque"
+                              isOpen={isOpen}
+                              isDismissable={true}
+                              onOpenChange={onOpenChange}
+                              classNames={{
+                                backdrop:
+                                  "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+                              }}
+                            >
+                              <ModalContent>
+                                {(onClose) => (
+                                  <>
+                                    <ModalHeader className="flex flex-col gap-1">
+                                      Elegí el precio con el que publicás tu
+                                      entrada
+                                    </ModalHeader>
+                                    <ModalBody>
+                                      <RadioGroup label="">
+                                        <Radio
+                                          value={ticket.eventPrice}
+                                          description="Perdés el costo
+                                        de servicio"
+                                        >
+                                          ${ticket.eventPrice}
+                                        </Radio>
+                                        <Radio
+                                          value={
+                                            (ticket.eventPrice * 10) / 100 +
+                                            ticket.eventPrice
+                                          }
+                                          description="Recibís lo mismo que pagaste"
+                                        >
+                                          $
+                                          {(ticket.eventPrice * 10) / 100 +
+                                            ticket.eventPrice}
+                                        </Radio>
+                                      </RadioGroup>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                      <Button color="default" onPress={onClose}>
+                                        Cerrar
+                                      </Button>
+                                      <Button color="primary" onPress={onClose}>
+                                        Publicar
+                                      </Button>
+                                    </ModalFooter>
+                                  </>
+                                )}
+                              </ModalContent>
+                            </Modal>
+                          </>
+                        )}
+                      </div>
                       <div className="flex mt-4 justify-between">
                         <div className="flex gap-2 items-center my-2">
                           <FontAwesomeIcon

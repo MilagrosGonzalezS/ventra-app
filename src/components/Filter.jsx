@@ -5,14 +5,14 @@ import axios from "axios";
 import config from "../config.json";
 
 const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedZone, setSelectedZone] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedZone, setSelectedZone] = useState("");
   const [selectedPrice, setSelectedPrice] = useState([0, 200000]);
   const [categories, setCategories] = useState([]);
 
   // console.log(selectedZone);
 
-  const zones = ["CABA", "Zona Norte", "Zona Oeste", "Zona Sur"];
+  const zones = ["", "CABA", "Zona Norte", "Zona Oeste", "Zona Sur"];
 
   //TRAER CATEGORIAS PARA SELECT
   useEffect(() => {
@@ -23,8 +23,8 @@ const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
 
   function resetFilter() {
     onSearchResultsUpdate([]);
-    setSelectedCategory(null);
-    setSelectedZone(null);
+    setSelectedCategory("");
+    setSelectedZone("CABA");
     setSelectedPrice([0, 200000]);
   }
 
@@ -60,7 +60,12 @@ const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
           ))}
         </div>
         <div className="my-6">
-          <Select label="Zona" className="max-w-xs" onChange={setSelectedZone}>
+          <Select
+            label="Zona"
+            className="max-w-xs"
+            onChange={setSelectedZone}
+            defaultSelectedKeys={["CABA"]}
+          >
             {zones.map((zone) => (
               <SelectItem key={zone} value={zone}>
                 {zone}
@@ -116,7 +121,12 @@ const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
             }}
           />
         </div>
-        <button onClick={handleFilterSubmit}>Filtrar</button>
+        <button
+          onClick={handleFilterSubmit}
+          className="bg-lightblue py-2 px-4 rounded-xl w-full text-dark font-medium mt-4 hover:bg-emerald-600"
+        >
+          Filtrar
+        </button>
       </div>
     </>
   );
