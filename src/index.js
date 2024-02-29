@@ -41,6 +41,7 @@ export { Planification } from "./components/Planification.jsx";
 
 //Views ->
 export { Home } from "./views/Home/Home";
+export { GeneralLogin } from "./views/Login/GeneralLogin";
 export { Login } from "./views/Login/Login";
 export { Register } from "./views/Login/Register";
 export { CreateEvent } from "./views/CreateEvent/CreateEvent";

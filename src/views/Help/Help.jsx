@@ -1,14 +1,22 @@
 import React from "react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
+import colors from "../../assets/imgs/recurso-colores.png";
+import helpImg from "../../assets/imgs/help-image.png";
 
 function Help() {
   return (
-    <main className="min-h-screen flex flex-col justify-start pt-8 items-center bg-pattern">
-      <div className="px-10 md:w-3/5">
-        <h1 className="font-accent text-3xl mt-32 font-medium mb-8 text-green">
-          Preguntas frecuentes
-        </h1>
-        <div className="flex justify-center items-center w-full bg-opacity">
+    <main className="bg-myaccount min-h-screen md:px-20 px-10 grid grid-cols-12 gap-x-10">
+      <h1 className="h-fit font-accent font-medium text-3xl mx-auto col-span-full mt-32 mb-4">
+        Preguntas frecuentes
+      </h1>
+      <div className="col-span-full mx-auto">
+        <img src={colors} />
+      </div>
+      <div className="col-span-12 flex gap-8 bg-opacity">
+        <div className="w-1/3">
+          <img src={helpImg} alt="simpatico emoji sobre ayuda" />
+        </div>
+        <div className="flex justify-center items-center w-2/3">
           <Accordion variant="light" className="border rounded-2xl p-8">
             <AccordionItem
               key="1"
