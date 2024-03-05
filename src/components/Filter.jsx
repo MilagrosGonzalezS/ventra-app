@@ -64,7 +64,7 @@ const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
             label="Zona"
             className="max-w-xs"
             onChange={setSelectedZone}
-            defaultSelectedKeys={["CABA"]}
+            // defaultSelectedKeys={["CABA"]}
           >
             {zones.map((zone) => (
               <SelectItem key={zone} value={zone}>

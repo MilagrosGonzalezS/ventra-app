@@ -90,6 +90,7 @@ function EditMyEvent() {
     try {
       setIsLoading(true);
       const res = await getEventById(eventId);
+      console.log("res.data", res.data);
       setEvents(res.data);
       setIsLoading(false);
 
@@ -449,6 +450,46 @@ function EditMyEvent() {
                     errors.description && errors.description.message
                   }
                 />
+              </div>
+              <div className="flex flex-col w-11/12 my-2">
+                <div>
+                  <RadioGroup
+                    label="Elija si quiere que el evento esté publicado o no"
+                    orientation="horizontal"
+                    defaultValue={event.status}
+                    {...register("status", {
+                      required:
+                        "Seleccioná si deseás publicar el evento o no cuando esté aprobado.",
+                    })}
+                    isInvalid={!!errors.status}
+                    errorMessage={errors.status && errors.status.message}
+                  >
+                    <Radio
+                      id="true"
+                      name="status"
+                      value={true}
+                      {...register("status", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.status && errors.status.message}
+                      defaultChecked={event.status === true}
+                    >
+                      Evento publicado.
+                    </Radio>
+                    <Radio
+                      id="false"
+                      name="status"
+                      value={false}
+                      {...register("status", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.status && errors.status.message}
+                      defaultChecked={event.status === false}
+                    >
+                      Evento no publicado.
+                    </Radio>
+                  </RadioGroup>
+                </div>
               </div>
               <div className="flex flex-col w-full md:w-2/4 gap-2 p-3">
                 <Button

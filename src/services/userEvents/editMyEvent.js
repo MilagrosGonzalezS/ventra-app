@@ -17,7 +17,6 @@ async function editMyEvent(data, eventId) {
           street: data.street,
           number: data.number,
         },
-        status: true,
         userId: userId,
       },
       {

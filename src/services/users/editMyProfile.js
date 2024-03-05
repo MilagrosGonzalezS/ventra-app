@@ -11,7 +11,10 @@ async function editMyProfile(data, userId) {
       {
         username: data.username,
         email: data.email,
-        password: data.password,
+        nameOwner: data.nameOwner,
+        cuitCuil: data.cuitCuil,
+        bank: data.bank,
+        cbuCvu: data.cbuCvu,
       },
       {
         headers: {
