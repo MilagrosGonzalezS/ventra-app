@@ -25,7 +25,6 @@ async function userData() {
       // Verifica el estado de la respuesta
       if (res.status === 200) {
         const data = res.data;
-        console.log(data[0].bank);
         username = data[0].username;
         email = data[0].email;
         nameOwner = data[0].nameOwner;

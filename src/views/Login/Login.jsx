@@ -111,7 +111,7 @@ function Login() {
               </Button>
 
               <Link to="/restaurar-contraseña" className="text-xs mt-2">
-                Olvidé mi contraseña
+                {/*  Olvidé mi contraseña */}
               </Link>
             </div>
           )}

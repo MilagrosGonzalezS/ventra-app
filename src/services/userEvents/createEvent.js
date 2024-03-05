@@ -16,7 +16,6 @@ async function createEvent(data) {
           street: data.street,
           number: data.number,
         },
-        status: false,
         userId: userId,
       },
       {

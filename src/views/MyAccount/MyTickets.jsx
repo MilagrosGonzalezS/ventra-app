@@ -96,9 +96,10 @@ const styles = StyleSheet.create({
 });
 
 function MyTickets() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
+  const [isOpen, setIsOpen] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -115,6 +116,19 @@ function MyTickets() {
         setIsLoading(false);
       });
   }, []);
+  const onOpenModal = (ticketId) => {
+    setIsOpen((prev) => ({
+      ...prev,
+      [ticketId]: true,
+    }));
+  };
+
+  const onCloseModal = (ticketId) => {
+    setIsOpen((prev) => ({
+      ...prev,
+      [ticketId]: false,
+    }));
+  };
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -243,16 +257,16 @@ function MyTickets() {
                           <>
                             <Button
                               className="bg-opacity2 border py-2 px-4 text-xs rounded-3xl"
-                              onPress={onOpen}
+                              onPress={() => onOpenModal(ticket._id)}
                             >
                               Publicar en reventa
                             </Button>
                             <Modal
                               size="xl"
                               backdrop="opaque"
-                              isOpen={isOpen}
+                              isOpen={isOpen[ticket._id]}
                               isDismissable={true}
-                              onOpenChange={onOpenChange}
+                              onOpenChange={() => onCloseModal(ticket._id)}
                               classNames={{
                                 backdrop:
                                   "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",

@@ -58,9 +58,9 @@ function MyAccount() {
   const handleView = (view) => {
     if (view == "eventos") {
       setSelectedView(view);
-    } else if (view == "privados") {
+    } /* else if (view == "privados") {
       setSelectedView(view);
-    } else if (view == "favoritos") {
+    }  */ else if (view == "favoritos") {
       setSelectedView(view);
     } else if (view == "tickets") {
       setSelectedView(view);
@@ -95,14 +95,14 @@ function MyAccount() {
         <hr className="my-4 bg-light w-full"></hr>
         <div className="my-4 flex justify-between w-full">
           <ul>
-            <li className="mt-2 text-sm">Eventos publicados</li>
-            <li className="mt-2 text-sm">Eventos privados</li>
+            <li className="mt-2 text-sm">Eventos creados</li>
+            {/* <li className="mt-2 text-sm">Eventos privados</li> */}
             <li className="mt-2 text-sm">Eventos favoritos</li>
             <li className="mt-2 text-sm">Tickets comprados</li>
           </ul>
           <ul>
             <li className="mt-2 text-sm">{events}</li>
-            <li className="mt-2 text-sm">0</li>
+            {/* <li className="mt-2 text-sm">0</li> */}
             <li className="mt-2 text-sm">{wishlist}</li>
             <li className="mt-2 text-sm">{tickets}</li>
           </ul>
@@ -131,12 +131,12 @@ function MyAccount() {
           >
             Mis eventos
           </button>
-          <button
+          {/*          <button
             onClick={() => handleView("privados")}
             className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
           >
             Eventos privados
-          </button>
+          </button> */}
           <Link
             to="/crear-evento"
             className="bg-green rounded-2xl py-2 px-6 text-sm text-dark ml-8 font-medium"

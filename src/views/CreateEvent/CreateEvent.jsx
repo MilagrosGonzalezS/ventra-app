@@ -2,7 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
-import { createEvent, TermsText, getCategories } from "../../index.js";
+import {
+  createEvent,
+  TermsText,
+  getCategories,
+  userData,
+} from "../../index.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import toast, { Toaster } from "react-hot-toast";
 import colors from "../../assets/imgs/recurso-colores.png";
@@ -44,7 +49,8 @@ function CreateEvent() {
   const [isCreatingEvent, setIsCreatingEvent] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isFree, setIsFree] = useState(true);
-
+  const [status, setStatus] = useState();
+  const [user, setUser] = useState({});
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState("");
   const [venue, setVenue] = useState("");
@@ -68,6 +74,14 @@ function CreateEvent() {
     };
 
     checkToken();
+  }, []);
+
+  useEffect(() => {
+    const data = userData();
+    data.then((data) => {
+      setUser(data);
+      setIsLoading(false);
+    });
   }, []);
 
   //TRAER CATEGORIAS PARA SELECT
@@ -107,7 +121,11 @@ function CreateEvent() {
       console.log(data);
       toast.success("¡Evento Creado!");
       setTimeout(() => {
-        onOpenModalCreated();
+        if (!user.completeData) {
+          onOpenModalCreated();
+        } else {
+          navigate("/mi-cuenta");
+        }
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -452,7 +470,7 @@ function CreateEvent() {
                     label="¿Querés vender entradas?"
                     orientation="horizontal"
                     {...register("isFree", {
-                      required: "Seleccioná si deseas vender entradas o no.",
+                      required: "Seleccioná si deseás vender entradas o no.",
                     })}
                     isInvalid={!!errors.isFree}
                     errorMessage={errors.isFree && errors.isFree.message}
@@ -557,6 +575,53 @@ function CreateEvent() {
                 />
               </div>
 
+              <div className="flex flex-col w-11/12 my-2">
+                <div>
+                  <RadioGroup
+                    label="¿Desea publicar su evento en cuanto lo aprobemos?"
+                    orientation="horizontal"
+                    {...register("status", {
+                      required:
+                        "Seleccioná si deseás publicar el evento o no cuando esté aprobado.",
+                    })}
+                    isInvalid={!!errors.status}
+                    errorMessage={errors.status && errors.status.message}
+                    defaultValue={
+                      dataCreateEvent ? dataCreateEvent.status : undefined
+                    }
+                  >
+                    <Radio
+                      id="false"
+                      name="status"
+                      value="true"
+                      {...register("status", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.status && errors.status.message}
+                      defaultChecked={
+                        dataCreateEvent ? dataCreateEvent.status : undefined
+                      }
+                    >
+                      Sí, deseo publicarlo inmediatamente.
+                    </Radio>
+                    <Radio
+                      id="true"
+                      name="status"
+                      value="false"
+                      {...register("status", {
+                        required: "Seleccioná una opción.",
+                      })}
+                      errorMessage={errors.status && errors.status.message}
+                      defaultChecked={
+                        dataCreateEvent ? dataCreateEvent.status : undefined
+                      }
+                    >
+                      No, lo publicaré luego.
+                    </Radio>
+                  </RadioGroup>
+                </div>
+              </div>
+
               <div className="my-2">
                 <label htmlFor="termsAndConditions">
                   Términos y Condiciones
@@ -615,7 +680,7 @@ function CreateEvent() {
                   onClick={() => {
                     handlePrevView();
                   }}
-                  className="bg-graydarker text-white w-5/12 font-medium"
+                  className="bg-graydarker text-white w-5/12 font-medium rounded-lg"
                   type="button"
                 >
                   Volver
