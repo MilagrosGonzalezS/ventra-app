@@ -1,11 +1,13 @@
 //Services ->
 export { getEvents } from "./services/events/getEvents";
 export { getAllEvents } from "./services/events/getEvents";
+export { getAllAdminEvents } from "./services/events/getEvents";
 export { getFilteredEvents } from "./services/events/getEvents.js";
 export { getEventById } from "./services/events/getEventById.js";
 export { createEvent } from "./services/userEvents/createEvent.js";
 export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";
 export { editMyEvent } from "./services/userEvents/editMyEvent.js";
+export { editApprovement } from "./services/userEvents/editApprovement.js";
 export { getMyEvents } from "./services/userEvents/getMyEvents.js";
 export { addToWishlist } from "./services/userEvents/addToWishlist.js";
 export { deleteFromWishlist } from "./services/userEvents/deleteFromWishlist.js";
@@ -63,3 +65,4 @@ export { DashboardMyEvents } from "./views/MyAccount/DashboardMyEvents";
 export { ResellList } from "./views/MyAccount/ResellList.jsx";
 export { ResellCheckout } from "./views/ResellCheckout.jsx";
 export { ResellPaymentSuccess } from "./views/ResellPaymentSuccess.jsx";
+export { DashboardAdmin } from "./views/Admin/DashboardAdmin.jsx";

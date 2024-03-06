@@ -137,6 +137,15 @@ const NavBar = () => {
               >
                 Favoritos
               </DropdownItem> */}
+              ´
+              <DropdownItem
+                key="dashboardAdmin"
+                onClick={() => {
+                  navigation("/dashboard-administrador");
+                }}
+              >
+                Dashboard
+              </DropdownItem>
               <DropdownItem
                 key="logout"
                 color="danger"
