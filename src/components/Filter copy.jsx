@@ -4,11 +4,7 @@ import { Select, SelectItem, Slider, Chip } from "@nextui-org/react";
 import axios from "axios";
 import config from "../config.json";
 
-const Filter = ({
-  onSearchResultsUpdate,
-  onFilterSelect,
-  setIsFilterEmpty,
-}) => {
+const Filter = ({ onSearchResultsUpdate, onFilterSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedZone, setSelectedZone] = useState("");
   const [selectedPrice, setSelectedPrice] = useState([0, 200000]);
@@ -16,7 +12,7 @@ const Filter = ({
 
   // console.log(selectedZone);
 
-  const zones = ["CABA", "Zona Norte", "Zona Oeste", "Zona Sur"];
+  const zones = ["", "CABA", "Zona Norte", "Zona Oeste", "Zona Sur"];
 
   //TRAER CATEGORIAS PARA SELECT
   useEffect(() => {
@@ -28,9 +24,8 @@ const Filter = ({
   function resetFilter() {
     onSearchResultsUpdate([]);
     setSelectedCategory("");
-    setSelectedZone("");
+    setSelectedZone("CABA");
     setSelectedPrice([0, 200000]);
-    setIsFilterEmpty(false);
   }
 
   const handleFilterSubmit = () => {

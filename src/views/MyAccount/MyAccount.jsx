@@ -147,7 +147,7 @@ function MyAccount() {
         <div>
           {selectedView == "eventos" && <MyEvents user={user} />}
           {selectedView == "favoritos" && <Wishlist />}
-          {selectedView == "tickets" && <MyTickets />}
+          {selectedView == "tickets" && <MyTickets user={user} />}
         </div>
       </section>
     </main>

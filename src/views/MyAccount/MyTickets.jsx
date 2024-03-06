@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function MyTickets() {
+function MyTickets({ user }) {
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
@@ -143,7 +143,7 @@ function MyTickets() {
       [ticketId]: false,
     }));
   };
-
+  console.log("user", user);
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd-MM-yyyy");
@@ -178,7 +178,7 @@ function MyTickets() {
       eventId: selectedEvent.eventId,
       userId: selectedEvent.userId,
       ticketPrice: parseInt(data.price),
-      username: "Mili",
+      username: user.username,
     };
     // console.log(resellTicketData);
     try {

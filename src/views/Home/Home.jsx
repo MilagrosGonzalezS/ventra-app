@@ -26,6 +26,7 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedSearch, setSelectedSearch] = useState(null);
   const [isResultsEmpty, setIsResultsEmpty] = useState(false);
+  const [isFilterEmpty, setIsFilterEmpty] = useState(false); //NUEVO
 
   const navigation = useNavigate();
   const { auth } = useContext(AuthContext);
@@ -36,9 +37,11 @@ function Home() {
     getFilteredEvents(1, category, zone, price[0], price[1])
       .then((res) => {
         setSearchResults(res.data);
+        setIsFilterEmpty(res.data.length === 0);
       })
       .catch((error) => {
         console.log("filtered events" + error);
+        setIsFilterEmpty(true);
       });
     setSelectedSearch("");
   };
@@ -54,7 +57,7 @@ function Home() {
       });
     }
     getEvents(pageNumber).then((res) => {
-      setEvents(res.data);
+      setEvents(res.data["events"]);
     });
   }
   const chevron = document.querySelector('[aria-label="dots element"]');
@@ -145,6 +148,7 @@ function Home() {
           <Filter
             onSearchResultsUpdate={setSearchResults}
             onFilterSelect={onFilterSelect}
+            setIsFilterEmpty={setIsFilterEmpty}
           />
         </div>
         <div className="col-span-9">
@@ -154,7 +158,15 @@ function Home() {
               onSearchSelect={handleSearchSelect}
             />
           </div>
-          {/* {isResultsEmpty && <p className="my-6">No encontramos resultados</p>} */}
+          {isFilterEmpty && (
+            <div
+              class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+              role="alert"
+            >
+              <span class="font-medium">¡Sin resultados!</span> No se
+              encontraron resultados que coincidan con tu búsqueda.
+            </div>
+          )}
           {searchResults.length !== 0 && (
             <div className="flex items-center my-4 gap-4">
               <div className="w-16">

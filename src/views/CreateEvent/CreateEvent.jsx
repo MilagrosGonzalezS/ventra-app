@@ -593,7 +593,7 @@ function CreateEvent() {
                     <Radio
                       id="false"
                       name="status"
-                      value="true"
+                      value={true}
                       {...register("status", {
                         required: "Seleccioná una opción.",
                       })}
@@ -607,7 +607,7 @@ function CreateEvent() {
                     <Radio
                       id="true"
                       name="status"
-                      value="false"
+                      value={false}
                       {...register("status", {
                         required: "Seleccioná una opción.",
                       })}
