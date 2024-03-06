@@ -46,20 +46,20 @@ function Login() {
   };
 
   return (
-    <main className="flex items-center justify-center p-10 w-full">
-      <div className="border-1 rounded-xl bg-blur bg-opacity p-8">
+    <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
+      <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent font-medium text-3xl text-green">
             Iniciar Sesión
           </h1>
           <div className="flex gap-1">
             <p className="text-sm">¿Nuevo en Ventra?</p>
-            {/* <Link
+            <Link
               to="/registrarse"
               className="text-lightblue hover:text-blue-200 text-sm transition-all duration-300"
             >
               Registrate gratis.
-            </Link> */}
+            </Link>
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -111,7 +111,7 @@ function Login() {
               </Button>
 
               <Link to="/restaurar-contraseña" className="text-xs mt-2">
-                {/*  Olvidé mi contraseña */}
+                Olvidé mi contraseña
               </Link>
             </div>
           )}
