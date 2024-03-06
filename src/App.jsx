@@ -7,6 +7,7 @@ import {
   Register,
   CreateEvent,
   CreatorData,
+  DashboardAdmin,
   Help,
   MyAccount,
   EditProfile,
@@ -61,6 +62,7 @@ function App() {
             path="/mi-cuenta/panel-administrador"
             element={<DashboardMyEvents />}
           />
+          <Route path="/dashboard-administrador" element={<DashboardAdmin />} />
           <Route path="/reventa/:eventId" element={<ResellList />} />
           <Route path="/mi-cuenta/datos-creador" element={<CreatorData />} />
         </Route>

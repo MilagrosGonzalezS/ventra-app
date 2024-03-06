@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../../config.json";
-
+import Cookies from "js-cookie";
+const token = Cookies.get("token");
 //TRAER TODOS LOS EVENTOS
 async function getAllEvents() {
   const res = await axios.get(config.apiEvents);
@@ -22,4 +23,14 @@ async function getFilteredEvents(page, category, zone, minPrice, maxPrice) {
   return res;
 }
 
-export { getEvents, getFilteredEvents };
+async function getAllAdminEvents() {
+  const res = await axios.get(`${config.apiEvents}/events-admin`, {
+    headers: {
+      "Content-Type": "application/json",
+      auth: token,
+    },
+  });
+  return res;
+}
+
+export { getEvents, getFilteredEvents, getAllAdminEvents };
