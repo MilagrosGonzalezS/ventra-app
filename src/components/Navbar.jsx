@@ -24,7 +24,7 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigation = useNavigate();
   const [tokenExists, setTokenExists] = useState(false);
-  const { auth, logout } = useContext(AuthContext);
+  const { auth, logout, user } = useContext(AuthContext);
   const token = auth;
 
   useEffect(() => {
@@ -138,14 +138,16 @@ const NavBar = () => {
                 Favoritos
               </DropdownItem> */}
               ´
-              <DropdownItem
-                key="dashboardAdmin"
-                onClick={() => {
-                  navigation("/dashboard-administrador");
-                }}
-              >
-                Dashboard
-              </DropdownItem>
+              {user.role == 3 && (
+                <DropdownItem
+                  key="dashboardAdmin"
+                  onClick={() => {
+                    navigation("/dashboard-administrador");
+                  }}
+                >
+                  Dashboard
+                </DropdownItem>
+              )}
               <DropdownItem
                 key="logout"
                 color="danger"
