@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
-import { getMyTickets } from "../../index.js";
+import {
+  getMyTickets,
+  createResellTicket,
+  updatePublishedTicket,
+} from "../../index.js";
 import QRCode from "react-qr-code";
 import qrCode from "qrcode";
 import logoVentra from "../../assets/imgs/logo-blanco.png";
@@ -36,6 +40,7 @@ import {
   Radio,
   RadioGroup,
 } from "@nextui-org/react";
+import { useForm } from "react-hook-form";
 
 const styles = StyleSheet.create({
   page: {
@@ -100,6 +105,13 @@ function MyTickets() {
   const [isLoading, setIsLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [isOpen, setIsOpen] = useState({});
+  const [selectedTicket, setSelectedTicket] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     setIsLoading(true);
@@ -116,7 +128,9 @@ function MyTickets() {
         setIsLoading(false);
       });
   }, []);
+
   const onOpenModal = (ticketId) => {
+    setSelectedTicket(ticketId);
     setIsOpen((prev) => ({
       ...prev,
       [ticketId]: true,
@@ -142,6 +156,40 @@ function MyTickets() {
     } catch (error) {
       console.error("Error al generar el código QR:", error);
       return null;
+    }
+  };
+
+  // const handlePublishTicket = async (id) => {
+  //   const event = tickets.find((ticket) => id == ticket._id);
+  //   console.log(event);
+  //   const resellTicketData = "hola";
+  //   try {
+  //     await createResellTicket(resellTicketData);
+  //   } catch {}
+  // };
+
+  const onSubmit = async (data, event) => {
+    event.preventDefault();
+    const selectedEvent = tickets.find(
+      (ticket) => selectedTicket == ticket._id
+    );
+    const resellTicketData = {
+      ticketId: selectedTicket,
+      eventId: selectedEvent.eventId,
+      userId: selectedEvent.userId,
+      ticketPrice: parseInt(data.price),
+      username: "Mili",
+    };
+    // console.log(resellTicketData);
+    try {
+      await createResellTicket(resellTicketData).then((res) => {
+        updatePublishedTicket(selectedTicket).then(
+          window.location.reload(true),
+          console.log("ticket actualizado")
+        );
+      });
+    } catch (error) {
+      console.log(error + "error al publicar");
     }
   };
 
@@ -274,17 +322,21 @@ function MyTickets() {
                             >
                               <ModalContent>
                                 {(onClose) => (
-                                  <>
+                                  <form onSubmit={handleSubmit(onSubmit)}>
                                     <ModalHeader className="flex flex-col gap-1">
                                       Elegí el precio con el que publicás tu
                                       entrada
                                     </ModalHeader>
                                     <ModalBody>
-                                      <RadioGroup label="">
+                                      <RadioGroup
+                                        // onChange={handlePriceChange(e)}
+                                        {...register("price")}
+                                      >
                                         <Radio
                                           value={ticket.eventPrice}
                                           description="Perdés el costo
                                         de servicio"
+                                          {...register("price")}
                                         >
                                           ${ticket.eventPrice}
                                         </Radio>
@@ -294,6 +346,7 @@ function MyTickets() {
                                             ticket.eventPrice
                                           }
                                           description="Recibís lo mismo que pagaste"
+                                          {...register("price")}
                                         >
                                           $
                                           {(ticket.eventPrice * 10) / 100 +
@@ -305,11 +358,15 @@ function MyTickets() {
                                       <Button color="default" onPress={onClose}>
                                         Cerrar
                                       </Button>
-                                      <Button color="primary" onPress={onClose}>
+                                      <Button
+                                        color="primary"
+                                        type="submit"
+                                        onPress={onClose}
+                                      >
                                         Publicar
                                       </Button>
                                     </ModalFooter>
-                                  </>
+                                  </form>
                                 )}
                               </ModalContent>
                             </Modal>

@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import {
   Home,
   GeneralLogin,
+  Login,
+  Register,
   CreateEvent,
   CreatorData,
   Help,
@@ -26,7 +28,7 @@ import {
 function App() {
   return (
     <>
-      {/* <NavBar></NavBar> */}
+      <NavBar></NavBar>
       <Routes>
         {/* vistas protegidas */}
         <Route element={<ProtectedRoute />}>
@@ -65,8 +67,8 @@ function App() {
         </Route>
         {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/registrarse" element={<Register />} /> */}
-        <Route path="/iniciar-sesion" element={<GeneralLogin />} />
+        <Route path="/registrarse" element={<Register />} />
+        <Route path="/iniciar-sesion" element={<Login />} />
         <Route path="/crear-evento" element={<CreateEvent />} />
         <Route path="/detalle/:eventId" element={<EventDetails />} />
         <Route path="/ayuda" element={<Help />} />
