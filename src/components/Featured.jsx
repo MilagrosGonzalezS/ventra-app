@@ -9,35 +9,35 @@ function Featured() {
   return (
     <section className="md:px-20 px-10 mb-12 -translate-y-16">
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-7 text-white rounded-3xl h-52">
+        <div className="col-span-7 text-white rounded-3xl h-52  cursor-pointer hover:translate-y-[-4px] hover:shadow-md transition-transform duration-400">
           <img
             src={event1}
             alt="featured event"
             className="w-full h-full object-cover rounded-3xl"
           />
         </div>
-        <div className="col-span-5 text-white h-52">
+        <div className="col-span-5 text-white h-52 cursor-pointer hover:translate-y-[-4px] hover:shadow-md transition-transform duration-400">
           <img
             src={event2}
             alt="featured event"
             className="w-full h-full object-cover rounded-3xl"
           />
         </div>
-        <div className="col-span-4  text-white rounded-3xl h-52">
+        <div className="col-span-4  text-white rounded-3xl h-52 cursor-pointer hover:translate-y-[-4px] hover:shadow-md transition-transform duration-400">
           <img
             src={event3}
             alt="featured event"
             className="w-full h-full object-cover rounded-3xl"
           />
         </div>
-        <div className="col-span-4 text-white rounded-3xl h-52">
+        <div className="col-span-4 text-white rounded-3xl h-52 cursor-pointer hover:translate-y-[-4px] hover:shadow-md transition-transform duration-400">
           <img
             src={event4}
             alt="featured event"
             className="w-full h-full object-cover rounded-3xl"
           />
         </div>
-        <div className="col-span-4  text-white rounded-3xl h-52">
+        <div className="col-span-4  text-white rounded-3xl h-52 cursor-pointer hover:translate-y-[-4px] hover:shadow-md transition-transform duration-400">
           <img
             src={event5}
             alt="featured event"

@@ -1,6 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as fasFaHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faCalendarDays,
+  faHeart as fasFaHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farFaHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeartBroken } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -72,9 +76,14 @@ function EventCard(props) {
     return format(new Date(date), "dd-MM-yyyy");
   };
 
+  const formatPrice = (price) => {
+    if (!price) return "";
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
   return (
     <>
-      <Card
+      {/* <Card
         isFooterBlurred
         className="w-[273px] h-[350px] col-span-12 sm:col-span-3 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
       >
@@ -134,6 +143,87 @@ function EventCard(props) {
             variant="faded"
           >
             Ver más
+          </Button>
+        </CardFooter>
+      </Card> */}
+      <Card
+        isFooterBlurred
+        className="w-[273px] h-[350px] col-span-12 sm:col-span-3 transition-transform duration-400 hover:shadow-md hover:transform hover:-translate-y-1"
+      >
+        <div className="absolute z-10 top-0 flex items-center justify-between w-full">
+          <div className="flex items-center">
+            <div className="bg-[#141414] py-2 px-3 mt-0 absolute top-0 rounded-br-lg flex items-center">
+              <FontAwesomeIcon
+                style={{ color: "#fcfcfc", fontSize: "15px" }}
+                icon={faCalendarDays}
+              />
+              <p className="text-xs text-white ml-3">
+                {formatDate(props.date)}
+              </p>
+            </div>
+          </div>
+          <div className="m-2 mt-1 absolute top-1 right-0">
+            {token ? (
+              isFavorite ? (
+                <Button
+                  isIconOnly
+                  color="danger"
+                  aria-label="Like"
+                  onClick={handleDeleteFromWishlist}
+                >
+                  <FontAwesomeIcon
+                    className="cursor-pointer"
+                    icon={fasFaHeart}
+                    style={{ color: "#fcfcfc", fontSize: "20px" }}
+                  />
+                </Button>
+              ) : (
+                <Button
+                  isIconOnly
+                  color="danger"
+                  aria-label="Like"
+                  onClick={handleAddToWishlist}
+                >
+                  <FontAwesomeIcon
+                    className="cursor-pointer"
+                    icon={farFaHeart}
+                    style={{ color: "#FCFCFC", fontSize: "20px" }}
+                  />
+                </Button>
+              )
+            ) : null}
+          </div>
+        </div>
+
+        <Image
+          removeWrapper
+          alt={props.name}
+          className="z-0 w-full h-full object-cover"
+          src={`http://localhost/ventra-API/${props.cover}`}
+        />
+        <CardFooter className="absolute h-[100px] bg-[#141414] bottom-0 z-10">
+          <div className="flex flex-grow gap-2 items-center">
+            <div className="flex flex-col">
+              <h4 className="text-white/90 font-normal text-xl truncate">
+                {props.name}
+              </h4>
+              <p className="font-light text-[#B3B3B3] text-xl">
+                ${formatPrice(props.price)}
+              </p>
+            </div>
+          </div>
+
+          <Button
+            color="default"
+            onPress={() => {
+              navigation(`/detalle/${props.id}`);
+            }}
+            variant="flat"
+          >
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              style={{ transform: "rotate(-45deg)", fontSize: "20px" }}
+            />
           </Button>
         </CardFooter>
       </Card>
