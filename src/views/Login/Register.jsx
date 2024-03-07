@@ -26,7 +26,8 @@ function Register() {
       const res = await createUser(data);
       if (res.error) {
         console.log(res.error);
-        toast.error(res.error.response.data.error);
+        // toast.error(res.error.response.data.error);
+        toast.error(res.error);
         setIsLoading(false);
       } else {
         const email = res.email;

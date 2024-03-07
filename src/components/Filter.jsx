@@ -69,7 +69,8 @@ const Filter = ({
             label="Zona"
             className="max-w-xs"
             onChange={setSelectedZone}
-            // defaultSelectedKeys={["CABA"]}
+            // value={selectedZone}
+            // defaultSelectedKeys={[selectedZone]}
           >
             {zones.map((zone) => (
               <SelectItem key={zone} value={zone}>
@@ -85,7 +86,8 @@ const Filter = ({
             step={20000}
             maxValue={200000}
             minValue={0}
-            defaultValue={[0, 200000]}
+            defaultValue={selectedPrice}
+            value={selectedPrice}
             showSteps={true}
             showTooltip={true}
             showOutline={true}
