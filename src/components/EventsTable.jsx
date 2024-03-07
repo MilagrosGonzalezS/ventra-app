@@ -328,6 +328,7 @@ function EventsTable() {
     });
     getMyEvents(user.id)
       .then((eventsData) => {
+        console.log(eventsData.data);
         setEvents(eventsData.data);
       })
       .catch((error) => {
@@ -343,11 +344,11 @@ function EventsTable() {
           <p>Eventos</p>
         </div>
         <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">3</p>
+          <p className="text-5xl mb-4">{events.length}</p>
           <p>Publicados</p>
         </div>
         <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">1</p>
+          <p className="text-5xl mb-4">0</p>
           <p>No Publicados</p>
         </div>
         <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
