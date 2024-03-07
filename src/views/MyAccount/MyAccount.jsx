@@ -30,29 +30,34 @@ function MyAccount() {
     const data = userData();
     data.then((data) => {
       setUser(data);
+      // Una vez que los datos del usuario estén disponibles, obtén los tickets, la lista de deseos y los eventos
+      getMyTickets()
+        .then((ticketsData) => {
+          setTickets(ticketsData.data.length);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      getMyWishlist()
+        .then((wishlistData) => {
+          setWishlist(wishlistData.data.length);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      // Obtener los eventos después de que se hayan establecido los datos del usuario
+      getMyEvents(data.id)
+        .then((eventsData) => {
+          setEvents(eventsData.data.length);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       setIsLoading(false);
     });
-    getMyTickets()
-      .then((ticketsData) => {
-        setTickets(ticketsData.data.length);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    getMyWishlist()
-      .then((wishlistData) => {
-        setWishlist(wishlistData.data.length);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    getMyEvents(user.id)
-      .then((eventsData) => {
-        setEvents(eventsData.data.length);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }, []);
 
   const handleView = (view) => {
