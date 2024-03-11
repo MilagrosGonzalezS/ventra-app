@@ -4,8 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import {
   Home,
   GeneralLogin,
-  Login,
-  Register,
+  // Login,
+  // Register,
   CreateEvent,
   CreatorData,
   DashboardAdmin,
@@ -69,8 +69,8 @@ function App() {
         </Route>
         {/* vistas no protegidas */}
         <Route path="/" element={<Home />} />
-        <Route path="/registrarse" element={<Register />} />
-        <Route path="/iniciar-sesion" element={<Login />} />
+        {/* <Route path="/registrarse" element={<Register />} /> */}
+        <Route path="/iniciar-sesion" element={<GeneralLogin />} />
         <Route path="/crear-evento" element={<CreateEvent />} />
         <Route path="/detalle/:eventId" element={<EventDetails />} />
         <Route path="/ayuda" element={<Help />} />
