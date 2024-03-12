@@ -29,6 +29,9 @@ export { deleteFromResell } from "./services/resell/deleteFromResell.js";
 export { deleteTicket } from "./services/resell/deleteTicket.js";
 export { createResellTicket } from "./services/resell/createResellTicket.js";
 export { updatePublishedTicket } from "./services/tickets/updatePublishedTicket.js";
+export { findByEmail } from "./services/users/findByEmail.js";
+export { transferTicket } from "./services/tickets/transferTicket.js";
+
 //Components ->
 export { Featured } from "./components/Featured.jsx";
 export { EventCard } from "./components/EventCard.jsx";
