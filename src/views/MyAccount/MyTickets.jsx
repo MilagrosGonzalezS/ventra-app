@@ -7,6 +7,7 @@ import {
   findByEmail,
   transferTicket,
   getAllEvents,
+  deleteFromResell,
 } from "../../index.js";
 import QRCode from "react-qr-code";
 import qrCode from "qrcode";
@@ -112,8 +113,10 @@ function MyTickets({ user }) {
   const [tickets, setTickets] = useState([]);
   const [isOpen, setIsOpen] = useState({});
   const [isOpen2, setIsOpen2] = useState({});
+  const [isOpen3, setIsOpen3] = useState({});
   const [selectedTicket, setSelectedTicket] = useState("");
   const [events, setEvents] = useState([]);
+  const [dynamicButton, setDynamicButton] = useState("Publicado en reventa");
 
   const {
     register,
@@ -136,7 +139,6 @@ function MyTickets({ user }) {
         setIsLoading(false);
       });
     getAllEvents().then((allEvents) => {
-      console.log(allEvents.data.events);
       setEvents(allEvents.data.events);
     });
   }, []);
@@ -157,6 +159,13 @@ function MyTickets({ user }) {
     }));
   };
 
+  const onOpenModal3 = (ticketId) => {
+    setIsOpen3((prev) => ({
+      ...prev,
+      [ticketId]: true,
+    }));
+  };
+
   const onCloseModal = (ticketId) => {
     setIsOpen((prev) => ({
       ...prev,
@@ -166,6 +175,13 @@ function MyTickets({ user }) {
 
   const onCloseModal2 = (ticketId) => {
     setIsOpen2((prev) => ({
+      ...prev,
+      [ticketId]: false,
+    }));
+  };
+
+  const onCloseModal3 = (ticketId) => {
+    setIsOpen3((prev) => ({
       ...prev,
       [ticketId]: false,
     }));
@@ -201,7 +217,7 @@ function MyTickets({ user }) {
     };
     try {
       await createResellTicket(resellTicketData).then(() => {
-        updatePublishedTicket(selectedTicket).then(
+        updatePublishedTicket(selectedTicket, "published").then(
           window.location.reload(true),
           console.log("ticket actualizado")
         );
@@ -216,7 +232,6 @@ function MyTickets({ user }) {
     event.preventDefault();
     let ticketId = data.ticketId;
     let email = data.email;
-    console.log(email);
     try {
       await findByEmail(email).then((res) => {
         if (res) {
@@ -236,6 +251,25 @@ function MyTickets({ user }) {
     } catch (error) {
       console.log(error + "El usuario no está registrado");
       toast.error("El usuario no está registrado");
+    }
+  };
+
+  const handleRemoveFromResell = async (ticketId) => {
+    console.log("remove ticket: " + ticketId);
+    try {
+      await deleteFromResell(ticketId)
+        .then((res) => {
+          console.log(res + "Se quitó el ticket de la lista de reventa");
+          updatePublishedTicket(ticketId, "available").then(
+            window.location.reload(true),
+            console.log("ticket actualizado")
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (err) {
+      console.log(err + "no se quitó el ticket de reventa");
     }
   };
 
@@ -348,9 +382,60 @@ function MyTickets({ user }) {
                             {ticket.eventName}
                           </h3>
                           {ticket.state == "published" ? (
-                            <p className="bg-lightblue border py-2 px-4 text-xs rounded-2xl text-dark font-medium">
-                              Publicado en reventa
-                            </p>
+                            <>
+                              <Button
+                                className="bg-lightblue border py-2 px-4 text-xs rounded-2xl text-dark font-medium hover:text-light hover:bg-dark"
+                                onMouseEnter={() =>
+                                  setDynamicButton("Quitar de reventa")
+                                }
+                                onMouseLeave={() =>
+                                  setDynamicButton("Publicado en reventa")
+                                }
+                                onPress={() => onOpenModal3(ticket._id)}
+                              >
+                                {dynamicButton}
+                              </Button>
+                              <Modal
+                                size="xl"
+                                backdrop="opaque"
+                                isOpen={isOpen3[ticket._id]}
+                                isDismissable={true}
+                                onOpenChange={() => onCloseModal3(ticket._id)}
+                                classNames={{
+                                  backdrop:
+                                    "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+                                }}
+                              >
+                                <ModalContent>
+                                  {(onClose3) => (
+                                    <>
+                                      <ModalHeader className="flex flex-col gap-1">
+                                        ¿Estás seguro de que querés quitar tu
+                                        entrada de reventa?
+                                      </ModalHeader>
+                                      <ModalFooter>
+                                        <Button
+                                          color="default"
+                                          onPress={onClose3}
+                                        >
+                                          No, volver
+                                        </Button>
+                                        <Button
+                                          color="primary"
+                                          type="submit"
+                                          onPress={onClose3}
+                                          onClick={() =>
+                                            handleRemoveFromResell(ticket._id)
+                                          }
+                                        >
+                                          Si, quitar de reventa
+                                        </Button>
+                                      </ModalFooter>
+                                    </>
+                                  )}
+                                </ModalContent>
+                              </Modal>
+                            </>
                           ) : (
                             <>
                               <Dropdown placement="bottom-end">
@@ -388,12 +473,6 @@ function MyTickets({ user }) {
                                   </DropdownItem>
                                 </DropdownMenu>
                               </Dropdown>
-                              {/* <Button
-                              className="bg-opacity2 border py-2 px-4 text-xs rounded-3xl"
-                              onPress={() => onOpenModal(ticket._id)}
-                            >
-                              Publicar en reventa
-                            </Button> */}
                               <Modal
                                 size="xl"
                                 backdrop="opaque"
