@@ -108,7 +108,7 @@ const NavBar = () => {
               <DropdownItem
                 key="mi_perfil"
                 onClick={() => {
-                  navigation("/mi-cuenta");
+                  navigation("/mi-cuenta/tickets");
                 }}
               >
                 Mi perfil

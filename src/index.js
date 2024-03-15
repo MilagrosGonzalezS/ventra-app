@@ -3,6 +3,7 @@ export { getEvents } from "./services/events/getEvents";
 export { getAllEvents } from "./services/events/getEvents";
 export { getAllAdminEvents } from "./services/events/getEvents";
 export { getFilteredEvents } from "./services/events/getEvents.js";
+export { getFeaturedEvents } from "./services/events/getEvents.js";
 export { getEventById } from "./services/events/getEventById.js";
 export { createEvent } from "./services/userEvents/createEvent.js";
 export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";

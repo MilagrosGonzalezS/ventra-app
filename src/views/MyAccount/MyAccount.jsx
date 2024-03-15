@@ -9,7 +9,7 @@ import {
   getMyEvents,
 } from "../../index.js";
 // import { PuffLoader } from "react-spinners";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@nextui-org/react";
 import profilepic from "../../assets/imgs/profilepic.png";
 import { AuthContext } from "../../context/AuthContext.jsx";
@@ -24,6 +24,7 @@ function MyAccount() {
   const [events, setEvents] = useState(0);
 
   const { logout } = useContext(AuthContext);
+  const { view } = useParams();
 
   useEffect(() => {
     setIsLoading(true);
@@ -55,7 +56,9 @@ function MyAccount() {
         .catch((error) => {
           console.error(error);
         });
-
+      if (view) {
+        setSelectedView(view);
+      }
       setIsLoading(false);
     });
   }, []);
@@ -63,9 +66,7 @@ function MyAccount() {
   const handleView = (view) => {
     if (view == "eventos") {
       setSelectedView(view);
-    } /* else if (view == "privados") {
-      setSelectedView(view);
-    }  */ else if (view == "favoritos") {
+    } else if (view == "favoritos") {
       setSelectedView(view);
     } else if (view == "tickets") {
       setSelectedView(view);
@@ -101,13 +102,11 @@ function MyAccount() {
         <div className="my-4 flex justify-between w-full">
           <ul>
             <li className="mt-2 text-sm">Eventos creados</li>
-            {/* <li className="mt-2 text-sm">Eventos privados</li> */}
             <li className="mt-2 text-sm">Eventos favoritos</li>
             <li className="mt-2 text-sm">Tickets comprados</li>
           </ul>
           <ul>
             <li className="mt-2 text-sm">{events}</li>
-            {/* <li className="mt-2 text-sm">0</li> */}
             <li className="mt-2 text-sm">{wishlist}</li>
             <li className="mt-2 text-sm">{tickets}</li>
           </ul>
@@ -136,12 +135,6 @@ function MyAccount() {
           >
             Mis eventos
           </button>
-          {/*          <button
-            onClick={() => handleView("privados")}
-            className="bg-dark rounded-2xl py-2 px-6 text-sm text-light hover:border"
-          >
-            Eventos privados
-          </button> */}
           <Link
             to="/crear-evento"
             className="bg-green rounded-2xl py-2 px-6 text-sm text-dark ml-8 font-medium"

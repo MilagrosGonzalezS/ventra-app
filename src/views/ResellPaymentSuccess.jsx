@@ -86,7 +86,7 @@ function ResellPaymentSuccess() {
           </p>
           <Link
             className="bg-green py-4 px-8 text-dark rounded-xl font-medium"
-            to="/mi-cuenta"
+            to="/mi-cuenta/tickets"
           >
             Ver mis Tickets
           </Link>

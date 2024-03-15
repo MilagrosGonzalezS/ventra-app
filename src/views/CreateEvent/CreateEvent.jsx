@@ -124,7 +124,7 @@ function CreateEvent() {
         if (!user.completeData) {
           onOpenModalCreated();
         } else {
-          navigate("/mi-cuenta");
+          navigate("/mi-cuenta/eventos");
         }
       }, 1500);
     } catch (error) {
@@ -716,7 +716,7 @@ function CreateEvent() {
               <p>Una vez aprobado podrás elegir cuando se publica.</p>
             </ModalBody>
             <ModalFooter>
-              <Link to="/mi-cuenta">
+              <Link to="/mi-cuenta/eventos">
                 <Button color="default" onPress={onOpenChangeModalCreated}>
                   Completar datos luego
                 </Button>

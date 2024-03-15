@@ -33,7 +33,7 @@ function App() {
       <Routes>
         {/* vistas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/mi-cuenta" element={<MyAccount />} />
+          <Route path="/mi-cuenta/:view" element={<MyAccount />} />
           <Route
             path="/mi-cuenta/:userId/editar-datos"
             element={<EditProfile />}
