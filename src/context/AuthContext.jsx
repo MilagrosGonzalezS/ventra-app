@@ -19,7 +19,7 @@ const AuthContextProvider = ({ children }) => {
         id: decoded.user._id,
         role: decoded.user.role,
       });
-      console.log(decoded.user);
+      // console.log(decoded.user);
     }
   }, [auth]);
 

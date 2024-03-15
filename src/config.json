@@ -7,5 +7,6 @@
   "apiCategories": "http://localhost:3000/categories",
   "apiMP": "http://localhost:3000/mercadopago",
   "apiMPResell": "http://localhost:3000/mercadopago/resell",
-  "apiResell": "http://localhost:3000/resell"
+  "apiResell": "http://localhost:3000/resell",
+  "apiTodoList": "http://localhost:3000/todoList"
 }

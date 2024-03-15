@@ -1,405 +1,258 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { PuffLoader } from "react-spinners";
+import { getMyEvents, getMySoldTickets, editMyEvent } from "../index.js";
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Input,
-  Button,
-  DropdownTrigger,
   Dropdown,
+  DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Chip,
-  User,
-  Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "./PlusIcon";
-import { VerticalDotsIcon } from "./VerticalDotsIcon";
-import { SearchIcon } from "./SearchIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import { columns, users, statusOptions } from "../data";
-import { capitalize } from "../utils";
-import { getMyEvents, userData } from "../index";
-
-const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+import Cookies from "js-cookie";
+import toast, { Toaster } from "react-hot-toast";
+import colors from "../assets/imgs/recurso-colores.png";
+import { format } from "date-fns";
 
 function EventsTable() {
-  const [filterValue, setFilterValue] = React.useState("");
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(
-    new Set(INITIAL_VISIBLE_COLUMNS)
-  );
-  const [statusFilter, setStatusFilter] = React.useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
-    direction: "ascending",
-  });
-  const [page, setPage] = React.useState(1);
-
-  const pages = Math.ceil(users.length / rowsPerPage);
-
-  const hasSearchFilter = Boolean(filterValue);
-
-  const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columns;
-
-    return columns.filter((column) =>
-      Array.from(visibleColumns).includes(column.uid)
-    );
-  }, [visibleColumns]);
-
-  const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
-
-    if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
-      );
-    }
-    if (
-      statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
-    ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
-      );
-    }
-
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
-
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
-
-  const sortedItems = React.useMemo(() => {
-    return [...items].sort((a, b) => {
-      const first = a[sortDescriptor.column];
-      const second = b[sortDescriptor.column];
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [sortDescriptor, items]);
-
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
-
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "full", size: "sm", src: user.avatar }}
-            classNames={{
-              description: "text-default-500",
-            }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-500">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize border-none gap-1 text-default-600"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="dot"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown className="bg-background border-1 border-default-200">
-              <DropdownTrigger>
-                <Button isIconOnly radius="full" size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-400" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
-
-  const onRowsPerPageChange = React.useCallback((e) => {
-    setRowsPerPage(Number(e.target.value));
-    setPage(1);
-  }, []);
-
-  const onSearchChange = React.useCallback((value) => {
-    if (value) {
-      setFilterValue(value);
-      setPage(1);
-    } else {
-      setFilterValue("");
-    }
-  }, []);
-
-  const topContent = React.useMemo(() => {
-    return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            classNames={{
-              base: "w-full sm:max-w-[44%]",
-              inputWrapper: "border-1",
-            }}
-            placeholder="Search by name..."
-            size="sm"
-            startContent={<SearchIcon className="text-default-300" />}
-            value={filterValue}
-            variant="bordered"
-            onClear={() => setFilterValue("")}
-            onValueChange={onSearchChange}
-          />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button
-              className="bg-foreground text-background"
-              endContent={<PlusIcon />}
-              size="sm"
-            >
-              Add New
-            </Button>
-          </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">
-            Total {users.length} users
-          </span>
-          <label className="flex items-center text-default-400 text-small">
-            Rows per page:
-            <select
-              className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    );
-  }, [
-    filterValue,
-    statusFilter,
-    visibleColumns,
-    onSearchChange,
-    onRowsPerPageChange,
-    users.length,
-    hasSearchFilter,
-  ]);
-
-  const bottomContent = React.useMemo(() => {
-    return (
-      <div className="py-2 px-2 flex justify-between items-center">
-        <Pagination
-          showControls
-          classNames={{
-            cursor: "bg-foreground text-background",
-          }}
-          color="default"
-          isDisabled={hasSearchFilter}
-          page={page}
-          total={pages}
-          variant="light"
-          onChange={setPage}
-        />
-        <span className="text-small text-default-400">
-          {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${items.length} selected`}
-        </span>
-      </div>
-    );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
-
-  const classNames = React.useMemo(
-    () => ({
-      wrapper: ["max-h-[382px]", "max-w-3xl"],
-      th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
-      td: [
-        // changing the rows border radius
-        // first
-        "group-data-[first=true]:first:before:rounded-none",
-        "group-data-[first=true]:last:before:rounded-none",
-        // middle
-        "group-data-[middle=true]:before:rounded-none",
-        // last
-        "group-data-[last=true]:first:before:rounded-none",
-        "group-data-[last=true]:last:before:rounded-none",
-      ],
-    }),
-    []
-  );
-
   const [events, setEvents] = useState([]);
-  const [user, setUser] = useState({});
+  const [status, setStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigate();
+
+  // Función para formatear la fecha en dd-mm-yyyy
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd-MM-yyyy");
+  };
+
+  const changeStatus = (eventId, status) => {
+    const newStatus = !status; // Cambiar el estado actual a su valor opuesto
+    editMyEvent({ status: newStatus }, eventId)
+      .then(() => {
+        setStatus(newStatus);
+        toast.success(
+          `La evento ha cambiado a ${newStatus ? "Publicado" : "No Publicado"}`
+        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      })
+      .catch((error) => {
+        console.error("Error al cambiar el estado:", error);
+        // Manejar el error adecuadamente, mostrar un mensaje al usuario, etc.
+      });
+  };
+
+  const currentDate = new Date(); // Obtener la fecha actual
+
+  const publishedEvents = events.filter((event) => event.status === true);
+  const unpublishedEvents = events.filter((event) => event.status === false);
+  const finishedEvents = events.filter(
+    (event) => new Date(event.endDate) < currentDate
+  );
 
   useEffect(() => {
-    const data = userData();
-    data.then((data) => {
-      setUser(data);
-    });
-    getMyEvents(user.id)
-      .then((eventsData) => {
-        setEvents(eventsData.data);
+    const userId = Cookies.get("userId");
+    getMyEvents(userId)
+      .then(async (eventsData) => {
+        const eventsWithTickets = await Promise.all(
+          eventsData.data.map(async (event) => {
+            const soldTickets = await getMySoldTickets(event._id);
+            return { ...event, soldTickets };
+          })
+        );
+        setEvents(eventsWithTickets);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setIsLoading(false);
       });
   }, []);
 
   return (
-    <section className="w-full">
-      <div className="w-full mt-36 grid grid-cols-12 gap-10">
-        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">{events.length}</p>
-          <p>Eventos</p>
-        </div>
-        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">3</p>
-          <p>Publicados</p>
-        </div>
-        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">1</p>
-          <p>No Publicados</p>
-        </div>
-        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
-          <p className="text-5xl mb-4">0</p>
-          <p>Finalizados</p>
-        </div>
-      </div>
-      <Table
-        className="bg-dark rounded-3xl my-4 p-4"
-        isCompact
-        removeWrapper
-        aria-label="Example table with custom cells, pagination and sorting"
-        bottomContent={bottomContent}
-        bottomContentPlacement="outside"
-        checkboxesProps={{
-          classNames: {
-            wrapper:
-              "after:bg-foreground after:text-background text-background",
-          },
-        }}
-        classNames={classNames}
-        selectedKeys={selectedKeys}
-        selectionMode="multiple"
-        sortDescriptor={sortDescriptor}
-        topContent={topContent}
-        topContentPlacement="outside"
-        onSelectionChange={setSelectedKeys}
-        onSortChange={setSortDescriptor}
-      >
-        <TableHeader columns={headerColumns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
-              allowsSorting={column.sortable}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody emptyContent={"No users found"} items={sortedItems}>
-          {(item) => (
-            <TableRow key={item.id}>
-              {(columnKey) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </section>
+    <>
+      <section className="flex flex-col items-start mt-8">
+        {isLoading ? (
+          <PuffLoader color="#04b290" />
+        ) : (
+          <div className="container mx-auto px-4 sm:px-8">
+            <div className="w-full mt-28 grid grid-cols-12 gap-10">
+              <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+                <p className="text-5xl mb-4">{events.length}</p>
+                <p>Eventos</p>
+              </div>
+              <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+                <p className="text-5xl mb-4">{publishedEvents.length}</p>
+                <p>Publicados</p>
+              </div>
+              <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+                <p className="text-5xl mb-4">{unpublishedEvents.length}</p>
+                <p>No Publicados</p>
+              </div>
+              <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+                <p className="text-5xl mb-4">{finishedEvents.length}</p>
+                <p>Finalizados</p>
+              </div>
+            </div>
+            <div className="pb-8">
+              <div>
+                <h2 className="text-2xl font-semibold leading-tight">
+                  Eventos
+                </h2>
+              </div>
+
+              <div className="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+                  <table className="min-w-full leading-normal">
+                    <thead>
+                      <tr>
+                        <th className="px-5 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Evento
+                        </th>
+                        <th className="px-10 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Fecha
+                        </th>
+                        <th className="px-5 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Lugar
+                        </th>
+                        <th className="px-5 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Entradas Vendidas <br /> /Restantes
+                        </th>
+                        <th className="px-5 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Publicación
+                        </th>
+                        <th className="px-5 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-5 py-3 border-b-2 border-graylighter bg-dark text-left text-xs font-semibold text-light uppercase tracking-wider">
+                          Acción
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {events.map((event) => (
+                        <tr key={event._id}>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker text-sm">
+                            <div className="flex">
+                              <div className="flex-shrink-0 w-10 h-10">
+                                <img
+                                  className="w-full h-full rounded-full"
+                                  src={`http://localhost/ventra-API/${event.cover}`}
+                                  alt={event.name}
+                                />
+                              </div>
+                              <div className="ml-3">
+                                <p className="text-light whitespace-no-wrap">
+                                  {event.name}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-xs">
+                            <p className="text-light whitespace-no-wrap">
+                              {formatDate(event.date)} <br /> {event.time}
+                            </p>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-sm">
+                            <p className="text-light whitespace-no-wrap">
+                              {event.venue}
+                            </p>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-sm">
+                            <p className="text-light whitespace-normal truncate">
+                              {event.soldTickets}/{event.ticketCount}
+                            </p>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-sm">
+                            <div className="relative">
+                              {event.status === true ? (
+                                <p className="  pl-1 pr-4  py-1 rounded-md bg-gray-500 text-xs">
+                                  Publicado
+                                  <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-green rounded-full"></span>
+                                </p>
+                              ) : (
+                                <p className="  pl-1 pr-4  py-1 rounded-md bg-gray-500 text-xs">
+                                  No Publicado
+                                  <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-red-700 rounded-full"></span>
+                                </p>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-sm">
+                            <div className="relative">
+                              {event.approve === "pending" ? (
+                                <p className="  pl-1 pr-4  py-1 rounded-md bg-gray-500 text-xs">
+                                  Evento pendiente
+                                  <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-yellow-500 rounded-full"></span>
+                                </p>
+                              ) : event.approve === "approve" ? (
+                                <p className="   pl-1 pr-4  py-1 rounded-md bg-gray-500 text-xs">
+                                  Evento aprobado
+                                  <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-green rounded-full"></span>
+                                </p>
+                              ) : (
+                                <p className="  pl-1 pr-4  py-1 rounded-md bg-gray-500 text-xs">
+                                  Evento no aprobado
+                                  <span className="absolute  right-1 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-red-700 rounded-full"></span>
+                                </p>
+                              )}
+                            </div>
+                          </td>
+
+                          <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-sm text-right">
+                            <Dropdown placement="bottom-end">
+                              <DropdownTrigger className="bg-graylighter p-1 rounded-md">
+                                <button
+                                  type="button"
+                                  className="inline-block text-light hover:text-gray-700"
+                                >
+                                  <svg
+                                    className="inline-block h-6 w-6 fill-light border-gray-200"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm-2 6a2 2 0 104 0 2 2 0 00-4 0z" />
+                                  </svg>
+                                </button>
+                              </DropdownTrigger>
+                              <DropdownMenu
+                                aria-label="Profile Actions"
+                                variant="flat"
+                              >
+                                <DropdownItem
+                                  key="edit"
+                                  onClick={() =>
+                                    navigation(
+                                      `/mis-eventos/${event._id}/editar`
+                                    )
+                                  }
+                                >
+                                  Editar
+                                </DropdownItem>
+
+                                <DropdownItem
+                                  key="status"
+                                  onClick={() =>
+                                    changeStatus(event._id, event.status)
+                                  }
+                                >
+                                  Cambiar publicación
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                            <Toaster position="center-center"></Toaster>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+    </>
   );
 }
-
 export { EventsTable };

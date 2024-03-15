@@ -19,6 +19,7 @@ export { userData } from "./services/users/userData.js";
 export { completeCreatorData } from "./services/users/completeCreatorData.js";
 export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
+export { getMySoldTickets } from "./services/tickets/getMySoldTickets.js";
 export { checkEventoToDelete } from "./services/tickets/checkEventoToDelete.js";
 export { getCategories } from "./services/events/getCategories.js";
 export { createPreference } from "./services/mercadopago/mercadopago.js";
@@ -29,6 +30,10 @@ export { deleteFromResell } from "./services/resell/deleteFromResell.js";
 export { deleteTicket } from "./services/resell/deleteTicket.js";
 export { createResellTicket } from "./services/resell/createResellTicket.js";
 export { updatePublishedTicket } from "./services/tickets/updatePublishedTicket.js";
+export { getEventTodo } from "./services/todoList/getEventTodo.js";
+export { getCreateTodo } from "./services/todoList/getCreateTodo.js";
+export { deleteTask } from "./services/todoList/deleteTask.js";
+
 //Components ->
 export { Featured } from "./components/Featured.jsx";
 export { EventCard } from "./components/EventCard.jsx";
@@ -42,6 +47,7 @@ export { EventsTable } from "./components/EventsTable.jsx";
 export { EventsTickets } from "./components/EventsTickets.jsx";
 export { Analytics } from "./components/Analytics.jsx";
 export { Planification } from "./components/Planification.jsx";
+export { PlanificationEvent } from "./components/PlanificationEvent.jsx";
 
 //Views ->
 export { Home } from "./views/Home/Home";
