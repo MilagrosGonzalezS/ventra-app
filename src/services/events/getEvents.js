@@ -33,4 +33,9 @@ async function getAllAdminEvents() {
   return res;
 }
 
-export { getEvents, getFilteredEvents, getAllAdminEvents };
+async function getFeaturedEvents() {
+  const res = await axios.get(`${config.apiEvents}/featured`);
+  return res;
+}
+
+export { getEvents, getFilteredEvents, getAllAdminEvents, getFeaturedEvents };

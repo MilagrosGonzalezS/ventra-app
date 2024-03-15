@@ -46,7 +46,7 @@ function Login() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] bg-pattern p-10">
+    <main className="flex items-center justify-center h-[90vh] p-10">
       <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
         <div className="flex flex-col aling mb-3 items-center">
           <h1 className="font-accent font-medium text-3xl text-green">
@@ -110,9 +110,9 @@ function Login() {
                 Iniciar Sesión
               </Button>
 
-              <Link to="/restaurar-contraseña" className="text-xs mt-2">
+              {/* <Link to="/restaurar-contraseña" className="text-xs mt-2">
                 Olvidé mi contraseña
-              </Link>
+              </Link> */}
             </div>
           )}
           <Toaster

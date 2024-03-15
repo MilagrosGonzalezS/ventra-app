@@ -44,7 +44,7 @@ function CreatorData() {
       console.log(data);
       toast.success("¡Datos completos!");
       setTimeout(() => {
-        navigate("/mi-cuenta");
+        navigate("/mi-cuenta/eventos");
       }, 1500);
     } catch (error) {
       console.error(error);

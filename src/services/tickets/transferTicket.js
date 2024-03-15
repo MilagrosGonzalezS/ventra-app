@@ -4,12 +4,12 @@ import Cookies from "js-cookie";
 
 const token = Cookies.get("token");
 
-async function updatePublishedTicket(ticketId, state) {
+async function transferTicket(ticketId, userId) {
   axios
     .patch(
-      `${config.apiTickets}/${ticketId}`,
+      `${config.apiTickets}/transfer/${ticketId}`,
       {
-        state: state,
+        userId: userId,
       },
       {
         headers: {
@@ -27,4 +27,4 @@ async function updatePublishedTicket(ticketId, state) {
     });
 }
 
-export { updatePublishedTicket };
+export { transferTicket };
