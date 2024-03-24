@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 //** COMPONENTES PRINCIPALES **//
 import {
   Home,
@@ -27,9 +27,13 @@ import {
 } from "./index.js";
 
 function App() {
+  const location = useLocation();
+
+  const hideNavBarFooter = location.pathname === "/iniciar-sesion";
+
   return (
     <>
-      <NavBar></NavBar>
+      {!hideNavBarFooter && <NavBar />}
       <Routes>
         {/* vistas protegidas */}
         <Route element={<ProtectedRoute />}>
@@ -75,7 +79,7 @@ function App() {
         <Route path="/detalle/:eventId" element={<EventDetails />} />
         <Route path="/ayuda" element={<Help />} />
       </Routes>
-      <Footer></Footer>
+      {!hideNavBarFooter && <Footer />}
     </>
   );
 }

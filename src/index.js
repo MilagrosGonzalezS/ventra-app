@@ -34,6 +34,8 @@ export { updatePublishedTicket } from "./services/tickets/updatePublishedTicket.
 export { getEventTodo } from "./services/todoList/getEventTodo.js";
 export { getCreateTodo } from "./services/todoList/getCreateTodo.js";
 export { deleteTask } from "./services/todoList/deleteTask.js";
+export { statusTask } from "./services/todoList/statusTask.js";
+export { editTask } from "./services/todoList/editTask.js";
 export { findByEmail } from "./services/users/findByEmail.js";
 export { transferTicket } from "./services/tickets/transferTicket.js";
 

@@ -9,7 +9,14 @@ import { faHeart as farFaHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeartBroken } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Card, CardHeader, CardFooter, Image, Button } from "@nextui-org/react";
+import {
+  Card,
+  CardHeader,
+  CardFooter,
+  Image,
+  Button,
+  Tooltip,
+} from "@nextui-org/react";
 import { addToWishlist, deleteFromWishlist } from "../index.js";
 import { AuthContext } from "../context/AuthContext.jsx";
 import toast, { Toaster } from "react-hot-toast";
@@ -165,31 +172,35 @@ function EventCard(props) {
           <div className="m-2 mt-1 absolute top-1 right-0">
             {token ? (
               isFavorite ? (
-                <Button
-                  isIconOnly
-                  color="danger"
-                  aria-label="Like"
-                  onClick={handleDeleteFromWishlist}
-                >
-                  <FontAwesomeIcon
-                    className="cursor-pointer"
-                    icon={fasFaHeart}
-                    style={{ color: "#fcfcfc", fontSize: "20px" }}
-                  />
-                </Button>
+                <Tooltip content="Quitar de favoritos">
+                  <Button
+                    isIconOnly
+                    color="danger"
+                    aria-label="Like"
+                    onClick={handleDeleteFromWishlist}
+                  >
+                    <FontAwesomeIcon
+                      className="cursor-pointer"
+                      icon={fasFaHeart}
+                      style={{ color: "#fcfcfc", fontSize: "20px" }}
+                    />
+                  </Button>
+                </Tooltip>
               ) : (
-                <Button
-                  isIconOnly
-                  color="danger"
-                  aria-label="Like"
-                  onClick={handleAddToWishlist}
-                >
-                  <FontAwesomeIcon
-                    className="cursor-pointer"
-                    icon={farFaHeart}
-                    style={{ color: "#FCFCFC", fontSize: "20px" }}
-                  />
-                </Button>
+                <Tooltip content="Agregar a favoritos">
+                  <Button
+                    isIconOnly
+                    color="danger"
+                    aria-label="Like"
+                    onClick={handleAddToWishlist}
+                  >
+                    <FontAwesomeIcon
+                      className="cursor-pointer"
+                      icon={farFaHeart}
+                      style={{ color: "#FCFCFC", fontSize: "20px" }}
+                    />
+                  </Button>
+                </Tooltip>
               )
             ) : null}
           </div>
@@ -212,19 +223,20 @@ function EventCard(props) {
               </p>
             </div>
           </div>
-
-          <Button
-            color="default"
-            onPress={() => {
-              navigation(`/detalle/${props.id}`);
-            }}
-            variant="flat"
-          >
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              style={{ transform: "rotate(-45deg)", fontSize: "20px" }}
-            />
-          </Button>
+          <Tooltip content="Ver más">
+            <Button
+              color="default"
+              onPress={() => {
+                navigation(`/detalle/${props.id}`);
+              }}
+              variant="flat"
+            >
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                style={{ transform: "rotate(-45deg)", fontSize: "20px" }}
+              />
+            </Button>
+          </Tooltip>
         </CardFooter>
       </Card>
       <Toaster position="center-center" />

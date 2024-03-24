@@ -10,7 +10,6 @@ import {
 } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
-import colors from "../assets/imgs/recurso-colores.png";
 import { format } from "date-fns";
 
 function EventsTable() {

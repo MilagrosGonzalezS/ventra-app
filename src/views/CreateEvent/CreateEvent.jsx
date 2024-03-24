@@ -106,6 +106,14 @@ function CreateEvent() {
     let dataEvent = { ...data };
     onSubmit(dataEvent, event);
   };
+  const validateDate = (value) => {
+    const selectedDate = new Date(value);
+    const today = new Date();
+    if (selectedDate < today) {
+      return "La fecha no puede ser anterior a hoy.";
+    }
+    return true;
+  };
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
@@ -304,9 +312,11 @@ function CreateEvent() {
                   type="date"
                   id="date"
                   name="date"
+                  min={new Date().toISOString().split("T")[0]}
                   variant="bordered"
                   {...register("date", {
                     required: "Campo obligatorio.",
+                    validate: validateDate,
                   })}
                   isInvalid={!!errors.date}
                   errorMessage={errors.date && errors.date.message}

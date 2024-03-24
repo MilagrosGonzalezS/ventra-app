@@ -46,22 +46,8 @@ function Login() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] p-10">
-      <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
-        <div className="flex flex-col aling mb-3 items-center">
-          <h1 className="font-accent font-medium text-3xl text-green">
-            Iniciar Sesión
-          </h1>
-          <div className="flex gap-1">
-            <p className="text-sm">¿Nuevo en Ventra?</p>
-            <Link
-              to="/registrarse"
-              className="text-lightblue hover:text-blue-200 text-sm transition-all duration-300"
-            >
-              Registrate gratis.
-            </Link>
-          </div>
-        </div>
+    <main className="flex items-center justify-center">
+      <div className="w-[400px]">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Input
             type="email"
@@ -69,9 +55,9 @@ function Login() {
             name="email"
             label="Email"
             labelPlacement="outside"
-            placeholder="Email"
+            placeholder="Ingrese su email"
             variant="bordered"
-            className="mb-10"
+            className="mb-11"
             {...register("email", {
               required: "Campo obligatorio.",
               pattern: {
@@ -86,7 +72,7 @@ function Login() {
             type="password"
             label="Contraseña"
             labelPlacement="outside"
-            placeholder="Contraseña"
+            placeholder="Ingrese su contraseña"
             id="password"
             name="password"
             variant="bordered"
@@ -97,23 +83,16 @@ function Login() {
             errorMessage={errors.password && errors.password.message}
           />
 
-          <br></br>
           {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
           {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
           {!isLoading && (
-            <div className="flex flex-col items-center">
-              <Button
-                className="w-full bg-green text-black font-medium"
-                type="submit"
-              >
-                Iniciar Sesión
-              </Button>
-
-              {/* <Link to="/restaurar-contraseña" className="text-xs mt-2">
-                Olvidé mi contraseña
-              </Link> */}
-            </div>
+            <Button
+              className="w-full bg-white text-black font-medium rounded-full mt-6"
+              type="submit"
+            >
+              Iniciar Sesión
+            </Button>
           )}
           <Toaster
             containerStyle={{

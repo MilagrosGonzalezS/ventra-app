@@ -46,32 +46,18 @@ function Register() {
   };
 
   return (
-    <main className="flex items-center justify-center h-[90vh] p-10">
-      <div className="w-[500px] border-1 rounded-xl bg-blur bg-opacity p-8">
-        <div className="flex flex-col aling mb-3 items-center">
-          <h1 className="font-accent font-medium text-3xl text-pink">
-            Registrate
-          </h1>
-          <div className="flex gap-1">
-            <p className="text-sm">¿Ya tenés una cuenta?</p>
-            <Link
-              to="/iniciar-sesion"
-              className="text-lightblue hover:text-blue-200 text-sm transition-all duration-300"
-            >
-              Iniciar Sesión.
-            </Link>
-          </div>
-        </div>
+    <main className="flex items-center justify-center">
+      <div className="w-[400px]">
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Input
             type="text"
             label="Usuario"
             id="username"
             labelPlacement="outside"
-            placeholder="Usuario"
+            placeholder="Ingrese su usuario"
             name="username"
             variant="bordered"
-            className="mb-10"
+            className="mb-11"
             {...register("username", {
               required: "Campo obligatorio.",
               minLength: {
@@ -86,11 +72,11 @@ function Register() {
             type="email"
             label="Email"
             labelPlacement="outside"
-            placeholder="Email"
+            placeholder="Ingrese su email"
             id="email"
             name="email"
             variant="bordered"
-            className="mb-10"
+            className="mb-11"
             {...register("email", {
               required: "Campo obligatorio.",
               pattern: {
@@ -105,7 +91,7 @@ function Register() {
             type="password"
             label="Contraseña"
             labelPlacement="outside"
-            placeholder="Contraseña"
+            placeholder="Ingrese su contraseña"
             id="password"
             name="password"
             variant="bordered"
@@ -116,7 +102,7 @@ function Register() {
             isInvalid={!!errors.password}
             errorMessage={errors.password && errors.password.message}
           />
-          <p className="text-xs mb-10 text-gray-400">
+          <p className="text-xs mb-11 text-gray-400 font-light">
             La contraseña debe tener al menos 6 caracteres, una letra mayúsucula
             y un número.
           </p>
@@ -125,10 +111,10 @@ function Register() {
             label="Confirmar contraseña"
             id="password2"
             labelPlacement="outside"
-            placeholder="Confirmar Contraseña"
+            placeholder="Confirme su contraseña"
             name="password2"
             variant="bordered"
-            className="mb-10"
+            className=""
             {...register("password2", {
               required: "Campo obligatorio.",
               validate: (value) =>
@@ -137,9 +123,13 @@ function Register() {
             isInvalid={!!errors.password2}
             errorMessage={errors.password2 && errors.password2.message}
           />
+
           {isLoading && <PuffLoader color="#04b290" className="mx-auto" />}
           {!isLoading && (
-            <Button className="w-full bg-pink text-light" type="submit">
+            <Button
+              className="w-full bg-white text-black font-medium rounded-full mt-6"
+              type="submit"
+            >
               Crear cuenta
             </Button>
           )}

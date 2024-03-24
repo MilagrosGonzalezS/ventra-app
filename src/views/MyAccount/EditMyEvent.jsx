@@ -67,6 +67,15 @@ function EditMyEvent() {
     return format(new Date(date), "yyyy-MM-dd");
   };
 
+  const validateDate = (value) => {
+    const selectedDate = new Date(value);
+    const today = new Date();
+    if (selectedDate < today) {
+      return "La fecha no puede ser anterior a hoy.";
+    }
+    return true;
+  };
+
   const onSubmit = async (data, event) => {
     event.preventDefault();
     setIsCreatingEvent(true);
@@ -77,7 +86,7 @@ function EditMyEvent() {
       setIsCreatingEvent(false);
       toast.success("Editaste tu evento con éxito");
       setTimeout(() => {
-        navigate("/mi-cuenta");
+        navigate("/mi-cuenta/eventos");
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -340,9 +349,11 @@ function EditMyEvent() {
                   type="date"
                   id="date"
                   name="date"
+                  min={new Date().toISOString().split("T")[0]}
                   variant="bordered"
                   {...register("date", {
                     required: "Campo obligatorio.",
+                    validate: validateDate,
                   })}
                   isInvalid={!!errors.date}
                   errorMessage={errors.date && errors.date.message}

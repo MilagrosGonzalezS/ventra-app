@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
-import { getEventTodo, getCreateTodo, deleteTask } from "../index.js";
-function PlanificationEvent({ eventId }) {
+import {
+  getEventTodo,
+  getCreateTodo,
+  deleteTask,
+  statusTask,
+  editTask,
+} from "../index.js";
+function PlanificationEvent({ eventId, eventName }) {
   const [data, setData] = useState([]);
   const [taskValue, setTaskValue] = useState("");
   const [editMode, setEditMode] = useState(0);
@@ -8,8 +14,8 @@ function PlanificationEvent({ eventId }) {
     const fetchData = async () => {
       try {
         const response = await getEventTodo(eventId);
+        console.log(response.data);
         setData(response.data); // Actualiza el estado de las tareas con los datos de la respuesta
-        console.log(data);
       } catch (error) {
         console.error("Error fetching event tasks:", error);
       }
@@ -23,18 +29,18 @@ function PlanificationEvent({ eventId }) {
   };
 
   const handleNodeRemoval = async (nodeId) => {
-    setData(data.filter((el) => el.id !== nodeId));
+    setData(data.filter((el) => el._id !== nodeId));
     try {
-      await deleteTask(eventId, task);
+      await deleteTask(nodeId);
     } catch (error) {
       console.log(error.response.data);
     }
   };
 
   const handleSubmit = async (task) => {
-    const id = generateId().toString();
-    const complete = "false";
-    setData([...data, { id, task, complete }]);
+    const _id = generateId().toString();
+    const status = "false";
+    setData([...data, { _id, task, status }]);
     setTaskValue("");
     try {
       await getCreateTodo(eventId, task);
@@ -43,18 +49,23 @@ function PlanificationEvent({ eventId }) {
     }
   };
 
-  const handleToggleComplete = (nodeId) => {
+  const handleToggleComplete = async (nodeId) => {
     setData(
       data.map((item) => {
-        if (item.id === nodeId) {
+        if (item._id === nodeId) {
           return {
             ...item,
-            complete: item.complete === "true" ? "false" : "true",
+            status: item.status === true ? false : true,
           };
         }
         return item;
       })
     );
+    try {
+      await statusTask(nodeId);
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
   const handleTodoEdit = (todo) => {
@@ -66,34 +77,58 @@ function PlanificationEvent({ eventId }) {
     setTaskValue(taskValue);
   };
 
-  const handleTodoUpdate = (todo) => {
+  const handleTodoUpdate = async (todo) => {
     const updatedTodos = data.map((item) => {
-      if (item.id === todo.id) {
+      if (item._id === todo._id) {
         return { ...item, task: todo.task };
       }
       return item;
     });
     setData(updatedTodos);
+
     setTaskValue("");
     setEditMode(0);
+    try {
+      await editTask(todo._id, todo.task);
+    } catch (error) {
+      console.log("Error updating task:", error);
+    }
   };
-
+  const finishedTasks = data.filter((task) => task.status === true);
+  const unfinishedTasks = data.filter((task) => task.status === false);
   return (
-    <div className="bg-graydarker p-2 rounded-lg mt-36 w-full">
-      <h1 className="mb-2">Tareas a realizar</h1>
-      <TodoList
-        data={data}
-        removeNode={handleNodeRemoval}
-        toggleComplete={handleToggleComplete}
-        updateClass={handleTodoEdit}
-      />
-      <TodoForm
-        taskValue={taskValue}
-        editMode={editMode}
-        changeText={handleChangeText}
-        onTaskUpdate={handleTodoUpdate}
-        onTaskSubmit={handleSubmit}
-      />
+    <div>
+      <div className="w-full mt-28 grid grid-cols-12 gap-10">
+        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+          <p className="text-5xl mb-4">{data.length}</p>
+          <p>Tareas</p>
+        </div>
+        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+          <p className="text-5xl mb-4">{finishedTasks.length}</p>
+          <p>Terminadas</p>
+        </div>
+        <div className="col-span-3 bg-dark rounded-3xl h-fit py-4 px-8">
+          <p className="text-5xl mb-4">{unfinishedTasks.length}</p>
+          <p>Sin terminar</p>
+        </div>
+      </div>
+      <div className="bg-graydarker p-2 rounded-lg mt-4 w-full">
+        <h1 className="text-3xl">{eventName}</h1>
+        <h2 className="mb-2">Tareas a realizar</h2>
+        <TodoList
+          data={data}
+          removeNode={handleNodeRemoval}
+          toggleComplete={handleToggleComplete}
+          updateClass={handleTodoEdit}
+        />
+        <TodoForm
+          taskValue={taskValue}
+          editMode={editMode}
+          changeText={handleChangeText}
+          onTaskUpdate={handleTodoUpdate}
+          onTaskSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 }
@@ -103,10 +138,10 @@ function TodoList({ data, removeNode, toggleComplete, updateClass }) {
     <ul className="mb-2">
       {data.map((listItem) => (
         <TodoItem
-          key={listItem.id}
-          nodeId={listItem.id}
+          key={listItem._id}
+          nodeId={listItem._id}
           task={listItem.task}
-          complete={listItem.complete}
+          status={listItem.status}
           removeNode={removeNode}
           toggleComplete={toggleComplete}
           updateClass={updateClass}
@@ -119,7 +154,7 @@ function TodoList({ data, removeNode, toggleComplete, updateClass }) {
 function TodoItem({
   nodeId,
   task,
-  complete,
+  status,
   removeNode,
   toggleComplete,
   updateClass,
@@ -140,9 +175,7 @@ function TodoItem({
   };
 
   return (
-    <li
-      className={`flex gap-4 mb-4 ${complete === "true" ? "bg-green-100" : ""}`}
-    >
+    <li className={`flex gap-4 mb-4  ${status === true ? "bg-lime-800" : ""}`}>
       <span onClick={handleUpdateClass}>{task}</span>
       <div role="group">
         <button
@@ -150,7 +183,7 @@ function TodoItem({
           className="mx-2 px-1 bg-lime-600 rounded-md"
           onClick={handleToggleComplete}
         >
-          &#x2713;
+          {status === true ? "-" : "\u2713"}
         </button>
         <button
           type="button"
@@ -183,7 +216,7 @@ function TodoForm({
     const task = taskValue.trim();
     if (!task) return;
     if (editMode) {
-      onTaskUpdate({ id: editMode, task });
+      onTaskUpdate({ _id: editMode, task });
     } else {
       onTaskSubmit(task);
     }

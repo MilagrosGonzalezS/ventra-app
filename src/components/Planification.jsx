@@ -8,7 +8,8 @@ import { format } from "date-fns";
 function Planification() {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedEventId, setSelectedEventId] = useState(null); // Estado para almacenar el event._id seleccionado
+  const [selectedEventId, setSelectedEventId] = useState(null);
+  const [selectedEventName, setSelectedEventName] = useState(null);
   const [showPlanificationEvent, setShowPlanificationEvent] = useState(false); // Estado para controlar si se muestra el componente PlanificationEvent
   // Función para formatear la fecha en dd-mm-yyyy
   const formatDate = (date) => {
@@ -17,8 +18,9 @@ function Planification() {
   };
 
   // Función para manejar el clic en el botón "Planificar"
-  const handlePlanificarClick = (eventId) => {
-    setSelectedEventId(eventId); // Actualiza el estado con el event._id seleccionado
+  const handlePlanificarClick = (eventId, eventName) => {
+    setSelectedEventId(eventId);
+    setSelectedEventName(eventName); // Actualiza el estado con el event._id seleccionado
     setShowPlanificationEvent(true); // Muestra el componente PlanificationEvent
   };
 
@@ -41,7 +43,10 @@ function Planification() {
         {isLoading ? (
           <PuffLoader color="#04b290" />
         ) : showPlanificationEvent ? (
-          <PlanificationEvent eventId={selectedEventId} />
+          <PlanificationEvent
+            eventId={selectedEventId}
+            eventName={selectedEventName}
+          />
         ) : (
           <div className="container mt-28 mx-auto px-4 sm:px-8">
             <div className="pb-8">
@@ -94,7 +99,9 @@ function Planification() {
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-graydarker  text-sm ">
                             <Button
-                              onClick={() => handlePlanificarClick(event._id)}
+                              onClick={() =>
+                                handlePlanificarClick(event._id, event.name)
+                              }
                             >
                               Planificar
                             </Button>
