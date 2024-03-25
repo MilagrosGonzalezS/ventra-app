@@ -9,6 +9,7 @@ export { createEvent } from "./services/userEvents/createEvent.js";
 export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";
 export { editMyEvent } from "./services/userEvents/editMyEvent.js";
 export { editApprovement } from "./services/userEvents/editApprovement.js";
+export { editFeatured } from "./services/userEvents/editFeatured.js";
 export { getMyEvents } from "./services/userEvents/getMyEvents.js";
 export { addToWishlist } from "./services/userEvents/addToWishlist.js";
 export { deleteFromWishlist } from "./services/userEvents/deleteFromWishlist.js";

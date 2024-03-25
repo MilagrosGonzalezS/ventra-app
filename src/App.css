@@ -1,1 +1,4 @@
-
+.fc-toolbar,
+.fc-col-header-cell-cushion {
+  text-transform: capitalize;
+}
