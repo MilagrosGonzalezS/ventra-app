@@ -53,19 +53,20 @@ function PlanificationEvent({ eventId, eventName }) {
   const calendarValidRange = {
     start: new Date(),
   };
+  const fetchTask = async () => {
+    try {
+      const response = await getEventTodo(eventId);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching event tasks:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getEventTodo(eventId);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching event tasks:", error);
-      }
-    };
-    fetchData();
+    fetchTask();
   }, [eventId]);
 
   const handleSubmit = async (task) => {
+    fetchTask();
     const _id = generateId().toString();
     const status = "false";
     setData([...data, { _id, task, status }]);
@@ -474,7 +475,7 @@ function PlanificationEvent({ eventId, eventName }) {
               name="dateTitle"
               value={dateTitle}
               placeholder="Título del evento"
-              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2"
+              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2 mt-1"
               onChange={(e) => setDateTitle(e.target.value)}
             />
             <label htmlFor="">Descripción</label>
@@ -483,7 +484,7 @@ function PlanificationEvent({ eventId, eventName }) {
               name="dateDescription"
               value={dateDescription}
               placeholder="Descripción del evento"
-              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2"
+              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2 mt-1"
               onChange={(e) => setDateDescription(e.target.value)}
             />
             <label htmlFor="timeFrom">Hora desde</label>
@@ -492,7 +493,7 @@ function PlanificationEvent({ eventId, eventName }) {
               type="time"
               value={startTime}
               onChange={handleChangeTime}
-              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2"
+              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2 mt-1"
             />
             <label htmlFor="timeTo">Hora hasta</label>
             <input
@@ -500,10 +501,11 @@ function PlanificationEvent({ eventId, eventName }) {
               type="time"
               value={endTime}
               onChange={handleChangeTime}
-              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2"
+              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2 mt-1"
             />
             <label htmlFor="">Elija un color de etiqueta</label>
             <select
+              className="w-full p-2 mb-4 rounded-md border-gray-400 border-2 mt-1"
               name="dateColor"
               id="dateColor"
               value={selectedColor}
