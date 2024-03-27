@@ -95,7 +95,7 @@ function DashboardMyEvents() {
           </Button>
         </aside>
         <div className="col-span-9">
-          {selectedView == "analitics" && <Analytics />}
+          {selectedView == "analytics" && <Analytics />}
           {selectedView == "events" && <EventsTable />}
           {selectedView == "tickets" && <EventsTickets />}
           {selectedView == "planification" && <Planification />}

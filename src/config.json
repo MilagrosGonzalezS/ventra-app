@@ -8,5 +8,7 @@
   "apiMP": "http://localhost:3000/mercadopago",
   "apiMPResell": "http://localhost:3000/mercadopago/resell",
   "apiResell": "http://localhost:3000/resell",
-  "apiTodoList": "http://localhost:3000/todoList"
+  "apiTodoList": "http://localhost:3000/todoList",
+  "apiCalendarDate": "http://localhost:3000/calendarDate",
+  "apiAnalytics": "http://localhost:3000/analytics"
 }

@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import {
   getEventTodo,
-  getCreateTodo,
+  createTodo,
   deleteTask,
   statusTask,
   editTask,
+  createDate,
+  getDate,
+  deleteDate,
 } from "../index.js";
 import {
   Modal,
@@ -24,6 +27,7 @@ function PlanificationEvent({ eventId, eventName }) {
   const [data, setData] = useState([]);
   const [taskValue, setTaskValue] = useState("");
   const [editMode, setEditMode] = useState(0);
+  //States de fullcalendar
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [dateTitle, setDateTitle] = useState("");
   const [dateDescription, setDateDescription] = useState("");
@@ -31,13 +35,24 @@ function PlanificationEvent({ eventId, eventName }) {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [selectedColor, setSelectedColor] = useState("#003AB8");
   const [eventModalContent, setEventModalContent] = useState(null);
+  const [eventToDelete, setEventToDelete] = useState("");
+  const [editDate, setEditDate] = useState(false);
+
   const {
     isOpen: isEventModalOpen,
     onOpen: onEventModalOpen,
     onClose: onEventModalClose,
   } = useDisclosure();
-
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
+  const calendarValidRange = {
+    start: new Date(),
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,26 +65,13 @@ function PlanificationEvent({ eventId, eventName }) {
     fetchData();
   }, [eventId]);
 
-  const generateId = () => {
-    return Math.floor(Math.random() * 90000) + 10000;
-  };
-
-  const handleNodeRemoval = async (nodeId) => {
-    setData(data.filter((el) => el._id !== nodeId));
-    try {
-      await deleteTask(nodeId);
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  };
-
   const handleSubmit = async (task) => {
     const _id = generateId().toString();
     const status = "false";
     setData([...data, { _id, task, status }]);
     setTaskValue("");
     try {
-      await getCreateTodo(eventId, task);
+      await createTodo(eventId, task);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -124,6 +126,41 @@ function PlanificationEvent({ eventId, eventName }) {
   const finishedTasks = data.filter((task) => task.status);
   const unfinishedTasks = data.filter((task) => !task.status);
 
+  //Funciones de fullcalendar
+  //traer las fechas agendadas
+  const fetchDate = async () => {
+    try {
+      const response = await getDate(eventId);
+      const eventsWithId = response.data.map((date) => ({
+        title: date.title,
+        start: date.startDate,
+        end: date.endDate,
+        description: date.description,
+        color: date.color,
+        id: date._id,
+      }));
+      setCalendarEvents(eventsWithId);
+    } catch (error) {
+      console.error("Error al obtener las fechas:", error);
+    }
+  };
+  useEffect(() => {
+    fetchDate();
+  }, [eventId]);
+
+  const generateId = () => {
+    return Math.floor(Math.random() * 90000) + 10000;
+  };
+  console.log("calendarEvents", calendarEvents);
+  const handleNodeRemoval = async (nodeId) => {
+    setData(data.filter((el) => el._id !== nodeId));
+    try {
+      await deleteTask(nodeId);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   const handleDateSelection = (info) => {
     setSelectedDate(info.startStr);
     onOpen();
@@ -137,8 +174,8 @@ function PlanificationEvent({ eventId, eventName }) {
     setStartTime("");
     setEndTime("");
   };
-
-  const handleModalSubmit = () => {
+  //Crear la dateCalendar
+  const handleModalSubmit = async () => {
     if (
       !selectedDate ||
       !dateTitle ||
@@ -149,16 +186,26 @@ function PlanificationEvent({ eventId, eventName }) {
       console.error("Debe completar todos los campos para guardar el evento.");
       return;
     }
-
+    const startDate = selectedDate + "T" + startTime;
+    const endDate = selectedDate + "T" + endTime;
     const newEvent = {
       title: dateTitle,
-      start: selectedDate + "T" + startTime,
-      end: selectedDate + "T" + endTime,
+      start: startDate,
+      end: endDate,
       description: dateDescription,
+      color: selectedColor, // Agregar el color seleccionado al evento
     };
 
+    await createDate(
+      eventId,
+      dateTitle,
+      dateDescription,
+      selectedColor,
+      startDate,
+      endDate
+    );
+    fetchDate();
     setCalendarEvents([...calendarEvents, newEvent]);
-
     handleModalClose();
   };
 
@@ -175,15 +222,10 @@ function PlanificationEvent({ eventId, eventName }) {
     if (!date) return "";
     return format(new Date(date), "dd-MM-yyyy");
   };
-
+  //Abrir detalle date
   const handleEventClick = (info) => {
     const event = info.event;
-    console.log("Título:", event.title);
-    console.log("Descripción:", event.extendedProps.description);
-    console.log("Hora de inicio:", event.start);
-    console.log("Hora final:", event.end);
-    console.log("Fecha:", event.startStr);
-
+    console.log(event);
     openEventModal(event);
   };
 
@@ -192,40 +234,176 @@ function PlanificationEvent({ eventId, eventName }) {
     onEventModalOpen();
   };
 
+  //Eliminar Date
+  const handleDeleteDate = async (id) => {
+    onDeleteModalOpen(); // Abrir la modal de eliminación cuando se quiere eliminar un evento
+    setEventToDelete(id);
+  };
+  //Confirmar eliminacion
+  const handleDeleteConfirmation = async () => {
+    deleteDate(eventToDelete);
+    setCalendarEvents(
+      calendarEvents.filter((event) => event.id !== eventToDelete)
+    );
+    onDeleteModalClose();
+    onEventModalClose();
+  };
+  //Editar Date
+  const handleCloseEventModal = () => {
+    onEventModalClose(); // Cierra la modal de evento
+    setEditDate(false); // Restablece editDate a false
+  };
+  //Modal de detalle del evento
   const EventModal = () => {
     return (
-      <Modal isOpen={isEventModalOpen} onClose={onEventModalClose}>
-        <ModalContent>
-          <ModalHeader>Detalle:</ModalHeader>
-          {eventModalContent && (
-            <div className="p-4">
-              <p>Título: {eventModalContent.title}</p>
-              <p>
-                Fecha: {new Date(eventModalContent.start).toLocaleDateString()}
-              </p>
-              <p>
-                Horario de Inicio:{" "}
-                {new Date(eventModalContent.start).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              <p>
-                Horario de Finalización:{" "}
-                {new Date(eventModalContent.end).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
+      <Modal isOpen={isEventModalOpen} onClose={handleCloseEventModal}>
+        {!editDate ? (
+          <ModalContent>
+            <ModalHeader>Detalle:</ModalHeader>
+            {eventModalContent && (
+              <div className="p-4">
+                <div className="flex flex-col w-11/12 my-2">
+                  <p>Título:</p>
+                  <p> {eventModalContent.title}</p>
+                </div>
+                <div className="flex flex-col w-11/12 my-2">
+                  <p>Fecha:</p>
+                  <p>
+                    {" "}
+                    {new Date(eventModalContent.start).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="flex flex-col w-11/12 my-2">
+                  <p>Horario de Inicio:</p>
+                  <p>
+                    {" "}
+                    {new Date(eventModalContent.start).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
 
-              <p>Descripción: {eventModalContent.extendedProps.description}</p>
-              {/* Agrega más detalles del evento según tus necesidades */}
-            </div>
-          )}
+                <div className="flex flex-col w-11/12 my-2">
+                  <p>Horario de Finalización:</p>
+                  <p>
+                    {" "}
+                    {new Date(eventModalContent.end).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                </div>
+
+                <div className="flex flex-col w-11/12 my-2">
+                  <p>Descripción:</p>
+                  <p>{eventModalContent.extendedProps.description}</p>
+                </div>
+              </div>
+            )}
+            <ModalFooter>
+              <Button
+                className="bg-red-600"
+                onClick={() =>
+                  eventModalContent?.id &&
+                  handleDeleteDate(eventModalContent.id)
+                }
+              >
+                Eliminar
+              </Button>
+              <Button className="bg-orange" onClick={() => setEditDate(true)}>
+                Editar
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        ) : (
+          <ModalContent>
+            <ModalHeader>Detalle:</ModalHeader>
+            {eventModalContent && (
+              <div className="p-4">
+                <div className="flex flex-col w-11/12 my-2 gap-y-1">
+                  <label>Título: </label>
+                  <input
+                    className="rounded-md p-1 border-1 border-gray-400"
+                    type="text"
+                    defaultValue={eventModalContent.title}
+                  />
+                </div>
+                <div className="flex flex-col w-11/12 my-2 gap-y-1">
+                  <label>Fecha: </label>
+                  <input
+                    className="rounded-md p-1 border-1 border-gray-400"
+                    type="date"
+                    defaultValue={new Date(eventModalContent.start)
+                      .toISOString()
+                      .slice(0, 10)}
+                  />
+                </div>
+                <div className="flex flex-col w-11/12 my-2 gap-y-1">
+                  <label htmlFor="">Horario de Inicio:</label>
+                  <input
+                    className="rounded-md p-1 border-1 border-gray-400"
+                    type="time"
+                    defaultValue={new Date(
+                      eventModalContent.start
+                    ).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  />
+                </div>
+                <div className="flex flex-col w-11/12 my-2 gap-y-1">
+                  <label htmlFor="">Horario de Finalización:</label>
+                  <input
+                    className="rounded-md p-1 border-1 border-gray-400"
+                    type="time"
+                    defaultValue={new Date(
+                      eventModalContent.end
+                    ).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  />
+                </div>
+                <div className="flex flex-col w-11/12 my-2 gap-y-1">
+                  <label htmlFor=""> Descripción:</label>
+                  <input
+                    className="rounded-md p-1 border-1 border-gray-400"
+                    type="text"
+                    defaultValue={eventModalContent.extendedProps.description}
+                  />
+                </div>
+              </div>
+            )}
+            <ModalFooter>
+              <Button className="bg-red-600" onClick={() => setEditDate(false)}>
+                No editar
+              </Button>
+              <Button className="bg-orange" onClick={onEventModalClose}>
+                Guardar Cambios
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        )}
+      </Modal>
+    );
+  };
+
+  //Modal para eliminar date
+  const DeleteConfirmationModal = () => {
+    return (
+      <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose}>
+        <ModalContent>
+          <ModalHeader>Eliminar Evento</ModalHeader>
+          <p>¿Estás seguro de que deseas eliminar este evento?</p>
+
+          <ModalFooter>
+            <Button className="bg-red-600" onClick={handleDeleteConfirmation}>
+              Sí, eliminar
+            </Button>
+            <Button onClick={onDeleteModalClose}>Cancelar</Button>
+          </ModalFooter>
         </ModalContent>
-        <ModalFooter>
-          <Button onClick={onEventModalClose}>Cerrar</Button>
-        </ModalFooter>
       </Modal>
     );
   };
@@ -255,6 +433,7 @@ function PlanificationEvent({ eventId, eventName }) {
         selectable={true}
         select={(info) => handleDateSelection(info)}
         events={calendarEvents}
+        validRange={calendarValidRange}
         headerToolbar={{
           left: "",
           center: "title",
@@ -323,6 +502,20 @@ function PlanificationEvent({ eventId, eventName }) {
               onChange={handleChangeTime}
               className="w-full p-2 mb-4 rounded-md border-gray-400 border-2"
             />
+            <label htmlFor="">Elija un color de etiqueta</label>
+            <select
+              name="dateColor"
+              id="dateColor"
+              value={selectedColor}
+              onChange={(e) => setSelectedColor(e.target.value)}
+            >
+              <option value="#003AB8">Azul</option>
+              <option value="#92FF04">Verde</option>
+              <option value="#8906f4">Violeta</option>
+              <option value="#FAF60B">Amarillo</option>
+              <option value="#f9700b">Naranja</option>
+              <option value="#D42424">Rojo</option>
+            </select>
 
             <ModalFooter>
               <button
@@ -342,6 +535,8 @@ function PlanificationEvent({ eventId, eventName }) {
         </Modal>
         {/* modal para mostrar evento de calendario */}
         <EventModal />
+        {/* modal para confirmar eliminar evento decalendario */}
+        <DeleteConfirmationModal />
       </div>
     </div>
   );

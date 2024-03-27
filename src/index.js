@@ -1,10 +1,13 @@
 //Services ->
+//EVENTS
 export { getEvents } from "./services/events/getEvents";
 export { getAllEvents } from "./services/events/getEvents";
 export { getAllAdminEvents } from "./services/events/getEvents";
 export { getFilteredEvents } from "./services/events/getEvents.js";
 export { getFeaturedEvents } from "./services/events/getEvents.js";
+export { getCategories } from "./services/events/getCategories.js";
 export { getEventById } from "./services/events/getEventById.js";
+//USER EVENTS
 export { createEvent } from "./services/userEvents/createEvent.js";
 export { deleteMyEvent } from "./services/userEvents/deleteMyEvent.js";
 export { editMyEvent } from "./services/userEvents/editMyEvent.js";
@@ -14,31 +17,41 @@ export { getMyEvents } from "./services/userEvents/getMyEvents.js";
 export { addToWishlist } from "./services/userEvents/addToWishlist.js";
 export { deleteFromWishlist } from "./services/userEvents/deleteFromWishlist.js";
 export { getMyWishlist } from "./services/userEvents/getMyWishlist.js";
+//USER
 export { createUser } from "./services/users/createUser.js";
 export { editMyProfile } from "./services/users/editMyProfile.js";
 export { login } from "./services/users/login.js";
 export { userData } from "./services/users/userData.js";
 export { completeCreatorData } from "./services/users/completeCreatorData.js";
+export { findByEmail } from "./services/users/findByEmail.js";
+//TICKETS
 export { createTicket } from "./services/tickets/createTicket.js";
 export { getMyTickets } from "./services/tickets/getMyTickets.js";
 export { getMySoldTickets } from "./services/tickets/getMySoldTickets.js";
 export { checkEventoToDelete } from "./services/tickets/checkEventoToDelete.js";
-export { getCategories } from "./services/events/getCategories.js";
+export { transferTicket } from "./services/tickets/transferTicket.js";
+//MERCADO PAGO
 export { createPreference } from "./services/mercadopago/mercadopago.js";
 export { createPreferenceResell } from "./services/mercadopago/mercadopagoResell.js";
+//RESELL
 export { getResellList } from "./services/resell/getResellList.js";
 export { createTicketFromResell } from "./services/resell/createTicketFromResell.js";
 export { deleteFromResell } from "./services/resell/deleteFromResell.js";
 export { deleteTicket } from "./services/resell/deleteTicket.js";
 export { createResellTicket } from "./services/resell/createResellTicket.js";
 export { updatePublishedTicket } from "./services/tickets/updatePublishedTicket.js";
+//TODOLIST
 export { getEventTodo } from "./services/todoList/getEventTodo.js";
-export { getCreateTodo } from "./services/todoList/getCreateTodo.js";
+export { createTodo } from "./services/todoList/createTodo.js";
 export { deleteTask } from "./services/todoList/deleteTask.js";
 export { statusTask } from "./services/todoList/statusTask.js";
 export { editTask } from "./services/todoList/editTask.js";
-export { findByEmail } from "./services/users/findByEmail.js";
-export { transferTicket } from "./services/tickets/transferTicket.js";
+//CALENDAR DATE
+export { createDate } from "./services/calendarDate/createDate.js";
+export { getDate } from "./services/calendarDate/getDate.js";
+export { deleteDate } from "./services/calendarDate/deleteDate.js";
+//ANALYTICS
+export { getAnalytics } from "./services/analytics/getAnalytics.js";
 
 //Components ->
 export { Featured } from "./components/Featured.jsx";

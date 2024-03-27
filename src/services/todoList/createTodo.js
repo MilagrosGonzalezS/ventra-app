@@ -5,7 +5,7 @@ const token = Cookies.get("token");
 const userId = Cookies.get("userId");
 
 //CREAR TASK PARA ESE EVENTO
-async function getCreateTodo(eventId, task) {
+async function createTodo(eventId, task) {
   const res = await axios.post(
     config.apiTodoList,
     {
@@ -23,4 +23,4 @@ async function getCreateTodo(eventId, task) {
   return res;
 }
 
-export { getCreateTodo };
+export { createTodo };
